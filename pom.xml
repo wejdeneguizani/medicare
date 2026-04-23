@@ -5,12 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     <groupId>org.example</groupId>
     <artifactId>rendez-vous</artifactId>
 =======
     <groupId>tn.esprit</groupId>
     <artifactId>medicare</artifactId>
 >>>>>>> 4c2e9e5167ea8fb8860bdfe1259105a6c5337cae
+=======
+    <groupId>org.example</groupId>
+    <artifactId>obj</artifactId>
+>>>>>>> 520eef9b887f3ced5e22a24717b87e95f568ec52
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -18,6 +23,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+<<<<<<< HEAD
     <dependencies>
 <<<<<<< HEAD
      <dependency>
@@ -70,3 +76,15 @@
 </project>
 
 >>>>>>> 4c2e9e5167ea8fb8860bdfe1259105a6c5337cae
+=======
+
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+    </dependencies>
+
+</project>
+>>>>>>> 520eef9b887f3ced5e22a24717b87e95f568ec52

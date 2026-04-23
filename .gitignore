@@ -3,9 +3,13 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 <<<<<<< HEAD
+<<<<<<< HEAD
 .kotlin
 =======
 >>>>>>> 4c2e9e5167ea8fb8860bdfe1259105a6c5337cae
+=======
+.kotlin
+>>>>>>> 520eef9b887f3ced5e22a24717b87e95f568ec52
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
