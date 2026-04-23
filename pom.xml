@@ -4,8 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+<<<<<<< HEAD
     <groupId>org.example</groupId>
     <artifactId>rendez-vous</artifactId>
+=======
+    <groupId>tn.esprit</groupId>
+    <artifactId>medicare</artifactId>
+>>>>>>> 4c2e9e5167ea8fb8860bdfe1259105a6c5337cae
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -14,6 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
+<<<<<<< HEAD
      <dependency>
          <groupId>org.example</groupId>
          <artifactId>rendez-vous</artifactId>
@@ -21,3 +27,46 @@
      </dependency>
     </dependencies>
 </project>
+=======
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>21</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>21</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>11.2.1</version>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>tn.esprit.medicare.main.MainApp</mainClass>
+                    <options>
+                        <option>--add-modules javafx.controls,javafx.fxml</option>
+                    </options>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+>>>>>>> 4c2e9e5167ea8fb8860bdfe1259105a6c5337cae
