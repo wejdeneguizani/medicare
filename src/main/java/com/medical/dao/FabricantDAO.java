@@ -1,103 +1,112 @@
-package com.medical.dao;
+package com.medical.services;
 
-import com.medical.utils.DatabaseConnection;
+import com.medical.dao.FabricantDAO;
+import com.medical.interfaces.IFabricantService;
 import com.medical.model.Fabricant;
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
-public class FabricantDAO {
+public class FabricantService implements IFabricantService {
 
+    private FabricantDAO dao = new FabricantDAO();
+
+    @Override
     public boolean ajouter(Fabricant f) {
-        String sql = "INSERT INTO fabricant (nom, pays, contact, site_web) VALUES (?, ?, ?, ?)";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, f.getNom());
-            ps.setString(2, f.getPays());
-            ps.setString(3, f.getContact());
-            ps.setString(4, f.getSiteWeb());
-            ps.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur ajout fabricant : " + e.getMessage());
+        // ✅ RÈGLE 1 : Nom obligatoire
+        if (f.getNom() == null || f.getNom().trim().isEmpty()) {
+            System.out.println("⚠️ Le nom du fabricant est obligatoire !");
             return false;
         }
+
+        // ✅ RÈGLE 2 : Nom minimum 2 caractères
+        if (f.getNom().trim().length() < 2) {
+            System.out.println("⚠️ Le nom doit avoir au moins 2 caractères !");
+            return false;
+        }
+
+        // ✅ RÈGLE 3 : Pays obligatoire
+        if (f.getPays() == null || f.getPays().trim().isEmpty()) {
+            System.out.println("⚠️ Le pays est obligatoire !");
+            return false;
+        }
+
+        // ✅ RÈGLE 4 : Nom ne doit pas déjà exister
+        for (Fabricant existing : dao.getTous()) {
+            if (existing.getNom() != null &&
+                    existing.getNom().equalsIgnoreCase(f.getNom())) {
+                System.out.println("⚠️ Ce fabricant existe déjà !");
+                return false;
+            }
+        }
+
+        // ✅ RÈGLE 5 : Contact doit contenir @ si c'est un email
+        if (f.getContact() != null && !f.getContact().trim().isEmpty()) {
+            if (f.getContact().contains("@") && !f.getContact().contains(".")) {
+                System.out.println("⚠️ L'email du contact est invalide !");
+                return false;
+            }
+        }
+
+        return dao.ajouter(f);
     }
 
+    @Override
     public List<Fabricant> getTous() {
-        List<Fabricant> liste = new ArrayList<>();
-        String sql = "SELECT * FROM fabricant";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
-                Fabricant f = new Fabricant();
-                f.setIdFabricant(rs.getInt("id_fabricant"));
-                f.setNom(rs.getString("nom"));
-                f.setPays(rs.getString("pays"));
-                f.setContact(rs.getString("contact"));
-                f.setSiteWeb(rs.getString("site_web"));
-                liste.add(f);
-            }
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur affichage fabricants : " + e.getMessage());
-        }
-        return liste;
+        return dao.getTous();
     }
 
+    @Override
     public Fabricant getParId(int id) {
-        String sql = "SELECT * FROM fabricant WHERE id_fabricant = ?";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                Fabricant f = new Fabricant();
-                f.setIdFabricant(rs.getInt("id_fabricant"));
-                f.setNom(rs.getString("nom"));
-                f.setPays(rs.getString("pays"));
-                f.setContact(rs.getString("contact"));
-                f.setSiteWeb(rs.getString("site_web"));
-                return f;
-            }
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur recherche fabricant : " + e.getMessage());
+        // ✅ RÈGLE : ID doit être positif
+        if (id <= 0) {
+            System.out.println("⚠️ L'ID doit être un nombre positif !");
+            return null;
         }
-        return null;
+        return dao.getParId(id);
     }
 
+    @Override
     public boolean modifier(Fabricant f) {
-        String sql = "UPDATE fabricant SET nom=?, pays=?, contact=?, site_web=? WHERE id_fabricant=?";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, f.getNom());
-            ps.setString(2, f.getPays());
-            ps.setString(3, f.getContact());
-            ps.setString(4, f.getSiteWeb());
-            ps.setInt(5, f.getIdFabricant());
-            ps.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur modification fabricant : " + e.getMessage());
+        // ✅ RÈGLE 1 : ID obligatoire
+        if (f.getIdFabricant() <= 0) {
+            System.out.println("⚠️ ID invalide pour la modification !");
             return false;
         }
+
+        // ✅ RÈGLE 2 : Nom obligatoire
+        if (f.getNom() == null || f.getNom().trim().isEmpty()) {
+            System.out.println("⚠️ Le nom du fabricant est obligatoire !");
+            return false;
+        }
+
+        // ✅ RÈGLE 3 : Pays obligatoire
+        if (f.getPays() == null || f.getPays().trim().isEmpty()) {
+            System.out.println("⚠️ Le pays est obligatoire !");
+            return false;
+        }
+
+        // ✅ RÈGLE 4 : Le fabricant doit exister
+        if (dao.getParId(f.getIdFabricant()) == null) {
+            System.out.println("⚠️ Ce fabricant n'existe pas !");
+            return false;
+        }
+
+        return dao.modifier(f);
     }
 
+    @Override
     public boolean supprimer(int id) {
-        String sql = "DELETE FROM fabricant WHERE id_fabricant = ?";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur suppression fabricant : " + e.getMessage());
+        // ✅ RÈGLE 1 : ID doit être positif
+        if (id <= 0) {
+            System.out.println("⚠️ L'ID doit être un nombre positif !");
             return false;
         }
+
+        // ✅ RÈGLE 2 : Le fabricant doit exister
+        if (dao.getParId(id) == null) {
+            System.out.println("⚠️ Ce fabricant n'existe pas !");
+            return false;
+        }
+
+        return dao.supprimer(id);
     }
 }

@@ -1,95 +1,104 @@
-package com.medical.dao;
+package com.medical.services;
 
-import com.medical.utils.DatabaseConnection;
+import com.medical.dao.FormeDAO;
+import com.medical.interfaces.IFormeService;
 import com.medical.model.Forme;
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
-public class FormeDAO {
+public class FormeService implements IFormeService {
 
+    private FormeDAO dao = new FormeDAO();
+
+    @Override
     public boolean ajouter(Forme f) {
-        String sql = "INSERT INTO forme_pharmaceutique (libelle, voie_administration) VALUES (?, ?)";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, f.getLibelle());
-            ps.setString(2, f.getVoieAdministration());
-            ps.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur ajout forme : " + e.getMessage());
+        // ✅ RÈGLE 1 : Libellé obligatoire
+        if (f.getLibelle() == null || f.getLibelle().trim().isEmpty()) {
+            System.out.println("⚠️ Le libellé de la forme est obligatoire !");
             return false;
         }
+
+        // ✅ RÈGLE 2 : Libellé minimum 3 caractères
+        if (f.getLibelle().trim().length() < 3) {
+            System.out.println("⚠️ Le libellé doit avoir au moins 3 caractères !");
+            return false;
+        }
+
+        // ✅ RÈGLE 3 : Voie d'administration obligatoire
+        if (f.getVoieAdministration() == null || f.getVoieAdministration().trim().isEmpty()) {
+            System.out.println("⚠️ La voie d'administration est obligatoire !");
+            return false;
+        }
+
+        // ✅ RÈGLE 4 : Libellé ne doit pas déjà exister
+        for (Forme existing : dao.getTous()) {
+            if (existing.getLibelle() != null &&
+                    existing.getLibelle().equalsIgnoreCase(f.getLibelle())) {
+                System.out.println("⚠️ Cette forme pharmaceutique existe déjà !");
+                return false;
+            }
+        }
+
+        return dao.ajouter(f);
     }
 
+    @Override
     public List<Forme> getTous() {
-        List<Forme> liste = new ArrayList<>();
-        String sql = "SELECT * FROM forme_pharmaceutique";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
-                Forme f = new Forme();
-                f.setIdForme(rs.getInt("id_forme"));
-                f.setLibelle(rs.getString("libelle"));
-                f.setVoieAdministration(rs.getString("voie_administration"));
-                liste.add(f);
-            }
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur affichage formes : " + e.getMessage());
-        }
-        return liste;
+        return dao.getTous();
     }
 
+    @Override
     public Forme getParId(int id) {
-        String sql = "SELECT * FROM forme_pharmaceutique WHERE id_forme = ?";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                Forme f = new Forme();
-                f.setIdForme(rs.getInt("id_forme"));
-                f.setLibelle(rs.getString("libelle"));
-                f.setVoieAdministration(rs.getString("voie_administration"));
-                return f;
-            }
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur recherche forme : " + e.getMessage());
+        // ✅ RÈGLE : ID doit être positif
+        if (id <= 0) {
+            System.out.println("⚠️ L'ID doit être un nombre positif !");
+            return null;
         }
-        return null;
+        return dao.getParId(id);
     }
 
+    @Override
     public boolean modifier(Forme f) {
-        String sql = "UPDATE forme_pharmaceutique SET libelle=?, voie_administration=? WHERE id_forme=?";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, f.getLibelle());
-            ps.setString(2, f.getVoieAdministration());
-            ps.setInt(3, f.getIdForme());
-            ps.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur modification forme : " + e.getMessage());
+        // ✅ RÈGLE 1 : ID obligatoire
+        if (f.getIdForme() <= 0) {
+            System.out.println("⚠️ ID invalide pour la modification !");
             return false;
         }
+
+        // ✅ RÈGLE 2 : Libellé obligatoire
+        if (f.getLibelle() == null || f.getLibelle().trim().isEmpty()) {
+            System.out.println("⚠️ Le libellé est obligatoire !");
+            return false;
+        }
+
+        // ✅ RÈGLE 3 : Voie d'administration obligatoire
+        if (f.getVoieAdministration() == null || f.getVoieAdministration().trim().isEmpty()) {
+            System.out.println("⚠️ La voie d'administration est obligatoire !");
+            return false;
+        }
+
+        // ✅ RÈGLE 4 : La forme doit exister
+        if (dao.getParId(f.getIdForme()) == null) {
+            System.out.println("⚠️ Cette forme n'existe pas !");
+            return false;
+        }
+
+        return dao.modifier(f);
     }
 
+    @Override
     public boolean supprimer(int id) {
-        String sql = "DELETE FROM forme_pharmaceutique WHERE id_forme = ?";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur suppression forme : " + e.getMessage());
+        // ✅ RÈGLE 1 : ID doit être positif
+        if (id <= 0) {
+            System.out.println("⚠️ L'ID doit être un nombre positif !");
             return false;
         }
+
+        // ✅ RÈGLE 2 : La forme doit exister
+        if (dao.getParId(id) == null) {
+            System.out.println("⚠️ Cette forme n'existe pas !");
+            return false;
+        }
+
+        return dao.supprimer(id);
     }
 }
