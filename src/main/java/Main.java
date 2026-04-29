@@ -152,4 +152,9 @@ public class Main {
     System.out.println("   TRI : par priorite");
     System.out.println("==============================");
     so.trierParPriorite().forEach(System.out::println);
+
+    System.out.println("\n==============================");
+    System.out.println("   TRI : par date d'échéance");
+    System.out.println("==============================");
+    so.trierParDateEcheance().forEach(System.out::println);
 }
