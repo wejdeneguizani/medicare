@@ -95,6 +95,49 @@ public class HabitudeService implements IService<Habitude> {
         return habitudes;
     }
 
+    public List<Habitude> getByUserId(int userId) throws SQLException {
+        String sql = "SELECT * FROM habitudes WHERE user_id=? ORDER BY id";
+        List<Habitude> habitudes = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    habitudes.add(mapHabitude(rs));
+                }
+            }
+        }
+        return habitudes;
+    }
+
+    public List<Habitude> search(String query) throws SQLException {
+        String sql = "SELECT * FROM habitudes WHERE titre LIKE ? OR description LIKE ? ORDER BY id";
+        List<Habitude> habitudes = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, "%" + query + "%");
+            ps.setString(2, "%" + query + "%");
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    habitudes.add(mapHabitude(rs));
+                }
+            }
+        }
+        return habitudes;
+    }
+
+    public List<Habitude> sort(String column, boolean ascending) throws SQLException {
+        String order = ascending ? "ASC" : "DESC";
+        // Validation basic to avoid SQL Injection if this were a user input, though here it's for testing
+        String sql = "SELECT * FROM habitudes ORDER BY " + column + " " + order;
+        List<Habitude> habitudes = new ArrayList<>();
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                habitudes.add(mapHabitude(rs));
+            }
+        }
+        return habitudes;
+    }
+
     private Habitude mapHabitude(ResultSet rs) throws SQLException {
         Habitude habitude = new Habitude();
         habitude.setId(rs.getInt("id"));

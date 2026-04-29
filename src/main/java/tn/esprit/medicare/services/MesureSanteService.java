@@ -105,6 +105,47 @@ public class MesureSanteService implements IService<MesureSante> {
         return mesures;
     }
 
+    public List<MesureSante> getByUserId(int userId) throws SQLException {
+        String sql = "SELECT * FROM mesures_sante WHERE user_id=? ORDER BY id";
+        List<MesureSante> mesures = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    mesures.add(mapMesure(rs));
+                }
+            }
+        }
+        return mesures;
+    }
+
+    public List<MesureSante> searchByHabitTitle(String title) throws SQLException {
+        String sql = "SELECT m.* FROM mesures_sante m JOIN habitudes h ON m.habitude_id = h.id WHERE h.titre LIKE ? ORDER BY m.date_mesure DESC";
+        List<MesureSante> mesures = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, "%" + title + "%" );
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    mesures.add(mapMesure(rs));
+                }
+            }
+        }
+        return mesures;
+    }
+
+    public List<MesureSante> sort(String column, boolean ascending) throws SQLException {
+        String order = ascending ? "ASC" : "DESC";
+        String sql = "SELECT * FROM mesures_sante ORDER BY " + column + " " + order;
+        List<MesureSante> mesures = new ArrayList<>();
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                mesures.add(mapMesure(rs));
+            }
+        }
+        return mesures;
+    }
+
     private MesureSante mapMesure(ResultSet rs) throws SQLException {
         MesureSante mesure = new MesureSante();
         mesure.setId(rs.getInt("id"));

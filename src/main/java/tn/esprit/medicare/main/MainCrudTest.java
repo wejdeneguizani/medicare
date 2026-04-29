@@ -6,6 +6,8 @@ import tn.esprit.medicare.services.HabitudeService;
 import tn.esprit.medicare.services.MesureSanteService;
 import tn.esprit.medicare.utils.DBConnection;
 import tn.esprit.medicare.utils.DBInitializer;
+import tn.esprit.medicare.utils.HealthUtils;
+import tn.esprit.medicare.entities.User;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -19,7 +21,7 @@ public class MainCrudTest {
 
     public static void main(String[] args) {
         DBInitializer.initialize();
-        
+
         try {
             int userId = getExistingUserId();
             if (userId == -1) {
@@ -78,6 +80,8 @@ public class MainCrudTest {
             System.out.println("3) Delete");
             System.out.println("4) Get by id");
             System.out.println("5) List all");
+            System.out.println("6) Search (Titre/Desc)");
+            System.out.println("7) Sort");
             System.out.println("0) Back");
             int choice = readInt("Choose option: ");
 
@@ -150,6 +154,18 @@ public class MainCrudTest {
                             all.forEach(MainCrudTest::printHabitude);
                         }
                     }
+                    case 6 -> {
+                        String query = readLine("Search query: ");
+                        List<Habitude> results = service.search(query);
+                        if (results.isEmpty()) System.out.println("No results found.");
+                        else results.forEach(MainCrudTest::printHabitude);
+                    }
+                    case 7 -> {
+                        String col = readLine("Column to sort (titre, type, active): ");
+                        boolean asc = readInt("Ascending? (1=Yes, 0=No): ") == 1;
+                        List<Habitude> results = service.sort(col, asc);
+                        results.forEach(MainCrudTest::printHabitude);
+                    }
                     case 0 -> back = true;
                     default -> System.out.println("Invalid choice.");
                 }
@@ -170,6 +186,9 @@ public class MainCrudTest {
             System.out.println("3) Delete");
             System.out.println("4) Get by id");
             System.out.println("5) List all");
+            System.out.println("6) Search by Habit Title");
+            System.out.println("7) Sort");
+            System.out.println("8) Calculate BMI");
             System.out.println("0) Back");
             int choice = readInt("Choose option: ");
 
@@ -235,6 +254,24 @@ public class MainCrudTest {
                         } else {
                             all.forEach(MainCrudTest::printMesure);
                         }
+                    }
+                    case 6 -> {
+                        String title = readLine("Habit Title to search: ");
+                        List<MesureSante> results = service.searchByHabitTitle(title);
+                        if (results.isEmpty()) System.out.println("No results found.");
+                        else results.forEach(MainCrudTest::printMesure);
+                    }
+                    case 7 -> {
+                        String col = readLine("Column to sort (calories, poids_kg, pas, date_mesure): ");
+                        boolean asc = readInt("Ascending? (1=Yes, 0=No): ") == 1;
+                        List<MesureSante> results = service.sort(col, asc);
+                        results.forEach(MainCrudTest::printMesure);
+                    }
+                    case 8 -> {
+                        double weight = readDouble("Current weight (kg): ");
+                        double height = readDouble("Height (cm): ");
+                        double bmi = HealthUtils.calculateBMI(weight, height);
+                        System.out.printf("Your BMI: %.2f (%s)\n", bmi, HealthUtils.getBMICategory(bmi));
                     }
                     case 0 -> back = true;
                     default -> System.out.println("Invalid choice.");
