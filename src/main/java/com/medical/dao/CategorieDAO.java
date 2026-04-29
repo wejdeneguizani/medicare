@@ -1,99 +1,92 @@
-package com.medical.dao;
+package com.medical.services;
 
-import com.medical.utils.DatabaseConnection;
+import com.medical.dao.CategorieDAO;
+import com.medical.interfaces.ICategorieService;
 import com.medical.model.Categorie;
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
-public class CategorieDAO {
+public class CategorieService implements ICategorieService {
 
+    private CategorieDAO dao = new CategorieDAO();
+
+    @Override
     public boolean ajouter(Categorie c) {
-        String sql = "INSERT INTO categorie_medicament (libelle, code_atc, description) VALUES (?, ?, ?)";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, c.getLibelle());
-            ps.setString(2, c.getCodeAtc());
-            ps.setString(3, c.getDescription());
-            ps.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur ajout catégorie : " + e.getMessage());
+        // ✅ RÈGLE 1 : Libellé obligatoire
+        if (c.getLibelle() == null || c.getLibelle().trim().isEmpty()) {
+            System.out.println("⚠️ Le libellé est obligatoire !");
             return false;
         }
+
+        // ✅ RÈGLE 2 : Libellé minimum 3 caractères
+        if (c.getLibelle().trim().length() < 3) {
+            System.out.println("⚠️ Le libellé doit avoir au moins 3 caractères !");
+            return false;
+        }
+
+        // ✅ RÈGLE 3 : Code ATC ne doit pas déjà exister
+        for (Categorie existing : dao.getTous()) {
+            if (existing.getCodeAtc() != null &&
+                    existing.getCodeAtc().equalsIgnoreCase(c.getCodeAtc())) {
+                System.out.println("⚠️ Ce code ATC existe déjà !");
+                return false;
+            }
+        }
+
+        return dao.ajouter(c);
     }
 
+    @Override
     public List<Categorie> getTous() {
-        List<Categorie> liste = new ArrayList<>();
-        String sql = "SELECT * FROM categorie_medicament";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
-                Categorie c = new Categorie();
-                c.setIdCategorie(rs.getInt("id_categorie"));
-                c.setLibelle(rs.getString("libelle"));
-                c.setCodeAtc(rs.getString("code_atc"));
-                c.setDescription(rs.getString("description"));
-                liste.add(c);
-            }
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur affichage catégories : " + e.getMessage());
-        }
-        return liste;
+        return dao.getTous();
     }
 
+    @Override
     public Categorie getParId(int id) {
-        String sql = "SELECT * FROM categorie_medicament WHERE id_categorie = ?";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                Categorie c = new Categorie();
-                c.setIdCategorie(rs.getInt("id_categorie"));
-                c.setLibelle(rs.getString("libelle"));
-                c.setCodeAtc(rs.getString("code_atc"));
-                c.setDescription(rs.getString("description"));
-                return c;
-            }
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur recherche catégorie : " + e.getMessage());
+        // ✅ RÈGLE : ID doit être positif
+        if (id <= 0) {
+            System.out.println("⚠️ L'ID doit être un nombre positif !");
+            return null;
         }
-        return null;
+        return dao.getParId(id);
     }
 
+    @Override
     public boolean modifier(Categorie c) {
-        String sql = "UPDATE categorie_medicament SET libelle=?, code_atc=?, description=? WHERE id_categorie=?";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, c.getLibelle());
-            ps.setString(2, c.getCodeAtc());
-            ps.setString(3, c.getDescription());
-            ps.setInt(4, c.getIdCategorie());
-            ps.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur modification catégorie : " + e.getMessage());
+        // ✅ RÈGLE 1 : ID obligatoire
+        if (c.getIdCategorie() <= 0) {
+            System.out.println("⚠️ ID invalide pour la modification !");
             return false;
         }
+
+        // ✅ RÈGLE 2 : Libellé obligatoire
+        if (c.getLibelle() == null || c.getLibelle().trim().isEmpty()) {
+            System.out.println("⚠️ Le libellé est obligatoire !");
+            return false;
+        }
+
+        // ✅ RÈGLE 3 : La catégorie doit exister
+        if (dao.getParId(c.getIdCategorie()) == null) {
+            System.out.println("⚠️ Cette catégorie n'existe pas !");
+            return false;
+        }
+
+        return dao.modifier(c);
     }
 
+    @Override
     public boolean supprimer(int id) {
-        String sql = "DELETE FROM categorie_medicament WHERE id_categorie = ?";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur suppression catégorie : " + e.getMessage());
+        // ✅ RÈGLE 1 : ID doit être positif
+        if (id <= 0) {
+            System.out.println("⚠️ L'ID doit être un nombre positif !");
             return false;
         }
+
+        // ✅ RÈGLE 2 : La catégorie doit exister
+        if (dao.getParId(id) == null) {
+            System.out.println("⚠️ Cette catégorie n'existe pas !");
+            return false;
+        }
+
+        return dao.supprimer(id);
     }
 }
