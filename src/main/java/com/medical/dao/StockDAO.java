@@ -1,119 +1,115 @@
-package com.medical.dao;
+package com.medical.services;
 
-import com.medical.utils.DatabaseConnection;
+import com.medical.dao.StockDAO;
+import com.medical.interfaces.IStockService;
 import com.medical.model.Stock;
-import java.sql.*;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class StockDAO {
+public class StockService implements IStockService {
 
+    private StockDAO dao = new StockDAO();
+
+    @Override
     public boolean ajouter(Stock s) {
-        String sql = "INSERT INTO stock_medicament (id_medicament, numero_lot, quantite, " +
-                "seuil_alerte, prix_unitaire, date_expiration, date_reception, " +
-                "localisation, fournisseur) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, s.getIdMedicament());
-            ps.setString(2, s.getNumeroLot());
-            ps.setInt(3, s.getQuantite());
-            ps.setInt(4, s.getSeuilAlerte());
-            ps.setDouble(5, s.getPrixUnitaire());
-            ps.setDate(6, new java.sql.Date(s.getDateExpiration().getTime()));
-            ps.setDate(7, new java.sql.Date(s.getDateReception().getTime()));
-            ps.setString(8, s.getLocalisation());
-            ps.setString(9, s.getFournisseur());
-            ps.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur ajout stock : " + e.getMessage());
+        // ✅ RÈGLE 1 : ID médicament obligatoire
+        if (s.getIdMedicament() <= 0) {
+            System.out.println("⚠️ L'ID du médicament est invalide !");
             return false;
         }
+
+        // ✅ RÈGLE 2 : Numéro de lot obligatoire
+        if (s.getNumeroLot() == null || s.getNumeroLot().trim().isEmpty()) {
+            System.out.println("⚠️ Le numéro de lot est obligatoire !");
+            return false;
+        }
+
+        // ✅ RÈGLE 3 : Quantité doit être positive
+        if (s.getQuantite() < 0) {
+            System.out.println("⚠️ La quantité ne peut pas être négative !");
+            return false;
+        }
+
+        // ✅ RÈGLE 4 : Prix unitaire doit être positif
+        if (s.getPrixUnitaire() <= 0) {
+            System.out.println("⚠️ Le prix unitaire doit être positif !");
+            return false;
+        }
+
+        // ✅ RÈGLE 5 : Date expiration obligatoire
+        if (s.getDateExpiration() == null) {
+            System.out.println("⚠️ La date d'expiration est obligatoire !");
+            return false;
+        }
+
+        // ✅ RÈGLE 6 : Date expiration doit être dans le futur
+        if (s.getDateExpiration().before(new Date())) {
+            System.out.println("⚠️ La date d'expiration est déjà passée !");
+            return false;
+        }
+
+        // ✅ RÈGLE 7 : Seuil alerte doit être positif
+        if (s.getSeuilAlerte() < 0) {
+            System.out.println("⚠️ Le seuil d'alerte ne peut pas être négatif !");
+            return false;
+        }
+
+        return dao.ajouter(s);
     }
 
+    @Override
     public List<Stock> getTous() {
-        List<Stock> liste = new ArrayList<>();
-        String sql = "SELECT * FROM stock_medicament";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
-                Stock s = new Stock();
-                s.setIdStock(rs.getInt("id_stock"));
-                s.setIdMedicament(rs.getInt("id_medicament"));
-                s.setNumeroLot(rs.getString("numero_lot"));
-                s.setQuantite(rs.getInt("quantite"));
-                s.setSeuilAlerte(rs.getInt("seuil_alerte"));
-                s.setPrixUnitaire(rs.getDouble("prix_unitaire"));
-                s.setDateExpiration(rs.getDate("date_expiration"));
-                s.setDateReception(rs.getDate("date_reception"));
-                s.setLocalisation(rs.getString("localisation"));
-                s.setFournisseur(rs.getString("fournisseur"));
-                liste.add(s);
-            }
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur affichage stock : " + e.getMessage());
-        }
-        return liste;
+        return dao.getTous();
     }
 
+    @Override
     public List<Stock> getStockFaible() {
-        List<Stock> liste = new ArrayList<>();
-        String sql = "SELECT * FROM stock_medicament WHERE quantite <= seuil_alerte";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
-                Stock s = new Stock();
-                s.setIdStock(rs.getInt("id_stock"));
-                s.setIdMedicament(rs.getInt("id_medicament"));
-                s.setNumeroLot(rs.getString("numero_lot"));
-                s.setQuantite(rs.getInt("quantite"));
-                s.setSeuilAlerte(rs.getInt("seuil_alerte"));
-                s.setPrixUnitaire(rs.getDouble("prix_unitaire"));
-                s.setDateExpiration(rs.getDate("date_expiration"));
-                liste.add(s);
-            }
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur stock faible : " + e.getMessage());
+        List<Stock> stockFaible = dao.getStockFaible();
+        if (stockFaible.isEmpty()) {
+            System.out.println("✅ Aucun stock en alerte !");
+        } else {
+            System.out.println("⚠️ " + stockFaible.size() + " stock(s) en alerte !");
         }
-        return liste;
+        return stockFaible;
     }
 
+    @Override
     public boolean modifier(Stock s) {
-        String sql = "UPDATE stock_medicament SET quantite=?, seuil_alerte=?, " +
-                "prix_unitaire=?, localisation=?, fournisseur=? WHERE id_stock=?";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, s.getQuantite());
-            ps.setInt(2, s.getSeuilAlerte());
-            ps.setDouble(3, s.getPrixUnitaire());
-            ps.setString(4, s.getLocalisation());
-            ps.setString(5, s.getFournisseur());
-            ps.setInt(6, s.getIdStock());
-            ps.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur modification stock : " + e.getMessage());
+        // ✅ RÈGLE 1 : ID obligatoire
+        if (s.getIdStock() <= 0) {
+            System.out.println("⚠️ ID invalide pour la modification !");
             return false;
         }
+
+        // ✅ RÈGLE 2 : Quantité ne peut pas être négative
+        if (s.getQuantite() < 0) {
+            System.out.println("⚠️ La quantité ne peut pas être négative !");
+            return false;
+        }
+
+        // ✅ RÈGLE 3 : Prix unitaire doit être positif
+        if (s.getPrixUnitaire() <= 0) {
+            System.out.println("⚠️ Le prix unitaire doit être positif !");
+            return false;
+        }
+
+        // ✅ RÈGLE 4 : Seuil alerte doit être positif
+        if (s.getSeuilAlerte() < 0) {
+            System.out.println("⚠️ Le seuil d'alerte ne peut pas être négatif !");
+            return false;
+        }
+
+        return dao.modifier(s);
     }
 
+    @Override
     public boolean supprimer(int id) {
-        String sql = "DELETE FROM stock_medicament WHERE id_stock = ?";
-        try {
-            Connection conn = DatabaseConnection.getInstance();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur suppression stock : " + e.getMessage());
+        // ✅ RÈGLE 1 : ID doit être positif
+        if (id <= 0) {
+            System.out.println("⚠️ L'ID doit être un nombre positif !");
             return false;
         }
+
+        return dao.supprimer(id);
     }
 }
