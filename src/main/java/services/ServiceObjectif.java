@@ -209,5 +209,34 @@ public class ServiceObjectif implements IService<Objectif> {
         }
         return liste;
     }
+    public List<Objectif> trierParPriorite() {
+        List<Objectif> liste = new ArrayList<>();
+        String req = "SELECT * FROM objectif ORDER BY priorite ASC";
+        try {
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery(req);
+            while (rs.next()) {
+                Objectif o = new Objectif();
+                o.setId_objectif    (rs.getInt   ("id_objectif"));
+                o.setId_patient     (rs.getInt   ("id_patient"));
+                o.setId_medecin     (rs.getInt   ("id_medecin"));
+                o.setTitre          (rs.getString("titre"));
+                o.setType_objectif  (rs.getString("type_objectif"));
+                o.setValeur_initiale(rs.getDouble("valeur_initiale"));
+                o.setValeur_cible   (rs.getDouble("valeur_cible"));
+                o.setUnite          (rs.getString("unite"));
+                o.setDate_debut     (rs.getDate  ("date_debut"));
+                o.setDate_echeance  (rs.getDate  ("date_echeance"));
+                o.setStatut         (rs.getString("statut"));
+                o.setPriorite       (rs.getInt   ("priorite"));
+                o.setDescription    (rs.getString("description"));
+                liste.add(o);
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Erreur tri priorite : " + e.getMessage());
+        }
+        return liste;
+    }
+
 
 }
