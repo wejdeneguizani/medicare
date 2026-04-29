@@ -133,4 +133,8 @@ public class Main {
         System.out.println("==============================");
         sp.getAll().forEach(System.out::println);
     }
+    System.out.println("\n==============================");
+    System.out.println("   RECHERCHE : mot-clé 'perdre'");
+    System.out.println("==============================");
+    so.rechercher("perdre").forEach(System.out::println);
 }
