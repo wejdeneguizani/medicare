@@ -29,6 +29,9 @@ public class MainCrudTest {
                 return;
             }
 
+
+            
+
             System.out.println("Connected with user_id = " + userId);
             runMainMenu(userId);
         } catch (SQLException e) {
