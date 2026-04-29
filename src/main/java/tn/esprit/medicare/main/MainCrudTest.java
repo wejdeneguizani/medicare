@@ -29,8 +29,6 @@ public class MainCrudTest {
                 return;
             }
 
-
-            
             System.out.println("Connected with user_id = " + userId);
             runMainMenu(userId);
         } catch (SQLException e) {
@@ -56,12 +54,14 @@ public class MainCrudTest {
             System.out.println("\n===== MAIN MENU =====");
             System.out.println("1) Habitude CRUD");
             System.out.println("2) Mesure Sante CRUD");
+            System.out.println("3) Health Tools (IMC, Water, BMR)");
             System.out.println("0) Exit");
             int choice = readInt("Choose option: ");
 
             switch (choice) {
                 case 1 -> runHabitudeMenu(userId);
                 case 2 -> runMesureMenu(userId);
+                case 3 -> runHealthToolsMenu();
                 case 0 -> {
                     running = false;
                     System.out.println("Bye bro, see you.");
@@ -177,6 +177,43 @@ public class MainCrudTest {
         }
     }
 
+    private static void runHealthToolsMenu() {
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n--- Health Tools ---");
+            System.out.println("1) Calculate BMI (IMC)");
+            System.out.println("2) Calculate Recommended Water");
+            System.out.println("3) Calculate BMR (Calories needed)");
+            System.out.println("0) Back");
+            int choice = readInt("Choose option: ");
+
+            switch (choice) {
+                case 1 -> {
+                    double weight = readDouble("Weight (kg): ");
+                    double height = readDouble("Height (cm): ");
+                    double bmi = HealthUtils.calculateBMI(weight, height);
+                    System.out.printf("BMI: %.2f (%s)\n", bmi, HealthUtils.getBMICategory(bmi));
+                }
+                case 2 -> {
+                    double weight = readDouble("Weight (kg): ");
+                    double water = HealthUtils.calculateRecommendedWater(weight);
+                    System.out.printf("You should drink about %.2f Liters of water per day.\n", water);
+                }
+                case 3 -> {
+                    double weight = readDouble("Weight (kg): ");
+                    double height = readDouble("Height (cm): ");
+                    int age = readInt("Age: ");
+                    System.out.println("Sex: 1) Male, 2) Female");
+                    User.Sexe sexe = (readInt("Choice: ") == 1) ? User.Sexe.M : User.Sexe.F;
+                    double bmr = HealthUtils.calculateBMR(weight, height, age, sexe);
+                    System.out.printf("Your Basal Metabolic Rate (BMR) is: %.0f calories/day.\n", bmr);
+                }
+                case 0 -> back = true;
+                default -> System.out.println("Invalid choice.");
+            }
+        }
+    }
+
     private static void runMesureMenu(int userId) {
         MesureSanteService service = new MesureSanteService();
         boolean back = false;
@@ -188,7 +225,7 @@ public class MainCrudTest {
             System.out.println("3) Delete");
             System.out.println("4) Get by id");
             System.out.println("5) List all");
-            System.out.println("6) Search by Habit Title");
+            System.out.println("6) Search (Title/Value)");
             System.out.println("7) Sort");
             System.out.println("8) Calculate BMI");
             System.out.println("0) Back");
@@ -258,8 +295,16 @@ public class MainCrudTest {
                         }
                     }
                     case 6 -> {
-                        String title = readLine("Habit Title to search: ");
-                        List<MesureSante> results = service.searchByHabitTitle(title);
+                        System.out.println("Search by: 1) Global, 2) Min Steps, 3) Max Calories");
+                        int searchType = readInt("Choice: ");
+                        List<MesureSante> results;
+                        if (searchType == 2) {
+                            results = service.searchBySteps(readInt("Min steps: "));
+                        } else if (searchType == 3) {
+                            results = service.searchByMaxCalories(readDouble("Max calories: "));
+                        } else {
+                            results = service.search(readLine("Global query: "));
+                        }
                         if (results.isEmpty()) System.out.println("No results found.");
                         else results.forEach(MainCrudTest::printMesure);
                     }

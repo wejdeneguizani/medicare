@@ -27,7 +27,7 @@ public class MainTestCRUD {
 
             System.out.println("\n--- Test Recherche Mesures par Titre d'Habitude ---");
             // On cherche les mesures liées à une habitude qui a "Eau" dans son titre
-            List<MesureSante> searchMesures = mesureService.searchByHabitTitle("Eau");
+            List<MesureSante> searchMesures = mesureService.search("Eau");
             System.out.println("Mesures trouvées : " + searchMesures.size());
             searchMesures.forEach(m -> System.out.println(" - ID: " + m.getId() + " | Date: " + m.getDateMesure()));
 

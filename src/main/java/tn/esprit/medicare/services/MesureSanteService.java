@@ -119,11 +119,54 @@ public class MesureSanteService implements IService<MesureSante> {
         return mesures;
     }
 
-    public List<MesureSante> searchByHabitTitle(String title) throws SQLException {
-        String sql = "SELECT m.* FROM mesures_sante m JOIN habitudes h ON m.habitude_id = h.id WHERE h.titre LIKE ? ORDER BY m.date_mesure DESC";
+    public List<MesureSante> search(String query) throws SQLException {
+        if (query == null || query.trim().isEmpty()) return getAll();
+        String sql = "SELECT m.* FROM mesures_sante m JOIN habitudes h ON m.habitude_id = h.id WHERE h.titre LIKE ?";
+        
+        Double numQuery = null;
+        try {
+            numQuery = Double.parseDouble(query);
+            sql += " OR m.pas = ? OR m.calories = ? OR m.poids_kg = ?";
+        } catch (NumberFormatException ignored) {}
+
+        sql += " ORDER BY m.date_mesure DESC";
+
         List<MesureSante> mesures = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, "%" + title + "%" );
+            ps.setString(1, "%" + query + "%");
+            if (numQuery != null) {
+                ps.setDouble(2, numQuery);
+                ps.setDouble(3, numQuery);
+                ps.setDouble(4, numQuery);
+            }
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    mesures.add(mapMesure(rs));
+                }
+            }
+        }
+        return mesures;
+    }
+
+    public List<MesureSante> searchBySteps(int minSteps) throws SQLException {
+        String sql = "SELECT * FROM mesures_sante WHERE pas >= ? ORDER BY pas DESC";
+        List<MesureSante> mesures = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, minSteps);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    mesures.add(mapMesure(rs));
+                }
+            }
+        }
+        return mesures;
+    }
+
+    public List<MesureSante> searchByMaxCalories(double maxCal) throws SQLException {
+        String sql = "SELECT * FROM mesures_sante WHERE calories <= ? ORDER BY calories ASC";
+        List<MesureSante> mesures = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setDouble(1, maxCal);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     mesures.add(mapMesure(rs));
