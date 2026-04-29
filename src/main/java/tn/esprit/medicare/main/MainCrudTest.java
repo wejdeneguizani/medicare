@@ -20,6 +20,9 @@ public class MainCrudTest {
     public static void main(String[] args) {
         DBInitializer.initialize();
 
+
+
+        
         try {
             int userId = getExistingUserId();
             if (userId == -1) {
