@@ -137,4 +137,9 @@ public class Main {
     System.out.println("   RECHERCHE : mot-clé 'perdre'");
     System.out.println("==============================");
     so.rechercher("perdre").forEach(System.out::println);
+
+    System.out.println("\n==============================");
+    System.out.println("   FILTRE : statut 'en_cours'");
+    System.out.println("==============================");
+    so.filtrerParStatut("en_cours").forEach(System.out::println);
 }
