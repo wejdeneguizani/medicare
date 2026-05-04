@@ -10,97 +10,106 @@ import java.util.List;
 
 public class ServiceDisponibilite implements IService<Disponibilite> {
 
+    private final Connection cnx = MyDataBase.getInstance().getCnx();
+
+    // ── ADD ───────────────────────────────────────────────────────
     @Override
     public void add(Disponibilite d) {
-        String req = "INSERT INTO disponibilite_medecin(id_medecin, jour_semaine, heure_debut, heure_fin, actif) VALUES (?,?,?,?,?)";
+        String req = "INSERT INTO disponibilite (medecin_id, date_disponible, " +
+                "heure_debut, heure_fin, statut) VALUES (?, ?, ?, ?, ?)";
         try {
-            PreparedStatement ps = MyDataBase.getInstance().getCnx().prepareStatement(req);
-            ps.setInt(1, d.getId_medecin());
-            ps.setString(2, d.getJour_semaine());
-            ps.setString(3, d.getHeure_debut());
-            ps.setString(4, d.getHeure_fin());
-            ps.setBoolean(5, d.isActif());
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, d.getMedecinId());
+            ps.setDate(2, Date.valueOf(d.getDateDisponible()));
+            ps.setTime(3, Time.valueOf(d.getHeureDebut()));
+            ps.setTime(4, Time.valueOf(d.getHeureFin()));
+            ps.setString(5, d.getStatut());
             ps.executeUpdate();
-            System.out.println("Disponibilité ajoutée !");
+            System.out.println("✔ Disponibilité ajoutée pour médecin id=" + d.getMedecinId());
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur add Disponibilite : " + e.getMessage());
         }
     }
 
+    // ── GET ALL ───────────────────────────────────────────────────
     @Override
     public List<Disponibilite> getAll() {
-        List<Disponibilite> list = new ArrayList<>();
-        String req = "SELECT * FROM disponibilite_medecin";
+        List<Disponibilite> liste = new ArrayList<>();
+        String req = "SELECT * FROM disponibilite";
         try {
-            Statement stm = MyDataBase.getInstance().getCnx().createStatement();
-            ResultSet rs = stm.executeQuery(req);
+            Statement stm = cnx.createStatement();
+            ResultSet rs  = stm.executeQuery(req);
             while (rs.next()) {
                 Disponibilite d = new Disponibilite();
-                d.setId_dispo(rs.getInt("id_dispo"));
-                d.setId_medecin(rs.getInt("id_medecin"));
-                d.setJour_semaine(rs.getString("jour_semaine"));
-                d.setHeure_debut(rs.getString("heure_debut"));
-                d.setHeure_fin(rs.getString("heure_fin"));
-                d.setActif(rs.getBoolean("actif"));
-                list.add(d);
+                d.setId(rs.getInt("id"));
+                d.setMedecinId(rs.getInt("medecin_id"));
+                d.setDateDisponible(rs.getDate("date_disponible").toLocalDate());
+                d.setHeureDebut(rs.getTime("heure_debut").toLocalTime());
+                d.setHeureFin(rs.getTime("heure_fin").toLocalTime());
+                d.setStatut(rs.getString("statut"));
+                liste.add(d);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur getAll Disponibilite : " + e.getMessage());
         }
-        return list;
+        return liste;
     }
 
-    @Override
-    public void update(Disponibilite d) {
-        String req = "UPDATE disponibilite_medecin SET jour_semaine=?, heure_debut=?, heure_fin=?, actif=? WHERE id_dispo=?";
-        try {
-            PreparedStatement ps = MyDataBase.getInstance().getCnx().prepareStatement(req);
-            ps.setString(1, d.getJour_semaine());
-            ps.setString(2, d.getHeure_debut());
-            ps.setString(3, d.getHeure_fin());
-            ps.setBoolean(4, d.isActif());
-            ps.setInt(5, d.getId_dispo());
-            ps.executeUpdate();
-            System.out.println("Disponibilité modifiée !");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
+    // ── DELETE ────────────────────────────────────────────────────
     @Override
     public void delete(Disponibilite d) {
-        String req = "DELETE FROM disponibilite_medecin WHERE id_dispo=?";
+        String req = "DELETE FROM disponibilite WHERE id = ?";
         try {
-            PreparedStatement ps = MyDataBase.getInstance().getCnx().prepareStatement(req);
-            ps.setInt(1, d.getId_dispo());
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, d.getId());
             ps.executeUpdate();
-            System.out.println("Disponibilité supprimée !");
+            System.out.println("✔ Disponibilité supprimée id=" + d.getId());
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur delete Disponibilite : " + e.getMessage());
         }
     }
 
-    // Méthode bonus : récupérer les dispos d'un médecin spécifique
-    public List<Disponibilite> getByMedecin(int id_medecin) {
-        List<Disponibilite> list = new ArrayList<>();
-        String req = "SELECT * FROM disponibilite_medecin WHERE id_medecin=? AND actif=1";
+    // ── UPDATE ────────────────────────────────────────────────────
+    @Override
+    public void update(Disponibilite d) {
+        String req = "UPDATE disponibilite SET medecin_id=?, date_disponible=?, " +
+                "heure_debut=?, heure_fin=?, statut=? WHERE id=?";
         try {
-            PreparedStatement ps = MyDataBase.getInstance().getCnx().prepareStatement(req);
-            ps.setInt(1, id_medecin);
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, d.getMedecinId());
+            ps.setDate(2, Date.valueOf(d.getDateDisponible()));
+            ps.setTime(3, Time.valueOf(d.getHeureDebut()));
+            ps.setTime(4, Time.valueOf(d.getHeureFin()));
+            ps.setString(5, d.getStatut());
+            ps.setInt(6, d.getId());
+            ps.executeUpdate();
+            System.out.println("✔ Disponibilité mise à jour id=" + d.getId());
+        } catch (SQLException e) {
+            System.out.println("Erreur update Disponibilite : " + e.getMessage());
+        }
+    }
+
+    // ── GET BY MEDECIN ────────────────────────────────────────────
+    public List<Disponibilite> getByMedecin(int medecinId) {
+        List<Disponibilite> liste = new ArrayList<>();
+        String req = "SELECT * FROM disponibilite WHERE medecin_id = ? AND statut = 'Disponible'";
+        try {
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, medecinId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Disponibilite d = new Disponibilite();
-                d.setId_dispo(rs.getInt("id_dispo"));
-                d.setId_medecin(rs.getInt("id_medecin"));
-                d.setJour_semaine(rs.getString("jour_semaine"));
-                d.setHeure_debut(rs.getString("heure_debut"));
-                d.setHeure_fin(rs.getString("heure_fin"));
-                d.setActif(rs.getBoolean("actif"));
-                list.add(d);
+                d.setId(rs.getInt("id"));
+                d.setMedecinId(rs.getInt("medecin_id"));
+                d.setDateDisponible(rs.getDate("date_disponible").toLocalDate());
+                d.setHeureDebut(rs.getTime("heure_debut").toLocalTime());
+                d.setHeureFin(rs.getTime("heure_fin").toLocalTime());
+                d.setStatut(rs.getString("statut"));
+                liste.add(d);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur getByMedecin : " + e.getMessage());
         }
-        return list;
+        return liste;
     }
 }

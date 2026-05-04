@@ -10,187 +10,161 @@ import java.util.List;
 
 public class ServiceRendezVous implements IService<RendezVous> {
 
+    private final Connection cnx = MyDataBase.getInstance().getCnx();
+
+    // ── ADD ───────────────────────────────────────────────────────
     @Override
-    public void add(RendezVous r) {
-        String req = "INSERT INTO rendez_vous(id_patient, id_medecin, date_heure, duree_min, statut, motif, notes) VALUES (?,?,?,?,?,?,?)";
+    public void add(RendezVous rv) {
+        String req = "INSERT INTO rendez_vous (patient_id, medecin_id, disponibilite_id, " +
+                "date_rdv, heure_rdv, motif, notes, statut) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            PreparedStatement ps = MyDataBase.getInstance().getCnx().prepareStatement(req);
-            ps.setInt(1, r.getId_patient());
-            ps.setInt(2, r.getId_medecin());
-            ps.setString(3, r.getDate_heure());
-            ps.setInt(4, r.getDuree_min());
-            ps.setString(5, r.getStatut());
-            ps.setString(6, r.getMotif());
-            ps.setString(7, r.getNotes());
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, rv.getPatientId());
+            ps.setInt(2, rv.getMedecinId());
+            if (rv.getDisponibiliteId() > 0)
+                ps.setInt(3, rv.getDisponibiliteId());
+            else
+                ps.setNull(3, Types.INTEGER);
+            ps.setDate(4, Date.valueOf(rv.getDateRdv()));
+            ps.setTime(5, Time.valueOf(rv.getHeureRdv()));
+            ps.setString(6, rv.getMotif());
+            ps.setString(7, rv.getNotes());
+            ps.setString(8, rv.getStatut());
             ps.executeUpdate();
-            System.out.println("Rendez-vous ajouté !");
+            System.out.println("✔ Rendez-vous ajouté le " + rv.getDateRdv());
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur add RendezVous : " + e.getMessage());
         }
     }
 
+    // ── GET ALL ───────────────────────────────────────────────────
     @Override
     public List<RendezVous> getAll() {
-        List<RendezVous> list = new ArrayList<>();
+        List<RendezVous> liste = new ArrayList<>();
         String req = "SELECT * FROM rendez_vous";
         try {
-            Statement stm = MyDataBase.getInstance().getCnx().createStatement();
-            ResultSet rs = stm.executeQuery(req);
+            Statement stm = cnx.createStatement();
+            ResultSet rs  = stm.executeQuery(req);
             while (rs.next()) {
-                RendezVous r = new RendezVous();
-                r.setId_rdv(rs.getInt("id_rdv"));
-                r.setId_patient(rs.getInt("id_patient"));
-                r.setId_medecin(rs.getInt("id_medecin"));
-                r.setDate_heure(rs.getString("date_heure"));
-                r.setDuree_min(rs.getInt("duree_min"));
-                r.setStatut(rs.getString("statut"));
-                r.setMotif(rs.getString("motif"));
-                r.setNotes(rs.getString("notes"));
-                list.add(r);
+                RendezVous rv = new RendezVous();
+                rv.setId(rs.getInt("id"));
+                rv.setPatientId(rs.getInt("patient_id"));
+                rv.setMedecinId(rs.getInt("medecin_id"));
+                rv.setDisponibiliteId(rs.getInt("disponibilite_id"));
+                rv.setDateRdv(rs.getDate("date_rdv").toLocalDate());
+                rv.setHeureRdv(rs.getTime("heure_rdv").toLocalTime());
+                rv.setMotif(rs.getString("motif"));
+                rv.setNotes(rs.getString("notes"));
+                rv.setStatut(rs.getString("statut"));
+                liste.add(rv);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur getAll RendezVous : " + e.getMessage());
         }
-        return list;
+        return liste;
     }
 
+    // ── DELETE ────────────────────────────────────────────────────
     @Override
-    public void update(RendezVous r) {
-        String req = "UPDATE rendez_vous SET id_patient=?, id_medecin=?, date_heure=?, duree_min=?, statut=?, motif=?, notes=? WHERE id_rdv=?";
+    public void delete(RendezVous rv) {
+        String req = "DELETE FROM rendez_vous WHERE id = ?";
         try {
-            PreparedStatement ps = MyDataBase.getInstance().getCnx().prepareStatement(req);
-            ps.setInt(1, r.getId_patient());
-            ps.setInt(2, r.getId_medecin());
-            ps.setString(3, r.getDate_heure());
-            ps.setInt(4, r.getDuree_min());
-            ps.setString(5, r.getStatut());
-            ps.setString(6, r.getMotif());
-            ps.setString(7, r.getNotes());
-            ps.setInt(8, r.getId_rdv());
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, rv.getId());
             ps.executeUpdate();
-            System.out.println("Rendez-vous modifié !");
+            System.out.println("✔ Rendez-vous supprimé id=" + rv.getId());
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur delete RendezVous : " + e.getMessage());
         }
     }
 
+    // ── UPDATE ────────────────────────────────────────────────────
     @Override
-    public void delete(RendezVous r) {
-        String req = "DELETE FROM rendez_vous WHERE id_rdv=?";
+    public void update(RendezVous rv) {
+        String req = "UPDATE rendez_vous SET patient_id=?, medecin_id=?, disponibilite_id=?, " +
+                "date_rdv=?, heure_rdv=?, motif=?, notes=?, statut=? WHERE id=?";
         try {
-            PreparedStatement ps = MyDataBase.getInstance().getCnx().prepareStatement(req);
-            ps.setInt(1, r.getId_rdv());
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, rv.getPatientId());
+            ps.setInt(2, rv.getMedecinId());
+            if (rv.getDisponibiliteId() > 0)
+                ps.setInt(3, rv.getDisponibiliteId());
+            else
+                ps.setNull(3, Types.INTEGER);
+            ps.setDate(4, Date.valueOf(rv.getDateRdv()));
+            ps.setTime(5, Time.valueOf(rv.getHeureRdv()));
+            ps.setString(6, rv.getMotif());
+            ps.setString(7, rv.getNotes());
+            ps.setString(8, rv.getStatut());
+            ps.setInt(9, rv.getId());
             ps.executeUpdate();
-            System.out.println("Rendez-vous supprimé !");
+            System.out.println("✔ Rendez-vous mis à jour id=" + rv.getId());
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur update RendezVous : " + e.getMessage());
         }
     }
 
-    // Méthode bonus : récupérer les RDV d'un patient
-    public List<RendezVous> getByPatient(int id_patient) {
-        List<RendezVous> list = new ArrayList<>();
-        String req = "SELECT * FROM rendez_vous WHERE id_patient=?";
+    // ── GET BY PATIENT ────────────────────────────────────────────
+    public List<RendezVous> getByPatient(int patientId) {
+        List<RendezVous> liste = new ArrayList<>();
+        String req = "SELECT * FROM rendez_vous WHERE patient_id = ?";
         try {
-            PreparedStatement ps = MyDataBase.getInstance().getCnx().prepareStatement(req);
-            ps.setInt(1, id_patient);
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, patientId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                RendezVous r = new RendezVous();
-                r.setId_rdv(rs.getInt("id_rdv"));
-                r.setId_patient(rs.getInt("id_patient"));
-                r.setId_medecin(rs.getInt("id_medecin"));
-                r.setDate_heure(rs.getString("date_heure"));
-                r.setDuree_min(rs.getInt("duree_min"));
-                r.setStatut(rs.getString("statut"));
-                r.setMotif(rs.getString("motif"));
-                r.setNotes(rs.getString("notes"));
-                list.add(r);
+                RendezVous rv = new RendezVous();
+                rv.setId(rs.getInt("id"));
+                rv.setPatientId(rs.getInt("patient_id"));
+                rv.setMedecinId(rs.getInt("medecin_id"));
+                rv.setDateRdv(rs.getDate("date_rdv").toLocalDate());
+                rv.setHeureRdv(rs.getTime("heure_rdv").toLocalTime());
+                rv.setMotif(rs.getString("motif"));
+                rv.setStatut(rs.getString("statut"));
+                liste.add(rv);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur getByPatient : " + e.getMessage());
         }
-        return list;
+        return liste;
     }
 
-
-
-    public List<RendezVous> filtrerParStatut(String statut) {
-        List<RendezVous> list = new ArrayList<>();
-        String req = "SELECT * FROM rendez_vous WHERE statut = ?";
+    // ── GET BY MEDECIN ────────────────────────────────────────────
+    public List<RendezVous> getByMedecin(int medecinId) {
+        List<RendezVous> liste = new ArrayList<>();
+        String req = "SELECT * FROM rendez_vous WHERE medecin_id = ?";
         try {
-            PreparedStatement ps = MyDataBase.getInstance().getCnx().prepareStatement(req);
-            ps.setString(1, statut);
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, medecinId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                RendezVous r = new RendezVous();
-                r.setId_rdv(rs.getInt("id_rdv"));
-                r.setId_patient(rs.getInt("id_patient"));
-                r.setId_medecin(rs.getInt("id_medecin"));
-                r.setDate_heure(rs.getString("date_heure"));
-                r.setDuree_min(rs.getInt("duree_min"));
-                r.setStatut(rs.getString("statut"));
-                r.setMotif(rs.getString("motif"));
-                r.setNotes(rs.getString("notes"));
-                list.add(r);
+                RendezVous rv = new RendezVous();
+                rv.setId(rs.getInt("id"));
+                rv.setPatientId(rs.getInt("patient_id"));
+                rv.setMedecinId(rs.getInt("medecin_id"));
+                rv.setDateRdv(rs.getDate("date_rdv").toLocalDate());
+                rv.setHeureRdv(rs.getTime("heure_rdv").toLocalTime());
+                rv.setMotif(rs.getString("motif"));
+                rv.setStatut(rs.getString("statut"));
+                liste.add(rv);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur getByMedecin : " + e.getMessage());
         }
-        return list;
+        return liste;
     }
 
-
-    public List<RendezVous> trierParDate() {
-        List<RendezVous> list = new ArrayList<>();
-        String req = "SELECT * FROM rendez_vous ORDER BY date_heure DESC";
+    // ── CHANGER STATUT ────────────────────────────────────────────
+    public void changerStatut(int rdvId, String nouveauStatut) {
+        String req = "UPDATE rendez_vous SET statut=? WHERE id=?";
         try {
-            Statement stm = MyDataBase.getInstance().getCnx().createStatement();
-            ResultSet rs = stm.executeQuery(req);
-            while (rs.next()) {
-                RendezVous r = new RendezVous();
-                r.setId_rdv(rs.getInt("id_rdv"));
-                r.setId_patient(rs.getInt("id_patient"));
-                r.setId_medecin(rs.getInt("id_medecin"));
-                r.setDate_heure(rs.getString("date_heure"));
-                r.setDuree_min(rs.getInt("duree_min"));
-                r.setStatut(rs.getString("statut"));
-                r.setMotif(rs.getString("motif"));
-                r.setNotes(rs.getString("notes"));
-                list.add(r);
-            }
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setString(1, nouveauStatut);
+            ps.setInt(2, rdvId);
+            ps.executeUpdate();
+            System.out.println("✔ Statut RDV " + rdvId + " → " + nouveauStatut);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur changerStatut : " + e.getMessage());
         }
-        return list;
     }
-
-
-
-    public List<RendezVous> filtrerParDate(String date) {
-        List<RendezVous> list = new ArrayList<>();
-        String req = "SELECT * FROM rendez_vous WHERE DATE(date_heure) = ?";
-        try {
-            PreparedStatement ps = MyDataBase.getInstance().getCnx().prepareStatement(req);
-            ps.setString(1, date);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                RendezVous r = new RendezVous();
-                r.setId_rdv(rs.getInt("id_rdv"));
-                r.setId_patient(rs.getInt("id_patient"));
-                r.setId_medecin(rs.getInt("id_medecin"));
-                r.setDate_heure(rs.getString("date_heure"));
-                r.setDuree_min(rs.getInt("duree_min"));
-                r.setStatut(rs.getString("statut"));
-                r.setMotif(rs.getString("motif"));
-                r.setNotes(rs.getString("notes"));
-                list.add(r);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return list;
-    }
-
-
 }
