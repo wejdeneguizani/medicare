@@ -1,36 +1,59 @@
 package models;
 
-public class Disponibilite {
-    private int id_dispo, id_medecin;
-    private String jour_semaine, heure_debut, heure_fin;
-    private boolean actif;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
+public class Disponibilite {
+
+    private int       id;
+    private int       medecinId;       // FK → utilisateurs.id
+    private LocalDate dateDisponible;
+    private LocalTime heureDebut;
+    private LocalTime heureFin;
+    private String    statut;          // Disponible / Réservé / Annulé
+
+    // ── Constructeurs ─────────────────────────────────────────────
     public Disponibilite() {}
 
-    public Disponibilite(int id_medecin, String jour_semaine,
-                         String heure_debut, String heure_fin, boolean actif) {
-        this.id_medecin = id_medecin;
-        this.jour_semaine = jour_semaine;
-        this.heure_debut = heure_debut;
-        this.heure_fin = heure_fin;
-        this.actif = actif;
+    public Disponibilite(int medecinId, LocalDate dateDisponible,
+                         LocalTime heureDebut, LocalTime heureFin,
+                         String statut) {
+        this.medecinId      = medecinId;
+        this.dateDisponible = dateDisponible;
+        this.heureDebut     = heureDebut;
+        this.heureFin       = heureFin;
+        this.statut         = statut;
     }
 
-    public int getId_dispo() { return id_dispo; }
-    public void setId_dispo(int id_dispo) { this.id_dispo = id_dispo; }
-    public int getId_medecin() { return id_medecin; }
-    public void setId_medecin(int id_medecin) { this.id_medecin = id_medecin; }
-    public String getJour_semaine() { return jour_semaine; }
-    public void setJour_semaine(String jour_semaine) { this.jour_semaine = jour_semaine; }
-    public String getHeure_debut() { return heure_debut; }
-    public void setHeure_debut(String heure_debut) { this.heure_debut = heure_debut; }
-    public String getHeure_fin() { return heure_fin; }
-    public void setHeure_fin(String heure_fin) { this.heure_fin = heure_fin; }
-    public boolean isActif() { return actif; }
-    public void setActif(boolean actif) { this.actif = actif; }
+    // ── Getters / Setters ─────────────────────────────────────────
+    public int getId()                         { return id; }
+    public void setId(int id)                  { this.id = id; }
 
+    public int getMedecinId()                  { return medecinId; }
+    public void setMedecinId(int medecinId)    { this.medecinId = medecinId; }
+
+    public LocalDate getDateDisponible()       { return dateDisponible; }
+    public void setDateDisponible(LocalDate d) { this.dateDisponible = d; }
+
+    public LocalTime getHeureDebut()           { return heureDebut; }
+    public void setHeureDebut(LocalTime t)     { this.heureDebut = t; }
+
+    public LocalTime getHeureFin()             { return heureFin; }
+    public void setHeureFin(LocalTime t)       { this.heureFin = t; }
+
+    public String getStatut()                  { return statut; }
+    public void setStatut(String statut)       { this.statut = statut; }
+
+    // ── toString ──────────────────────────────────────────────────
     @Override
     public String toString() {
-        return "Disponibilite{" + jour_semaine + " " + heure_debut + "-" + heure_fin + "}\n";
+        return "Disponibilite{" +
+                "id=" + id +
+                ", medecinId=" + medecinId +
+                ", date=" + dateDisponible +
+                ", de=" + heureDebut +
+                " à=" + heureFin +
+                ", statut='" + statut + '\'' +
+                "}\n";
     }
 }
