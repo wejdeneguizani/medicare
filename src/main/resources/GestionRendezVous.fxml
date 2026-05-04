@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0"
+            xmlns="http://javafx.com/javafx/22"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.GestionRendezVousController"
+            style="-fx-background-color: #f0f4f8;">
+
+    <!-- Titre -->
+    <Label text="🏥 Gestion des Rendez-Vous"
+           layoutX="30" layoutY="20"
+           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1a3c5e;"/>
+
+    <!-- Formulaire (gauche) -->
+    <Label text="Patient ID:"    layoutX="30"  layoutY="80"/>
+    <TextField fx:id="tfPatientId"  layoutX="130" layoutY="76"  prefWidth="120" promptText="ex: 7"/>
+
+    <Label text="Médecin ID:"   layoutX="30"  layoutY="120"/>
+    <TextField fx:id="tfMedecinId"  layoutX="130" layoutY="116" prefWidth="120" promptText="ex: 5"/>
+
+    <Label text="Date (YYYY-MM-DD):" layoutX="30" layoutY="160"/>
+    <TextField fx:id="tfDate"        layoutX="180" layoutY="156" prefWidth="120" promptText="2026-06-01"/>
+
+    <Label text="Heure (HH:MM):"  layoutX="30"  layoutY="200"/>
+    <TextField fx:id="tfHeure"       layoutX="180" layoutY="196" prefWidth="120" promptText="09:00"/>
+
+    <Label text="Motif:"         layoutX="30"  layoutY="240"/>
+    <TextField fx:id="tfMotif"       layoutX="130" layoutY="236" prefWidth="200" promptText="Consultation générale"/>
+
+    <Label text="Statut:"        layoutX="30"  layoutY="280"/>
+    <ComboBox fx:id="cbStatut"       layoutX="130" layoutY="276" prefWidth="180">
+    </ComboBox>
+
+    <!-- Boutons actions -->
+    <Button text="➕ Ajouter"    layoutX="30"  layoutY="330"
+            onAction="#ajouterRdv"
+            style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    <Button text="✏️ Modifier"   layoutX="130" layoutY="330"
+            onAction="#modifierRdv"
+            style="-fx-background-color: #FF9800; -fx-text-fill: white;"/>
+    <Button text="🗑️ Supprimer"  layoutX="230" layoutY="330"
+            onAction="#supprimerRdv"
+            style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+    <Button text="🔄 Actualiser" layoutX="330" layoutY="330"
+            onAction="#chargerTous"
+            style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+
+    <!-- Naviguer vers Disponibilités -->
+    <Button text="📅 Gérer Disponibilités" layoutX="470" layoutY="330"
+            onAction="#ouvrirDisponibilites"
+            style="-fx-background-color: #9C27B0; -fx-text-fill: white;"/>
+
+    <!-- Label message -->
+    <Label fx:id="lbMessage" layoutX="30" layoutY="375"
+           style="-fx-text-fill: #e53935; -fx-font-weight: bold;"/>
+
+    <!-- TableView -->
+    <TableView fx:id="tableRdv" layoutX="30" layoutY="400"
+               prefWidth="840" prefHeight="180">
+        <columns>
+            <TableColumn fx:id="colId"      text="ID"       prefWidth="40"/>
+            <TableColumn fx:id="colPatient" text="Patient"  prefWidth="80"/>
+            <TableColumn fx:id="colMedecin" text="Médecin"  prefWidth="80"/>
+            <TableColumn fx:id="colDate"    text="Date"     prefWidth="110"/>
+            <TableColumn fx:id="colHeure"   text="Heure"    prefWidth="80"/>
+            <TableColumn fx:id="colMotif"   text="Motif"    prefWidth="200"/>
+            <TableColumn fx:id="colStatut"  text="Statut"   prefWidth="110"/>
+        </columns>
+    </TableView>
+
+</AnchorPane>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="620.0" prefWidth="900.0"
+            xmlns="http://javafx.com/javafx/22"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.GestionOrdonnanceController"
+            style="-fx-background-color: #f0f4f8;">
+
+    <Label text="💊 Gestion des Ordonnances"
+           layoutX="30" layoutY="20"
+           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1a3c5e;"/>
+
+    <Label text="RDV ID:"             layoutX="30"  layoutY="75"/>
+    <TextField fx:id="tfRdvId"        layoutX="140" layoutY="71"  prefWidth="100" promptText="ex: 1"/>
+
+    <Label text="Médecin ID:"         layoutX="30"  layoutY="115"/>
+    <TextField fx:id="tfMedecinId"    layoutX="140" layoutY="111" prefWidth="100"/>
+
+    <Label text="Patient ID:"         layoutX="30"  layoutY="155"/>
+    <TextField fx:id="tfPatientId"    layoutX="140" layoutY="151" prefWidth="100"/>
+
+    <Label text="Médicament:"         layoutX="30"  layoutY="195"/>
+    <TextField fx:id="tfMedicament"   layoutX="140" layoutY="191" prefWidth="220" promptText="Paracétamol 1g"/>
+
+    <Label text="Posologie:"          layoutX="30"  layoutY="235"/>
+    <TextField fx:id="tfPosologie"    layoutX="140" layoutY="231" prefWidth="220" promptText="1 comprimé 3x/jour"/>
+
+    <Label text="Durée:"              layoutX="30"  layoutY="275"/>
+    <TextField fx:id="tfDuree"        layoutX="140" layoutY="271" prefWidth="150" promptText="7 jours"/>
+
+    <Label text="Date émission:"      layoutX="30"  layoutY="315"/>
+    <TextField fx:id="tfDateEmission" layoutX="140" layoutY="311" prefWidth="130" promptText="2026-06-01"/>
+
+    <Button text="➕ Ajouter"    layoutX="30"  layoutY="360"
+            onAction="#ajouterOrd"
+            style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    <Button text="✏️ Modifier"   layoutX="130" layoutY="360"
+            onAction="#modifierOrd"
+            style="-fx-background-color: #FF9800; -fx-text-fill: white;"/>
+    <Button text="🗑️ Supprimer"  layoutX="230" layoutY="360"
+            onAction="#supprimerOrd"
+            style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+    <Button text="🔄 Actualiser" layoutX="330" layoutY="360"
+            onAction="#chargerTous"
+            style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+
+    <Label fx:id="lbMessage" layoutX="30" layoutY="400"
+           style="-fx-text-fill: #e53935; -fx-font-weight: bold;"/>
+
+    <TableView fx:id="tableOrd" layoutX="30" layoutY="425"
+               prefWidth="840" prefHeight="170">
+        <columns>
+            <TableColumn fx:id="colId"         text="ID"         prefWidth="40"/>
+            <TableColumn fx:id="colRdvId"      text="RDV"        prefWidth="50"/>
+            <TableColumn fx:id="colMedicament" text="Médicament" prefWidth="160"/>
+            <TableColumn fx:id="colPosologie"  text="Posologie"  prefWidth="160"/>
+            <TableColumn fx:id="colDuree"      text="Durée"      prefWidth="100"/>
+            <TableColumn fx:id="colDate"       text="Émission"   prefWidth="110"/>
+        </columns>
+    </TableView>
+
+</AnchorPane>
