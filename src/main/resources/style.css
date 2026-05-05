@@ -1,0 +1,84 @@
+.root {
+    -fx-font-family: "System";
+}
+
+.sidebar-button,
+.sidebar-button-active {
+    -fx-alignment: center-left;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+    -fx-padding: 9 12 9 12;
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #85B7EB;
+}
+
+.sidebar-button-active {
+    -fx-background-color: #185FA5;
+    -fx-text-fill: #E6F1FB;
+}
+
+.stat-card,
+.form-panel,
+.main-table {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+}
+
+.stat-card {
+    -fx-padding: 14;
+}
+
+.primary-button,
+.success-button,
+.secondary-button {
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+    -fx-padding: 8 16 8 16;
+}
+
+.primary-button {
+    -fx-background-color: #185FA5;
+    -fx-text-fill: #E6F1FB;
+}
+
+.success-button {
+    -fx-background-color: #3B6D11;
+    -fx-text-fill: #EAF3DE;
+}
+
+.secondary-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #D3D1C7;
+    -fx-border-radius: 8;
+    -fx-text-fill: #5F5E5A;
+}
+
+.small-action-button,
+.danger-action-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-cursor: hand;
+    -fx-font-size: 11px;
+    -fx-padding: 3 7 3 7;
+}
+
+.small-action-button {
+    -fx-border-color: #185FA5;
+    -fx-text-fill: #185FA5;
+}
+
+.danger-action-button {
+    -fx-border-color: #A32D2D;
+    -fx-text-fill: #A32D2D;
+}
+
+.value-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #232323;
+}

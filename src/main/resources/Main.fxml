@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="680.0" prefWidth="1100.0" style="-fx-background-color:#F1EFE8;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
+    <left>
+        <VBox prefWidth="220.0" spacing="8.0" style="-fx-background-color:#0C447C;">
+            <padding>
+                <Insets bottom="20.0" left="12.0" right="12.0" top="20.0" />
+            </padding>
+            <children>
+                <Label text="Medicare+" textFill="#E6F1FB">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                    <padding>
+                        <Insets bottom="20.0" left="6.0" />
+                    </padding>
+                </Label>
+                <Label text="GESTION" textFill="#85B7EB">
+                    <font>
+                        <Font size="11.0" />
+                    </font>
+                    <padding>
+                        <Insets bottom="4.0" left="6.0" top="10.0" />
+                    </padding>
+                </Label>
+                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ouvrirUtilisateurs" styleClass="sidebar-button-active" text="Utilisateurs" />
+                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="Journal d'activite" />
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <VBox spacing="20.0">
+            <padding>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            </padding>
+            <children>
+                <Label text="Tableau de bord - Gestion des utilisateurs" textFill="#0C447C">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+                <HBox spacing="12.0">
+                    <children>
+                        <VBox prefWidth="170.0" spacing="4.0" styleClass="stat-card">
+                            <children>
+                                <Label text="Total utilisateurs" textFill="#888780" />
+                                <Label fx:id="totalLabel" text="0" textFill="#185FA5">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                        <VBox prefWidth="170.0" spacing="4.0" styleClass="stat-card">
+                            <children>
+                                <Label text="Actifs" textFill="#888780" />
+                                <Label fx:id="activeLabel" text="0" textFill="#3B6D11">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                        <VBox prefWidth="170.0" spacing="4.0" styleClass="stat-card">
+                            <children>
+                                <Label text="En attente" textFill="#888780" />
+                                <Label fx:id="waitingLabel" text="0" textFill="#854F0B">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                        <VBox prefWidth="170.0" spacing="4.0" styleClass="stat-card">
+                            <children>
+                                <Label text="Bloques" textFill="#888780" />
+                                <Label fx:id="blockedLabel" text="0" textFill="#A32D2D">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                <Button mnemonicParsing="false" onAction="#ouvrirUtilisateurs" styleClass="primary-button" text="Voir la liste complete" />
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
