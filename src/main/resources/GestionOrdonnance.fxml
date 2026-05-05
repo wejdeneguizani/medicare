@@ -45,7 +45,9 @@
     <Button text="🔄 Actualiser" layoutX="330" layoutY="360"
             onAction="#chargerTous"
             style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-
+    <Button text="⬅️ Retour RDV" layoutX="500" layoutY="360"
+            onAction="#retourRdv"
+            style="-fx-background-color: #607D8B; -fx-text-fill: white;"/>
     <Label fx:id="lbMessage" layoutX="30" layoutY="400"
            style="-fx-text-fill: #e53935; -fx-font-weight: bold;"/>
 

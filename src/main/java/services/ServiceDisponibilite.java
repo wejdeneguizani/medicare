@@ -112,4 +112,25 @@ public class ServiceDisponibilite implements IService<Disponibilite> {
         }
         return liste;
     }
+    public Disponibilite getById(int id) {
+        String req = "SELECT * FROM disponibilite WHERE id=?";
+        try {
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Disponibilite d = new Disponibilite();
+                d.setId(rs.getInt("id"));
+                d.setMedecinId(rs.getInt("medecin_id"));
+                d.setDateDisponible(rs.getDate("date_disponible").toLocalDate());
+                d.setHeureDebut(rs.getTime("heure_debut").toLocalTime());
+                d.setHeureFin(rs.getTime("heure_fin").toLocalTime());
+                d.setStatut(rs.getString("statut"));
+                return d;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }
