@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="700.0" prefWidth="1000.0" spacing="0.0" styleClass="patient-root" stylesheets="@../styles/app.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.medicare.controllers.PatientDashboardController">
+    
+    <!-- Navbar -->
+    <HBox alignment="CENTER_LEFT" prefHeight="80.0" spacing="30.0" styleClass="patient-navbar">
+        <Label text="🌸 MediCare" styleClass="patient-brand" />
+        <Region HBox.hgrow="ALWAYS" />
+        <HBox alignment="CENTER" spacing="25.0">
+            <Button text="My Journey" styleClass="patient-tab-active" />
+            <Button text="Logout" onAction="#handleLogout" styleClass="pill-button-primary" />
+        </HBox>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="dashboard-scroll">
+        <VBox spacing="40.0" styleClass="patient-content">
+            
+            <!-- Header Section -->
+            <HBox alignment="CENTER_LEFT">
+                <VBox spacing="5.0">
+                    <Label text="Your Wellness Hub" styleClass="wellness-title" />
+                    <Label text="Keep glowing and stay healthy!" styleClass="wellness-subtitle" />
+                </VBox>
+                <Region HBox.hgrow="ALWAYS" />
+                <HBox spacing="15.0">
+                    <Button onAction="#handleAddHabit" styleClass="btn-soft-primary" text="+ Add Habit" />
+                    <Button onAction="#handleAddMesure" styleClass="btn-soft-secondary" text="+ Log Record" />
+                </HBox>
+            </HBox>
+
+            <!-- Custom Toggle Section -->
+            <HBox alignment="CENTER_LEFT" spacing="15.0">
+                <ToggleButton fx:id="toggleHabits" selected="true" text="My Habits" styleClass="toggle-active" onAction="#showHabits">
+                    <toggleGroup>
+                        <ToggleGroup fx:id="mainToggle" />
+                    </toggleGroup>
+                </ToggleButton>
+                <ToggleButton fx:id="toggleMesures" text="My Measurements" styleClass="toggle-inactive" toggleGroup="$mainToggle" onAction="#showMesures" />
+            </HBox>
+
+            <StackPane alignment="TOP_LEFT">
+                <VBox fx:id="habitsSection" spacing="25.0" StackPane.alignment="TOP_LEFT">
+                    <ScrollPane fitToWidth="true" prefHeight="560.0" styleClass="section-scroll">
+                        <content>
+                            <FlowPane fx:id="habitudesContainer" hgap="30.0" vgap="30.0" />
+                        </content>
+                    </ScrollPane>
+                </VBox>
+                <VBox fx:id="mesuresSection" spacing="25.0" visible="false" StackPane.alignment="TOP_LEFT">
+                    <ScrollPane fitToWidth="true" prefHeight="560.0" styleClass="section-scroll">
+                        <content>
+                            <FlowPane fx:id="mesuresContainer" hgap="30.0" vgap="30.0" />
+                        </content>
+                    </ScrollPane>
+                </VBox>
+            </StackPane>
+
+        </VBox>
+    </ScrollPane>
+
+</VBox>

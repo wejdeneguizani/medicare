@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox spacing="25.0" styleClass="form-root" stylesheets="@../styles/app.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.medicare.controllers.MesureFormController">
+    
+    <VBox spacing="5.0">
+        <Label text="Health Log" styleClass="form-title" />
+        <Label text="Record your daily vitals" styleClass="form-subtitle" />
+    </VBox>
+    
+    <GridPane hgap="15.0" vgap="8.0">
+        <Label text="Related Habit" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="form-label" />
+        <ComboBox fx:id="habitudeCombo" promptText="Select Habit" GridPane.columnIndex="1" GridPane.rowIndex="0" maxWidth="Infinity"
+                  styleClass="form-combo-input" />
+        <Label fx:id="habitudeErrorLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="field-error" visible="false" managed="false" />
+
+        <Label text="Steps Taken" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="form-label" />
+        <TextField fx:id="pasField" promptText="e.g. 10000" GridPane.columnIndex="1" GridPane.rowIndex="2" 
+                   styleClass="form-text-input" />
+        <Label fx:id="pasErrorLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="field-error" visible="false" managed="false" />
+        
+        <Label text="Water Intake (L)" GridPane.columnIndex="0" GridPane.rowIndex="4" styleClass="form-label" />
+        <TextField fx:id="eauField" promptText="e.g. 2.5" GridPane.columnIndex="1" GridPane.rowIndex="4"
+                   styleClass="form-text-input" />
+        <Label fx:id="eauErrorLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" styleClass="field-error" visible="false" managed="false" />
+        
+        <Label text="Systolic (High)" GridPane.columnIndex="0" GridPane.rowIndex="6" styleClass="form-label" />
+        <TextField fx:id="sysField" promptText="e.g. 120" GridPane.columnIndex="1" GridPane.rowIndex="6"
+                   styleClass="form-text-input" />
+        <Label fx:id="sysErrorLabel" GridPane.columnIndex="1" GridPane.rowIndex="7" styleClass="field-error" visible="false" managed="false" />
+        
+        <Label text="Diastolic (Low)" GridPane.columnIndex="0" GridPane.rowIndex="8" styleClass="form-label" />
+        <TextField fx:id="diaField" promptText="e.g. 80" GridPane.columnIndex="1" GridPane.rowIndex="8"
+                   styleClass="form-text-input" />
+        <Label fx:id="diaErrorLabel" GridPane.columnIndex="1" GridPane.rowIndex="9" styleClass="field-error" visible="false" managed="false" />
+
+        <Label text="Calories Burned" GridPane.columnIndex="0" GridPane.rowIndex="10" styleClass="form-label" />
+        <TextField fx:id="calField" promptText="e.g. 500" GridPane.columnIndex="1" GridPane.rowIndex="10"
+                   styleClass="form-text-input" />
+        <Label fx:id="calErrorLabel" GridPane.columnIndex="1" GridPane.rowIndex="11" styleClass="field-error" visible="false" managed="false" />
+
+        <Label text="Weight (Kg)" GridPane.columnIndex="0" GridPane.rowIndex="12" styleClass="form-label" />
+        <TextField fx:id="weightField" promptText="e.g. 70" GridPane.columnIndex="1" GridPane.rowIndex="12"
+                   styleClass="form-text-input" />
+        <Label fx:id="weightErrorLabel" GridPane.columnIndex="1" GridPane.rowIndex="13" styleClass="field-error" visible="false" managed="false" />
+
+        <Label text="Sleep (Hours)" GridPane.columnIndex="0" GridPane.rowIndex="14" styleClass="form-label" />
+        <TextField fx:id="sleepField" promptText="e.g. 8" GridPane.columnIndex="1" GridPane.rowIndex="14"
+                   styleClass="form-text-input" />
+        <Label fx:id="sleepErrorLabel" GridPane.columnIndex="1" GridPane.rowIndex="15" styleClass="field-error" visible="false" managed="false" />
+
+        <columnConstraints>
+            <ColumnConstraints minWidth="120" />
+            <ColumnConstraints hgrow="ALWAYS" />
+        </columnConstraints>
+    </GridPane>
+    
+    <HBox alignment="CENTER_RIGHT" spacing="15.0">
+        <Button text="Cancel" onAction="#handleCancel" 
+                styleClass="btn-cancel" />
+        <Button text="Log Vitals" onAction="#handleSave" 
+                styleClass="btn-primary" />
+    </HBox>
+
+</VBox>

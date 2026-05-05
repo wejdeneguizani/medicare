@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.Circle?>
+
+<VBox alignment="CENTER" spacing="50.0" prefHeight="700.0" prefWidth="1000.0" 
+      styleClass="selection-root" stylesheets="@../styles/app.css"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="tn.esprit.medicare.controllers.SelectionController">
+    
+    <VBox alignment="CENTER" spacing="10.0">
+        <Label text="🌸 MediCare" styleClass="selection-brand" />
+        <Label text="Your health journey begins here" styleClass="selection-subtitle" />
+    </VBox>
+
+    <HBox alignment="CENTER" spacing="60.0">
+        <!-- Doctor Card -->
+        <VBox fx:id="doctorCard" onMouseClicked="#handleDoctorSelection" alignment="CENTER" spacing="25.0" 
+              styleClass="selection-card">
+            <StackPane>
+                <Circle radius="50" styleClass="selection-icon-circle" />
+                <Label text="🩺" styleClass="selection-emoji" />
+            </StackPane>
+            <VBox alignment="CENTER" spacing="5.0">
+                <Label text="Doctor Portal" styleClass="selection-card-title" />
+                <Label text="Monitor &amp; manage patient records" styleClass="selection-card-subtitle" textAlignment="CENTER" wrapText="true" />
+            </VBox>
+        </VBox>
+
+        <!-- Patient Card -->
+        <VBox fx:id="patientCard" onMouseClicked="#handlePatientSelection" alignment="CENTER" spacing="25.0" 
+              styleClass="selection-card">
+            <StackPane>
+                <Circle radius="50" styleClass="selection-icon-circle" />
+                <Label text="👤" styleClass="selection-emoji" />
+            </StackPane>
+            <VBox alignment="CENTER" spacing="5.0">
+                <Label text="Patient Portal" styleClass="selection-card-title" />
+                <Label text="Track your daily health &amp; habits" styleClass="selection-card-subtitle" textAlignment="CENTER" wrapText="true" />
+            </VBox>
+        </VBox>
+    </HBox>
+
+    <Label text="Select your dashboard to continue" styleClass="selection-footer" />
+
+</VBox>

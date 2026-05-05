@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox spacing="25.0" styleClass="form-root" stylesheets="@../styles/app.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.medicare.controllers.HabitudeFormController">
+    
+    <VBox spacing="5.0">
+        <Label text="Habit Details" styleClass="form-title" />
+        <Label text="Personalize your health routine" styleClass="form-subtitle" />
+    </VBox>
+    
+    <GridPane hgap="15.0" vgap="8.0">
+        <Label text="Title" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="form-label" />
+        <TextField fx:id="titleField" promptText="e.g. Morning Yoga" GridPane.columnIndex="1" GridPane.rowIndex="0" 
+                   styleClass="form-text-input" />
+        <Label fx:id="titleErrorLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="field-error" visible="false" managed="false" />
+        
+        <Label text="Category" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="form-label" />
+        <ComboBox fx:id="typeCombo" promptText="Select Type" GridPane.columnIndex="1" GridPane.rowIndex="2" maxWidth="Infinity"
+                  styleClass="form-combo-input" />
+        <Label fx:id="typeErrorLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="field-error" visible="false" managed="false" />
+        
+        <Label text="Daily Goal" GridPane.columnIndex="0" GridPane.rowIndex="4" styleClass="form-label" />
+        <TextField fx:id="goalField" promptText="e.g. 30" GridPane.columnIndex="1" GridPane.rowIndex="4"
+                   styleClass="form-text-input" />
+        <Label fx:id="goalErrorLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" styleClass="field-error" visible="false" managed="false" />
+        
+        <Label text="Unit" GridPane.columnIndex="0" GridPane.rowIndex="6" styleClass="form-label" />
+        <ComboBox fx:id="unitCombo" promptText="Select Unit" GridPane.columnIndex="1" GridPane.rowIndex="6" maxWidth="Infinity"
+                  styleClass="form-combo-input" />
+        <Label fx:id="unitErrorLabel" GridPane.columnIndex="1" GridPane.rowIndex="7" styleClass="field-error" visible="false" managed="false" />
+        
+        <Label text="Status" GridPane.columnIndex="0" GridPane.rowIndex="8" styleClass="form-label" />
+        <CheckBox fx:id="activeCheck" text="Currently Active" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="8"
+                  styleClass="form-check" />
+
+        <columnConstraints>
+            <ColumnConstraints minWidth="100" />
+            <ColumnConstraints hgrow="ALWAYS" />
+        </columnConstraints>
+    </GridPane>
+    
+    <HBox alignment="CENTER_RIGHT" spacing="15.0">
+        <Button text="Cancel" onAction="#handleCancel" 
+                styleClass="btn-cancel" />
+        <Button text="Save Habit" onAction="#handleSave" 
+                styleClass="btn-primary" />
+    </HBox>
+
+</VBox>
