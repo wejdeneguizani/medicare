@@ -13,12 +13,12 @@ public class Forme {
         this.voieAdministration = voieAdministration;
     }
 
-    public int    getIdForme()                          { return idForme; }
-    public void   setIdForme(int id)                    { this.idForme = id; }
-    public String getLibelle()                          { return libelle; }
-    public void   setLibelle(String libelle)            { this.libelle = libelle; }
-    public String getVoieAdministration()               { return voieAdministration; }
-    public void   setVoieAdministration(String voie)    { this.voieAdministration = voie; }
+    public int    getIdForme()                        { return idForme; }
+    public void   setIdForme(int id)                  { this.idForme = id; }
+    public String getLibelle()                        { return libelle; }
+    public void   setLibelle(String libelle)          { this.libelle = libelle; }
+    public String getVoieAdministration()             { return voieAdministration; }
+    public void   setVoieAdministration(String voie)  { this.voieAdministration = voie; }
 
     @Override
     public String toString() {
