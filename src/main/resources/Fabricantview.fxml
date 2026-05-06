@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<AnchorPane prefHeight="650.0" prefWidth="950.0"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.medical.controllers.FabricantController"
+            stylesheets="@style.css">
+
+    <children>
+        <VBox spacing="15" layoutX="20" layoutY="20" prefWidth="910">
+
+            <!-- HEADER -->
+            <HBox spacing="15" alignment="CENTER_LEFT"
+                  style="-fx-background-color: #fce4ec;
+                   -fx-padding: 15px;
+                   -fx-background-radius: 12px;">
+                <ImageView fitWidth="80" fitHeight="80" preserveRatio="true">
+                    <image>
+                        <Image url="@logo.png"/>
+                    </image>
+                </ImageView>
+                <VBox spacing="4">
+                    <Label text="Medicare+"
+                           style="-fx-font-size: 28px;
+                        -fx-font-weight: bold;
+                        -fx-text-fill: #e91e8c;"/>
+                    <Label text="Votre santé, notre priorité"
+                           style="-fx-font-size: 12px;
+                        -fx-text-fill: #f48fb1;
+                        -fx-font-style: italic;"/>
+                </VBox>
+            </HBox>
+
+            <!-- NAVIGATION -->
+            <HBox spacing="10" alignment="CENTER"
+                  style="-fx-background-color: #f8bbd0;
+             -fx-padding: 10px;
+             -fx-background-radius: 10px;">
+                <Button text="💊 Médicaments"
+                        onAction="#allerMedicaments"
+                        style="-fx-background-color: #f48fb1;
+                   -fx-text-fill: white;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 8px;
+                   -fx-padding: 8px 20px;"/>
+                <Button text="📋 Catégories"
+                        onAction="#allerCategories"
+                        style="-fx-background-color: #f48fb1;
+                   -fx-text-fill: white;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 8px;
+                   -fx-padding: 8px 20px;"/>
+                <Button text="🏭 Fabricants"
+                        onAction="#allerFabricants"
+                        style="-fx-background-color: #e91e8c;
+                   -fx-text-fill: white;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 8px;
+                   -fx-padding: 8px 20px;"/>
+                <Button text="💉 Formes"
+                        onAction="#allerFormes"
+                        style="-fx-background-color: #f48fb1;
+                   -fx-text-fill: white;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 8px;
+                   -fx-padding: 8px 20px;"/>
+                <Button text="📦 Stock"
+                        onAction="#allerStock"
+                        style="-fx-background-color: #f48fb1;
+                   -fx-text-fill: white;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 8px;
+                   -fx-padding: 8px 20px;"/>
+            </HBox>
+
+            <!-- TITRE -->
+            <Label text="Gestion des Fabricants" styleClass="titre"/>
+
+            <!-- FORMULAIRE -->
+            <HBox spacing="10">
+                <Label text="Nom :" style="-fx-pref-width: 140"/>
+                <TextField fx:id="tfNom" promptText="Nom du fabricant" prefWidth="200"/>
+            </HBox>
+
+            <HBox spacing="10">
+                <Label text="Pays :" style="-fx-pref-width: 140"/>
+                <TextField fx:id="tfPays" promptText="Pays" prefWidth="200"/>
+            </HBox>
+
+            <HBox spacing="10">
+                <Label text="Contact :" style="-fx-pref-width: 140"/>
+                <TextField fx:id="tfContact" promptText="Email ou téléphone" prefWidth="200"/>
+            </HBox>
+
+            <HBox spacing="10">
+                <Label text="Site Web :" style="-fx-pref-width: 140"/>
+                <TextField fx:id="tfSiteWeb" promptText="www.example.com" prefWidth="200"/>
+            </HBox>
+
+            <!-- BOUTONS -->
+            <HBox spacing="10">
+                <Button text="➕ Ajouter" onAction="#ajouterFabricant"/>
+                <Button text="🗑 Supprimer" onAction="#supprimerFabricant"
+                        styleClass="button-supprimer"/>
+            </HBox>
+
+            <!-- MESSAGE -->
+            <Label fx:id="lbMessage"/>
+
+            <!-- TABLE -->
+            <TableView fx:id="tableView" prefHeight="280" prefWidth="910">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                    <TableColumn fx:id="colNom" text="Nom" prefWidth="200"/>
+                    <TableColumn fx:id="colPays" text="Pays" prefWidth="150"/>
+                    <TableColumn fx:id="colContact" text="Contact" prefWidth="200"/>
+                    <TableColumn fx:id="colSiteWeb" text="Site Web" prefWidth="200"/>
+                </columns>
+            </TableView>
+
+        </VBox>
+    </children>
+</AnchorPane>
