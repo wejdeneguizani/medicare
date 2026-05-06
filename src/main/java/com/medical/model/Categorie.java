@@ -15,14 +15,14 @@ public class Categorie {
         this.description = description;
     }
 
-    public int    getIdCategorie()              { return idCategorie; }
-    public void   setIdCategorie(int id)        { this.idCategorie = id; }
-    public String getLibelle()                  { return libelle; }
-    public void   setLibelle(String libelle)    { this.libelle = libelle; }
-    public String getCodeAtc()                  { return codeAtc; }
-    public void   setCodeAtc(String codeAtc)    { this.codeAtc = codeAtc; }
-    public String getDescription()              { return description; }
-    public void   setDescription(String desc)   { this.description = desc; }
+    public int    getIdCategorie()            { return idCategorie; }
+    public void   setIdCategorie(int id)      { this.idCategorie = id; }
+    public String getLibelle()                { return libelle; }
+    public void   setLibelle(String libelle)  { this.libelle = libelle; }
+    public String getCodeAtc()                { return codeAtc; }
+    public void   setCodeAtc(String codeAtc)  { this.codeAtc = codeAtc; }
+    public String getDescription()            { return description; }
+    public void   setDescription(String desc) { this.description = desc; }
 
     @Override
     public String toString() {
