@@ -36,37 +36,37 @@ public class Medicament {
         this.estActif          = estActif;
     }
 
-    public int     getIdMedicament()                        { return idMedicament; }
-    public void    setIdMedicament(int id)                  { this.idMedicament = id; }
-    public String  getNomCommercial()                       { return nomCommercial; }
-    public void    setNomCommercial(String nomCommercial)   { this.nomCommercial = nomCommercial; }
-    public String  getNomDci()                              { return nomDci; }
-    public void    setNomDci(String nomDci)                 { this.nomDci = nomDci; }
-    public String  getCodeBarre()                           { return codeBarre; }
-    public void    setCodeBarre(String codeBarre)           { this.codeBarre = codeBarre; }
-    public int     getIdCategorie()                         { return idCategorie; }
-    public void    setIdCategorie(int idCategorie)          { this.idCategorie = idCategorie; }
-    public int     getIdForme()                             { return idForme; }
-    public void    setIdForme(int idForme)                  { this.idForme = idForme; }
-    public int     getIdFabricant()                         { return idFabricant; }
-    public void    setIdFabricant(int idFabricant)          { this.idFabricant = idFabricant; }
-    public String  getDosage()                              { return dosage; }
-    public void    setDosage(String dosage)                 { this.dosage = dosage; }
-    public String  getUniteDosage()                         { return uniteDosage; }
-    public void    setUniteDosage(String uniteDosage)       { this.uniteDosage = uniteDosage; }
-    public String  getDescription()                         { return description; }
-    public void    setDescription(String description)       { this.description = description; }
-    public String  getContreIndications()                   { return contreIndications; }
-    public void    setContreIndications(String ci)          { this.contreIndications = ci; }
-    public String  getEffetsSecondaires()                   { return effetsSecondaires; }
-    public void    setEffetsSecondaires(String es)          { this.effetsSecondaires = es; }
-    public boolean isEstActif()                             { return estActif; }
-    public void    setEstActif(boolean estActif)            { this.estActif = estActif; }
+    public int     getIdMedicament()                      { return idMedicament; }
+    public void    setIdMedicament(int id)                { this.idMedicament = id; }
+    public String  getNomCommercial()                     { return nomCommercial; }
+    public void    setNomCommercial(String nomCommercial) { this.nomCommercial = nomCommercial; }
+    public String  getNomDci()                            { return nomDci; }
+    public void    setNomDci(String nomDci)               { this.nomDci = nomDci; }
+    public String  getCodeBarre()                         { return codeBarre; }
+    public void    setCodeBarre(String codeBarre)         { this.codeBarre = codeBarre; }
+    public int     getIdCategorie()                       { return idCategorie; }
+    public void    setIdCategorie(int idCategorie)        { this.idCategorie = idCategorie; }
+    public int     getIdForme()                           { return idForme; }
+    public void    setIdForme(int idForme)                { this.idForme = idForme; }
+    public int     getIdFabricant()                       { return idFabricant; }
+    public void    setIdFabricant(int idFabricant)        { this.idFabricant = idFabricant; }
+    public String  getDosage()                            { return dosage; }
+    public void    setDosage(String dosage)               { this.dosage = dosage; }
+    public String  getUniteDosage()                       { return uniteDosage; }
+    public void    setUniteDosage(String uniteDosage)     { this.uniteDosage = uniteDosage; }
+    public String  getDescription()                       { return description; }
+    public void    setDescription(String description)     { this.description = description; }
+    public String  getContreIndications()                 { return contreIndications; }
+    public void    setContreIndications(String ci)        { this.contreIndications = ci; }
+    public String  getEffetsSecondaires()                 { return effetsSecondaires; }
+    public void    setEffetsSecondaires(String es)        { this.effetsSecondaires = es; }
+    public boolean isEstActif()                           { return estActif; }
+    public void    setEstActif(boolean estActif)          { this.estActif = estActif; }
 
     @Override
     public String toString() {
         return "Medicament{id=" + idMedicament + ", nom='" + nomCommercial +
-               "', dci='" + nomDci + "', dosage='" + dosage + " " + uniteDosage +
-               "', actif=" + estActif + "}";
+                "', dci='" + nomDci + "', dosage='" + dosage + " " + uniteDosage +
+                "', actif=" + estActif + "}";
     }
 }
