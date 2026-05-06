@@ -8,18 +8,44 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0"
+<AnchorPane prefHeight="650.0" prefWidth="950.0"
             xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.medical.controllers.MedicamentController">
+            fx:controller="com.medical.controllers.MedicamentController"
+            stylesheets="@style.css">
 
     <children>
-        <VBox spacing="15" layoutX="20" layoutY="20">
+        <VBox spacing="15" layoutX="20" layoutY="20" prefWidth="910">
 
-            <Label text="Gestion des Médicaments"
-                   style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+            <!-- HEADER avec logo -->
+            <HBox spacing="15" alignment="CENTER_LEFT"
+                  style="-fx-background-color: #fce4ec;
+                   -fx-padding: 15px;
+                   -fx-background-radius: 12px;">
+                <ImageView fitWidth="80" fitHeight="80" preserveRatio="true">
+                    <image>
+                        <Image url="@logo.png"/>
+                    </image>
+                </ImageView>
+                <VBox spacing="4">
+                    <Label text="Medicare+"
+                           style="-fx-font-size: 28px;
+                        -fx-font-weight: bold;
+                        -fx-text-fill: #e91e8c;"/>
+                    <Label text="Votre santé, notre priorité"
+                           style="-fx-font-size: 12px;
+                        -fx-text-fill: #f48fb1;
+                        -fx-font-style: italic;"/>
+                </VBox>
+            </HBox>
 
+            <!-- TITRE -->
+            <Label text="Gestion des Médicaments" styleClass="titre"/>
+
+            <!-- FORMULAIRE -->
             <HBox spacing="10">
                 <Label text="Nom commercial :" style="-fx-pref-width: 140"/>
                 <TextField fx:id="tfNom" promptText="Nom commercial" prefWidth="200"/>
@@ -36,20 +62,37 @@
             </HBox>
 
             <HBox spacing="10">
-                <Button text="Ajouter" onAction="#ajouterMedicament"
-                        style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-                <Button text="Supprimer" onAction="#supprimerMedicament"
-                        style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+                <Label text="ID Catégorie :" style="-fx-pref-width: 140"/>
+                <TextField fx:id="tfIdCategorie" promptText="ex: 1" prefWidth="200"/>
             </HBox>
 
-            <Label fx:id="lbMessage" style="-fx-text-fill: green;"/>
+            <HBox spacing="10">
+                <Label text="ID Forme :" style="-fx-pref-width: 140"/>
+                <TextField fx:id="tfIdForme" promptText="ex: 1" prefWidth="200"/>
+            </HBox>
 
-            <TableView fx:id="tableView" prefHeight="300" prefWidth="860">
+            <HBox spacing="10">
+                <Label text="ID Fabricant :" style="-fx-pref-width: 140"/>
+                <TextField fx:id="tfIdFabricant" promptText="ex: 1" prefWidth="200"/>
+            </HBox>
+
+            <!-- BOUTONS -->
+            <HBox spacing="10">
+                <Button text="➕ Ajouter" onAction="#ajouterMedicament"/>
+                <Button text="🗑 Supprimer" onAction="#supprimerMedicament"
+                        styleClass="button-supprimer"/>
+            </HBox>
+
+            <!-- MESSAGE -->
+            <Label fx:id="lbMessage"/>
+
+            <!-- TABLE -->
+            <TableView fx:id="tableView" prefHeight="280" prefWidth="910">
                 <columns>
-                    <TableColumn fx:id="colId"     text="ID"      prefWidth="60"/>
-                    <TableColumn fx:id="colNom"    text="Nom"     prefWidth="200"/>
-                    <TableColumn fx:id="colDci"    text="DCI"     prefWidth="200"/>
-                    <TableColumn fx:id="colDosage" text="Dosage"  prefWidth="150"/>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                    <TableColumn fx:id="colNom" text="Nom commercial" prefWidth="200"/>
+                    <TableColumn fx:id="colDci" text="DCI" prefWidth="200"/>
+                    <TableColumn fx:id="colDosage" text="Dosage" prefWidth="150"/>
                 </columns>
             </TableView>
 

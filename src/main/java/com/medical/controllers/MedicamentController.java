@@ -14,6 +14,9 @@ public class MedicamentController {
     @FXML private TextField tfNom;
     @FXML private TextField tfDci;
     @FXML private TextField tfDosage;
+    @FXML private TextField tfIdCategorie;  // ajouter
+    @FXML private TextField tfIdForme;
+    @FXML private TextField tfIdFabricant;
     @FXML private TableView<Medicament> tableView;
     @FXML private TableColumn<Medicament, Integer> colId;
     @FXML private TableColumn<Medicament, String> colNom;
@@ -40,13 +43,29 @@ public class MedicamentController {
 
     @FXML
     public void ajouterMedicament(ActionEvent e) {
-        Medicament m = new Medicament();
-        m.setNomCommercial(tfNom.getText());
-        m.setNomDci(tfDci.getText());
-        m.setDosage(tfDosage.getText());
-        boolean ok = service.ajouter(m);
-        lbMessage.setText(ok ? "✅ Ajouté !" : "❌ Erreur !");
-        chargerTable();
+        try {
+            Medicament m = new Medicament();
+            m.setNomCommercial(tfNom.getText());
+            m.setNomDci(tfDci.getText());
+            m.setDosage(tfDosage.getText());
+            m.setIdCategorie(Integer.parseInt(tfIdCategorie.getText()));
+            m.setIdForme(Integer.parseInt(tfIdForme.getText()));
+            m.setIdFabricant(Integer.parseInt(tfIdFabricant.getText()));
+            m.setEstActif(true);
+            boolean ok = service.ajouter(m);
+            lbMessage.setText(ok ? "✅ Ajouté !" : "❌ Erreur !");
+            if (ok) {
+                tfNom.clear();
+                tfDci.clear();
+                tfDosage.clear();
+                tfIdCategorie.clear();
+                tfIdForme.clear();
+                tfIdFabricant.clear();
+            }
+            chargerTable();
+        } catch (NumberFormatException ex) {
+            lbMessage.setText("⚠️ Les IDs doivent être des nombres !");
+        }
     }
 
     @FXML
