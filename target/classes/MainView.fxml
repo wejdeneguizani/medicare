@@ -41,6 +41,26 @@
                         -fx-font-style: italic;"/>
                 </VBox>
             </HBox>
+            <!-- NAVIGATION -->
+            <HBox spacing="10" alignment="CENTER"
+                  style="-fx-background-color: #f8bbd0;
+             -fx-padding: 10px;
+             -fx-background-radius: 10px;">
+                <Button text="💊 Médicaments"
+                        onAction="#allerMedicaments"
+                        style="-fx-background-color: #e91e8c;
+                   -fx-text-fill: white;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 8px;
+                   -fx-padding: 8px 20px;"/>
+                <Button text="📋 Catégories"
+                        onAction="#allerCategories"
+                        style="-fx-background-color: #f48fb1;
+                   -fx-text-fill: white;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 8px;
+                   -fx-padding: 8px 20px;"/>
+            </HBox>
 
             <!-- TITRE -->
             <Label text="Gestion des Médicaments" styleClass="titre"/>

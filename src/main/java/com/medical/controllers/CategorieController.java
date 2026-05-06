@@ -8,6 +8,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import java.io.IOException;
 
 public class CategorieController {
 
@@ -85,5 +88,21 @@ public class CategorieController {
             lbMessage.setStyle(
                     "-fx-text-fill: #e65100; -fx-font-weight: bold;");
         }
+    }
+    @FXML
+    public void allerMedicaments(ActionEvent e) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/MainView.fxml"));
+            Parent root = loader.load();
+            tableView.getScene().setRoot(root);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @FXML
+    public void allerCategories(ActionEvent e) {
+        // déjà sur la vue Catégories
     }
 }

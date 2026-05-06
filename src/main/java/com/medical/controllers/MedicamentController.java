@@ -8,6 +8,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import java.io.IOException;
 
 public class MedicamentController {
 
@@ -76,6 +79,22 @@ public class MedicamentController {
             chargerTable();
         } else {
             lbMessage.setText("⚠️ Sélectionnez un médicament !");
+        }
+    }
+    @FXML
+    public void allerMedicaments(ActionEvent e) {
+        // déjà sur la vue Médicaments
+    }
+
+    @FXML
+    public void allerCategories(ActionEvent e) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/CategorieView.fxml"));
+            Parent root = loader.load();
+            tableView.getScene().setRoot(root);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 }
