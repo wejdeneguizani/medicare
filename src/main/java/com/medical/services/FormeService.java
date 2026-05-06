@@ -1,13 +1,13 @@
 package com.medical.services;
 
-import com.medical.dao.FormeDAO;
+
 import com.medical.interfaces.IService;
 import com.medical.model.Forme;
 import java.util.List;
 
 public class FormeService implements IService<Forme> {
 
-    private FormeDAO dao = new FormeDAO();
+    private Forme model = new Forme();
 
     @Override
     public boolean ajouter(Forme f) {
