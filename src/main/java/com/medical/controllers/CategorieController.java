@@ -89,20 +89,21 @@ public class CategorieController {
                     "-fx-text-fill: #e65100; -fx-font-weight: bold;");
         }
     }
-    @FXML
-    public void allerMedicaments(ActionEvent e) {
+    @FXML public void allerMedicaments(ActionEvent e) { naviguer("/MainView.fxml"); }
+    @FXML public void allerCategories(ActionEvent e)  { /* déjà sur cette vue */ }
+    @FXML public void allerFabricants(ActionEvent e)  { naviguer("/FabricantView.fxml"); }
+    @FXML public void allerFormes(ActionEvent e)      { naviguer("/FormeView.fxml"); }
+    @FXML public void allerStock(ActionEvent e)       { naviguer("/StockView.fxml"); }
+    @FXML public void allerAlertes(ActionEvent e)     { naviguer("/AlerteView.fxml"); }
+    @FXML public void allerChatbot(ActionEvent e)     { naviguer("/ChatbotView.fxml"); }
+
+    private void naviguer(String fxml) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/MainView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Parent root = loader.load();
             tableView.getScene().setRoot(root);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-    }
-
-    @FXML
-    public void allerCategories(ActionEvent e) {
-        // déjà sur la vue Catégories
     }
 }

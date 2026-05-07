@@ -141,6 +141,8 @@ public class StockController {
     @FXML public void allerFabricants(ActionEvent e)  { naviguer("/FabricantView.fxml"); }
     @FXML public void allerFormes(ActionEvent e)      { naviguer("/FormeView.fxml"); }
     @FXML public void allerStock(ActionEvent e)       { /* déjà sur cette vue */ }
+    @FXML public void allerAlertes(ActionEvent e)     { naviguer("/AlerteView.fxml"); }
+    @FXML public void allerChatbot(ActionEvent e)     { naviguer("/ChatbotView.fxml"); }
 
     private void naviguer(String fxml) {
         try {

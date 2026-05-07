@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<AnchorPane prefHeight="680.0" prefWidth="950.0"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.medical.controllers.ChatbotController"
+            stylesheets="@style.css">
+
+    <children>
+        <VBox spacing="15" layoutX="20" layoutY="20" prefWidth="910">
+
+            <!-- HEADER -->
+            <HBox spacing="15" alignment="CENTER_LEFT"
+                  style="-fx-background-color: #fdf0f5; -fx-padding: 15px; -fx-background-radius: 12px;">
+                <ImageView fitWidth="80" fitHeight="80" preserveRatio="true">
+                    <image><Image url="@logo.png"/></image>
+                </ImageView>
+                <VBox spacing="4">
+                    <Label text="Medicare+"
+                           style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #f48fb1;"/>
+                    <Label text="Votre santé, notre priorité"
+                           style="-fx-font-size: 12px; -fx-text-fill: #f9c4d8; -fx-font-style: italic;"/>
+                </VBox>
+            </HBox>
+
+            <!-- NAVIGATION -->
+            <HBox spacing="10" alignment="CENTER"
+                  style="-fx-background-color: #f9c4d8; -fx-padding: 10px; -fx-background-radius: 10px;">
+                <Button text=" Médicaments" onAction="#allerMedicaments"
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
+                <Button text=" Catégories" onAction="#allerCategories"
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
+                <Button text=" Fabricants" onAction="#allerFabricants"
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
+                <Button text=" Formes" onAction="#allerFormes"
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
+                <Button text=" Stock" onAction="#allerStock"
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
+                <Button text=" Alertes" onAction="#allerAlertes"
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
+                <Button text=" Chatbot" onAction="#allerChatbot"
+                        style="-fx-background-color: #f48fb1; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
+            </HBox>
+
+            <!-- TITRE -->
+            <Label text=" Assistant Medicare+" styleClass="titre"/>
+
+            <!-- ZONE DE CHAT -->
+            <ScrollPane fx:id="scrollPane" prefHeight="380" prefWidth="910"
+                        fitToWidth="true"
+                        style="-fx-background-color: #fff8fb; -fx-border-color: #f8bbd0; -fx-border-radius: 10px; -fx-background-radius: 10px;">
+                <content>
+                    <VBox fx:id="chatBox" spacing="10" style="-fx-padding: 15px;"/>
+                </content>
+            </ScrollPane>
+
+            <!-- SUGGESTIONS RAPIDES -->
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="Questions rapides :" style="-fx-font-weight: bold; -fx-text-fill: #ad1457;"/>
+                <Button text=" Effets secondaires" onAction="#questionEffets"
+                        style="-fx-background-color: #fdf0f5; -fx-text-fill: #ad1457; -fx-border-color: #f8bbd0; -fx-border-radius: 15px; -fx-background-radius: 15px; -fx-padding: 5px 12px; -fx-font-size: 11px;"/>
+                <Button text=" Quand prendre ?" onAction="#questionQuand"
+                        style="-fx-background-color: #fdf0f5; -fx-text-fill: #ad1457; -fx-border-color: #f8bbd0; -fx-border-radius: 15px; -fx-background-radius: 15px; -fx-padding: 5px 12px; -fx-font-size: 11px;"/>
+                <Button text=" Contre-indications" onAction="#questionContre"
+                        style="-fx-background-color: #fdf0f5; -fx-text-fill: #ad1457; -fx-border-color: #f8bbd0; -fx-border-radius: 15px; -fx-background-radius: 15px; -fx-padding: 5px 12px; -fx-font-size: 11px;"/>
+                <Button text=" Stock disponible" onAction="#questionStock"
+                        style="-fx-background-color: #fdf0f5; -fx-text-fill: #ad1457; -fx-border-color: #f8bbd0; -fx-border-radius: 15px; -fx-background-radius: 15px; -fx-padding: 5px 12px; -fx-font-size: 11px;"/>
+            </HBox>
+
+            <!-- INPUT -->
+            <HBox spacing="10" alignment="CENTER">
+                <TextField fx:id="tfMessage" promptText="Posez votre question ici..."
+                           prefWidth="780"
+                           style="-fx-background-color: #fff8fb; -fx-border-color: #f8bbd0; -fx-border-radius: 20px; -fx-background-radius: 20px; -fx-padding: 10px 15px; -fx-font-size: 13px;"/>
+                <Button text="Envoyer ➤" onAction="#envoyerMessage"
+                        style="-fx-background-color: #f48fb1; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px; -fx-padding: 10px 20px;"/>
+            </HBox>
+
+        </VBox>
+    </children>
+</AnchorPane>

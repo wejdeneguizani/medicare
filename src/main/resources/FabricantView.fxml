@@ -14,13 +14,13 @@
 <AnchorPane prefHeight="650.0" prefWidth="950.0"
             xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.medical.controllers.MedicamentController"
+            fx:controller="com.medical.controllers.FabricantController"
             stylesheets="@style.css">
 
     <children>
         <VBox spacing="15" layoutX="20" layoutY="20" prefWidth="910">
 
-            <!-- HEADER avec logo -->
+            <!-- HEADER -->
             <HBox spacing="15" alignment="CENTER_LEFT"
                   style="-fx-background-color: #fce4ec;
                    -fx-padding: 15px;
@@ -41,14 +41,15 @@
                         -fx-font-style: italic;"/>
                 </VBox>
             </HBox>
+
             <HBox spacing="8" alignment="CENTER"
                   style="-fx-background-color: #f9c4d8; -fx-padding: 10px; -fx-background-radius: 10px;">
                 <Button text=" Médicaments" onAction="#allerMedicaments"
-                        style="-fx-background-color: #f48fb1; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 15px;"/>
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 15px;"/>
                 <Button text=" Catégories" onAction="#allerCategories"
                         style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 15px;"/>
                 <Button text=" Fabricants" onAction="#allerFabricants"
-                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 15px;"/>
+                        style="-fx-background-color: #f48fb1; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 15px;"/>
                 <Button text=" Formes" onAction="#allerFormes"
                         style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 15px;"/>
                 <Button text=" Stock" onAction="#allerStock"
@@ -60,43 +61,33 @@
             </HBox>
 
             <!-- TITRE -->
-            <Label text="Gestion des Médicaments" styleClass="titre"/>
+            <Label text="Gestion des Fabricants" styleClass="titre"/>
 
             <!-- FORMULAIRE -->
             <HBox spacing="10">
-                <Label text="Nom commercial :" style="-fx-pref-width: 140"/>
-                <TextField fx:id="tfNom" promptText="Nom commercial" prefWidth="200"/>
+                <Label text="Nom :" style="-fx-pref-width: 140"/>
+                <TextField fx:id="tfNom" promptText="Nom du fabricant" prefWidth="200"/>
             </HBox>
 
             <HBox spacing="10">
-                <Label text="Nom DCI :" style="-fx-pref-width: 140"/>
-                <TextField fx:id="tfDci" promptText="Nom DCI" prefWidth="200"/>
+                <Label text="Pays :" style="-fx-pref-width: 140"/>
+                <TextField fx:id="tfPays" promptText="Pays" prefWidth="200"/>
             </HBox>
 
             <HBox spacing="10">
-                <Label text="Dosage :" style="-fx-pref-width: 140"/>
-                <TextField fx:id="tfDosage" promptText="Dosage" prefWidth="200"/>
+                <Label text="Contact :" style="-fx-pref-width: 140"/>
+                <TextField fx:id="tfContact" promptText="Email ou téléphone" prefWidth="200"/>
             </HBox>
 
             <HBox spacing="10">
-                <Label text="ID Catégorie :" style="-fx-pref-width: 140"/>
-                <TextField fx:id="tfIdCategorie" promptText="ex: 1" prefWidth="200"/>
-            </HBox>
-
-            <HBox spacing="10">
-                <Label text="ID Forme :" style="-fx-pref-width: 140"/>
-                <TextField fx:id="tfIdForme" promptText="ex: 1" prefWidth="200"/>
-            </HBox>
-
-            <HBox spacing="10">
-                <Label text="ID Fabricant :" style="-fx-pref-width: 140"/>
-                <TextField fx:id="tfIdFabricant" promptText="ex: 1" prefWidth="200"/>
+                <Label text="Site Web :" style="-fx-pref-width: 140"/>
+                <TextField fx:id="tfSiteWeb" promptText="www.example.com" prefWidth="200"/>
             </HBox>
 
             <!-- BOUTONS -->
             <HBox spacing="10">
-                <Button text="➕ Ajouter" onAction="#ajouterMedicament"/>
-                <Button text="🗑 Supprimer" onAction="#supprimerMedicament"
+                <Button text=" Ajouter" onAction="#ajouterFabricant"/>
+                <Button text="Supprimer" onAction="#supprimerFabricant"
                         styleClass="button-supprimer"/>
             </HBox>
 
@@ -107,9 +98,10 @@
             <TableView fx:id="tableView" prefHeight="280" prefWidth="910">
                 <columns>
                     <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
-                    <TableColumn fx:id="colNom" text="Nom commercial" prefWidth="200"/>
-                    <TableColumn fx:id="colDci" text="DCI" prefWidth="200"/>
-                    <TableColumn fx:id="colDosage" text="Dosage" prefWidth="150"/>
+                    <TableColumn fx:id="colNom" text="Nom" prefWidth="200"/>
+                    <TableColumn fx:id="colPays" text="Pays" prefWidth="150"/>
+                    <TableColumn fx:id="colContact" text="Contact" prefWidth="200"/>
+                    <TableColumn fx:id="colSiteWeb" text="Site Web" prefWidth="200"/>
                 </columns>
             </TableView>
 

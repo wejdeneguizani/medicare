@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<AnchorPane prefHeight="680.0" prefWidth="950.0"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.medical.controllers.AlerteController"
+            stylesheets="@style.css">
+
+    <children>
+        <VBox spacing="15" layoutX="20" layoutY="20" prefWidth="910">
+
+            <!-- HEADER -->
+            <HBox spacing="15" alignment="CENTER_LEFT"
+                  style="-fx-background-color: #fdf0f5;
+                   -fx-padding: 15px;
+                   -fx-background-radius: 12px;">
+                <ImageView fitWidth="80" fitHeight="80" preserveRatio="true">
+                    <image><Image url="@logo.png"/></image>
+                </ImageView>
+                <VBox spacing="4">
+                    <Label text="Medicare+"
+                           style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #f48fb1;"/>
+                    <Label text="Votre santé, notre priorité"
+                           style="-fx-font-size: 12px; -fx-text-fill: #f9c4d8; -fx-font-style: italic;"/>
+                </VBox>
+            </HBox>
+
+            <!-- NAVIGATION -->
+            <HBox spacing="10" alignment="CENTER"
+                  style="-fx-background-color: #f9c4d8; -fx-padding: 10px; -fx-background-radius: 10px;">
+                <Button text="Médicaments" onAction="#allerMedicaments"
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
+                <Button text=" Catégories" onAction="#allerCategories"
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
+                <Button text=" Fabricants" onAction="#allerFabricants"
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
+                <Button text=" Formes" onAction="#allerFormes"
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
+                <Button text=" Stock" onAction="#allerStock"
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
+                <Button text=" Alertes" onAction="#allerAlertes"
+                        style="-fx-background-color: #f48fb1; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
+                <Button text=" Chatbot" onAction="#allerChatbot"
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
+            </HBox>
+
+            <!-- TITRE -->
+            <Label text=" Rappels de Médicaments" styleClass="titre"/>
+
+            <!-- FORMULAIRE -->
+            <HBox spacing="15" alignment="CENTER_LEFT"
+                  style="-fx-background-color: #fff8fb; -fx-padding: 15px; -fx-background-radius: 10px; -fx-border-color: #f8bbd0; -fx-border-radius: 10px;">
+                <VBox spacing="10">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Médicament :" style="-fx-pref-width: 130"/>
+                        <TextField fx:id="tfMedicament" promptText="Nom du médicament" prefWidth="200"/>
+                    </HBox>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Heure (HH:mm) :" style="-fx-pref-width: 130"/>
+                        <TextField fx:id="tfHeure" promptText="ex: 08:30" prefWidth="200"/>
+                    </HBox>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Fréquence :" style="-fx-pref-width: 130"/>
+                        <ComboBox fx:id="cbFrequence" prefWidth="200"
+                                  promptText="Choisir..."/>
+                    </HBox>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Note :" style="-fx-pref-width: 130"/>
+                        <TextField fx:id="tfNote" promptText="ex: Avec repas" prefWidth="200"/>
+                    </HBox>
+                </VBox>
+            </HBox>
+
+            <!-- BOUTONS -->
+            <HBox spacing="10">
+                <Button text=" Ajouter le rappel" onAction="#ajouterAlerte"/>
+                <Button text=" Supprimer" onAction="#supprimerAlerte" styleClass="button-supprimer"/>
+                <Button text=" Marquer pris" onAction="#marquerPris"
+                        style="-fx-background-color: #a5d6a7; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
+            </HBox>
+
+            <!-- MESSAGE -->
+            <Label fx:id="lbMessage"/>
+
+            <!-- NOTIFICATION BANNER -->
+            <HBox fx:id="bannerNotif" spacing="10" alignment="CENTER_LEFT"
+                  style="-fx-background-color: #ffe0b2; -fx-padding: 12px; -fx-background-radius: 8px; -fx-border-color: #ffb74d; -fx-border-radius: 8px;"
+                  visible="false" managed="false">
+                <Label text="⏰" style="-fx-font-size: 20px;"/>
+                <Label fx:id="lbNotif"
+                       style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #e65100;"/>
+            </HBox>
+
+            <!-- TABLE -->
+            <TableView fx:id="tableView" prefHeight="250" prefWidth="910">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                    <TableColumn fx:id="colMedicament" text="Médicament" prefWidth="200"/>
+                    <TableColumn fx:id="colHeure" text="Heure" prefWidth="100"/>
+                    <TableColumn fx:id="colFrequence" text="Fréquence" prefWidth="150"/>
+                    <TableColumn fx:id="colNote" text="Note" prefWidth="200"/>
+                    <TableColumn fx:id="colStatut" text="Statut" prefWidth="120"/>
+                </columns>
+            </TableView>
+
+        </VBox>
+    </children>
+</AnchorPane>

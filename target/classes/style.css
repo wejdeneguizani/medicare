@@ -1,27 +1,27 @@
 .root {
-    -fx-background-color: #fce4ec;
+    -fx-background-color: #fdf0f5;
     -fx-font-family: "Segoe UI";
 }
 
 .label {
-    -fx-text-fill: #880e4f;
+    -fx-text-fill: #ad1457;
     -fx-font-size: 13px;
 }
 
 .text-field {
-    -fx-background-color: #fff0f5;
-    -fx-border-color: #f48fb1;
+    -fx-background-color: #fff8fb;
+    -fx-border-color: #f8bbd0;
     -fx-border-radius: 8px;
     -fx-background-radius: 8px;
     -fx-padding: 6px 10px;
 }
 
 .text-field:focused {
-    -fx-border-color: #e91e8c;
+    -fx-border-color: #f48fb1;
 }
 
 .button {
-    -fx-background-color: #e91e8c;
+    -fx-background-color: #f48fb1;
     -fx-text-fill: white;
     -fx-background-radius: 8px;
     -fx-padding: 8px 20px;
@@ -30,11 +30,11 @@
 }
 
 .button:hover {
-    -fx-background-color: #c2185b;
+    -fx-background-color: #e91e8c;
 }
 
 .button-supprimer {
-    -fx-background-color: #f48fb1;
+    -fx-background-color: #f9c4d8;
     -fx-text-fill: white;
     -fx-background-radius: 8px;
     -fx-padding: 8px 20px;
@@ -43,17 +43,17 @@
 }
 
 .button-supprimer:hover {
-    -fx-background-color: #e91e8c;
+    -fx-background-color: #f48fb1;
 }
 
 .table-view {
-    -fx-background-color: #fff0f5;
-    -fx-border-color: #f48fb1;
+    -fx-background-color: #fff8fb;
+    -fx-border-color: #f8bbd0;
     -fx-border-radius: 8px;
 }
 
 .table-view .column-header {
-    -fx-background-color: #e91e8c;
+    -fx-background-color: #f48fb1;
 }
 
 .table-view .column-header .label {
@@ -62,19 +62,19 @@
 }
 
 .table-row-cell:odd {
-    -fx-background-color: #fce4ec;
+    -fx-background-color: #fdf0f5;
 }
 
 .table-row-cell:even {
-    -fx-background-color: #fff0f5;
+    -fx-background-color: #fff8fb;
 }
 
 .table-row-cell:selected {
-    -fx-background-color: #f48fb1;
+    -fx-background-color: #f9c4d8;
 }
 
 .titre {
     -fx-font-size: 24px;
     -fx-font-weight: bold;
-    -fx-text-fill: #880e4f;
+    -fx-text-fill: #ad1457;
 }

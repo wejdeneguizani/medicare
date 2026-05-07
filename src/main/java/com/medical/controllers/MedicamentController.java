@@ -81,20 +81,21 @@ public class MedicamentController {
             lbMessage.setText("⚠️ Sélectionnez un médicament !");
         }
     }
-    @FXML
-    public void allerMedicaments(ActionEvent e) {
-        // déjà sur la vue Médicaments
-    }
+    @FXML public void allerMedicaments(ActionEvent e) { /* déjà sur cette vue */ }
+    @FXML public void allerCategories(ActionEvent e)  { naviguer("/CategorieView.fxml"); }
+    @FXML public void allerFabricants(ActionEvent e)  { naviguer("/FabricantView.fxml"); }
+    @FXML public void allerFormes(ActionEvent e)      { naviguer("/FormeView.fxml"); }
+    @FXML public void allerStock(ActionEvent e)       { naviguer("/StockView.fxml"); }
+    @FXML public void allerAlertes(ActionEvent e)     { naviguer("/AlerteView.fxml"); }
+    @FXML public void allerChatbot(ActionEvent e)     { naviguer("/ChatbotView.fxml"); }
 
-    @FXML
-    public void allerCategories(ActionEvent e) {
+    private void naviguer(String fxml) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/CategorieView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Parent root = loader.load();
             tableView.getScene().setRoot(root);
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }
