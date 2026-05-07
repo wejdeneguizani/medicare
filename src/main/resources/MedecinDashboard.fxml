@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="680.0" prefWidth="1100.0" style="-fx-background-color:#FFF4F8;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MedecinDashboardController">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="12.0">
+            <padding>
+                <Insets bottom="18.0" left="30.0" right="30.0" top="24.0" />
+            </padding>
+            <children>
+                <Label text="Medicare+" textFill="#A64D79">
+                    <font>
+                        <Font name="System Bold" size="22.0" />
+                    </font>
+                </Label>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button mnemonicParsing="false" onAction="#ouvrirProfil" styleClass="primary-button" text="Profil" />
+                <Button mnemonicParsing="false" onAction="#deconnexion" styleClass="secondary-button" text="Deconnexion" />
+            </children>
+        </HBox>
+    </top>
+    <left>
+        <VBox prefWidth="220.0" spacing="8.0" styleClass="side-panel">
+            <padding>
+                <Insets bottom="20.0" left="18.0" right="18.0" top="20.0" />
+            </padding>
+            <children>
+                <Label text="Navigation medecin" textFill="#8C6A78" />
+                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button-active" text="Tableau de bord" />
+                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ouvrirProfil" styleClass="sidebar-button" text="Profil" />
+                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ouvrirHistorique" styleClass="sidebar-button" text="Historique" />
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <VBox maxWidth="920.0" spacing="22.0" BorderPane.alignment="CENTER">
+            <children>
+                <VBox spacing="6.0">
+                    <children>
+                        <Label fx:id="welcomeLabel" text="Espace medecin" textFill="#A64D79">
+                            <font>
+                                <Font name="System Bold" size="32.0" />
+                            </font>
+                        </Label>
+                        <Label text="Gerez vos patients, vos rendez-vous et le suivi medical." textFill="#8C6A78" wrapText="true">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+                <GridPane hgap="16.0" vgap="16.0">
+                    <children>
+                        <VBox prefHeight="220.0" prefWidth="290.0" spacing="14.0" styleClass="dashboard-card">
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </padding>
+                            <children>
+                                <Label styleClass="card-symbol" text="PT" />
+                                <Label text="Patients" textFill="#A64D79">
+                                    <font>
+                                        <Font name="System Bold" size="22.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Consultez les dossiers et retrouvez rapidement les informations importantes." textFill="#8C6A78" wrapText="true" />
+                                <Region VBox.vgrow="ALWAYS" />
+                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ouvrirPatients" styleClass="primary-button" text="Voir mes patients" />
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="220.0" prefWidth="290.0" spacing="14.0" styleClass="dashboard-card" GridPane.columnIndex="1">
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </padding>
+                            <children>
+                                <Label styleClass="card-symbol appointment-symbol" text="RDV" />
+                                <Label text="Rendez-vous" textFill="#A64D79">
+                                    <font>
+                                        <Font name="System Bold" size="22.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Validez les demandes et organisez votre planning de consultation." textFill="#8C6A78" wrapText="true" />
+                                <Region VBox.vgrow="ALWAYS" />
+                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ouvrirRendezVous" styleClass="success-button" text="Gerer le planning" />
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="220.0" prefWidth="290.0" spacing="14.0" styleClass="dashboard-card" GridPane.columnIndex="2">
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </padding>
+                            <children>
+                                <Label styleClass="card-symbol progress-symbol" text="+" />
+                                <Label text="Suivi medical" textFill="#A64D79">
+                                    <font>
+                                        <Font name="System Bold" size="22.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Suivez les traitements, les notes et les evolutions de vos patients." textFill="#8C6A78" wrapText="true" />
+                                <Region VBox.vgrow="ALWAYS" />
+                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ouvrirSuivi" styleClass="primary-button" text="Ouvrir le suivi" />
+                            </children>
+                        </VBox>
+                    </children>
+                </GridPane>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
