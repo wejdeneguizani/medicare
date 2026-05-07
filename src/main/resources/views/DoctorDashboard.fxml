@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -12,7 +13,7 @@
             <Label text="🩺 MediCare Doctor" styleClass="doctor-brand" />
             <Region HBox.hgrow="ALWAYS" />
             <HBox alignment="CENTER" spacing="20.0">
-                <TextField promptText="Search Patients..." styleClass="doctor-search" />
+                <TextField fx:id="searchField" promptText="Search by title, type, date, values..." styleClass="doctor-search" onKeyReleased="#handleSearchChanged" />
                 <Button text="Logout" onAction="#handleLogout" styleClass="pill-button-primary" />
             </HBox>
         </HBox>
@@ -46,20 +47,64 @@
                     <Label fx:id="contentSubtitle" text="Manage and monitor all patient activities effortlessly" styleClass="dashboard-subtitle" />
                 </VBox>
 
+                <HBox fx:id="filtersBox" alignment="CENTER_LEFT" spacing="12.0" styleClass="filters-panel">
+                    <Label text="Patient" styleClass="filter-label" />
+                    <ComboBox fx:id="patientFilterCombo" promptText="All" onAction="#handleFilterChanged" styleClass="filter-combo" />
+                    <Label text="Habit Type" styleClass="filter-label" />
+                    <ComboBox fx:id="typeFilterCombo" promptText="All" onAction="#handleFilterChanged" styleClass="filter-combo" />
+                    <Label text="Habit Status" styleClass="filter-label" />
+                    <ComboBox fx:id="statusFilterCombo" promptText="All" onAction="#handleFilterChanged" styleClass="filter-combo" />
+                    <Button text="Reset Filters" styleClass="btn-filter-reset" onAction="#handleResetFilters" />
+                    <Button text="Refresh Stats" styleClass="btn-stats-refresh" onAction="#handleRefreshStats" />
+                </HBox>
+
                 <StackPane alignment="TOP_LEFT">
                     <!-- Overview Section (Default) -->
                     <VBox fx:id="overviewSection" spacing="30.0">
                          <Label text="Welcome back, Dr.!" styleClass="welcome-label" />
-                         <HBox spacing="20.0">
+                         <HBox spacing="20.0" styleClass="stats-cards-container">
                              <VBox spacing="10.0" styleClass="stat-card">
                                  <Label text="Total Patients" styleClass="stat-label" />
-                                 <Label text="124" styleClass="stat-value" />
+                                 <Label fx:id="totalPatientsValue" text="0" styleClass="stat-value" />
                              </VBox>
                              <VBox spacing="10.0" styleClass="stat-card">
-                                 <Label text="Active Habits" styleClass="stat-label" />
-                                 <Label text="56" styleClass="stat-value" />
+                                 <Label text="Total Habits" styleClass="stat-label" />
+                                 <Label fx:id="totalHabitsValue" text="0" styleClass="stat-value" />
+                             </VBox>
+                             <VBox spacing="10.0" styleClass="stat-card">
+                                 <Label text="Total Measurements" styleClass="stat-label" />
+                                 <Label fx:id="totalMesuresValue" text="0" styleClass="stat-value" />
+                             </VBox>
+                             <VBox spacing="10.0" styleClass="stat-card">
+                                 <Label text="Avg Steps" styleClass="stat-label" />
+                                 <Label fx:id="avgStepsValue" text="0" styleClass="stat-value" />
                              </VBox>
                          </HBox>
+                        <HBox spacing="20.0" styleClass="charts-container">
+                            <VBox spacing="8.0" styleClass="chart-card">
+                                <PieChart fx:id="habitsByTypeChart" title="Habits By Type" prefWidth="360.0" prefHeight="280.0" />
+                            </VBox>
+                            <VBox spacing="8.0" styleClass="chart-card">
+                                <BarChart fx:id="stepsByPatientChart" title="Total Steps By Patient" prefWidth="420.0" prefHeight="280.0">
+                                    <xAxis>
+                                        <CategoryAxis label="Patient" />
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis label="Steps" />
+                                    </yAxis>
+                                </BarChart>
+                            </VBox>
+                            <VBox spacing="8.0" styleClass="chart-card">
+                                <LineChart fx:id="waterTrendChart" title="Water Intake Trend" prefWidth="420.0" prefHeight="280.0">
+                                    <xAxis>
+                                        <CategoryAxis label="Date" />
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis label="Liters" />
+                                    </yAxis>
+                                </LineChart>
+                            </VBox>
+                        </HBox>
                     </VBox>
 
                     <!-- Habits Section -->

@@ -286,3 +286,77 @@
     -fx-border-color: transparent;
     -fx-padding: 0;
 }
+
+.filter-label {
+    -fx-text-fill: #8B4513;
+    -fx-font-weight: bold;
+}
+
+.filters-panel {
+    -fx-background-color: #FFEFF5;
+    -fx-background-radius: 14;
+    -fx-padding: 12 14;
+}
+
+.filter-combo {
+    -fx-background-color: white;
+    -fx-border-color: #FFC0CB;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.filter-combo .list-cell {
+    -fx-text-fill: #8B4513;
+}
+
+.btn-filter-reset {
+    -fx-background-color: white;
+    -fx-text-fill: #DB7093;
+    -fx-border-color: #FFC0CB;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-font-weight: bold;
+}
+
+.btn-stats-refresh {
+    -fx-background-color: #FFB6C1;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-font-weight: bold;
+    -fx-padding: 8 14;
+}
+
+.stats-cards-container {
+    -fx-background-color: #FFEFF5;
+    -fx-background-radius: 18;
+    -fx-padding: 14;
+}
+
+.charts-container {
+    -fx-background-color: #FFEFF5;
+    -fx-background-radius: 18;
+    -fx-padding: 14;
+}
+
+.chart-card {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-border-color: #FFD6E4;
+    -fx-border-radius: 16;
+    -fx-padding: 10;
+}
+
+.patient-search {
+    -fx-background-color: white;
+    -fx-border-color: #FFC0CB;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 8 12;
+}
+
+.patient-filter {
+    -fx-background-color: white;
+    -fx-border-color: #FFC0CB;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}

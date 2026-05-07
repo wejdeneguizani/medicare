@@ -27,6 +27,10 @@
                 </VBox>
                 <Region HBox.hgrow="ALWAYS" />
                 <HBox spacing="15.0">
+                    <TextField fx:id="searchField" promptText="Search habits or measures..." onKeyReleased="#handleSearchChanged" styleClass="patient-search" />
+                    <ComboBox fx:id="typeFilterCombo" promptText="All types" onAction="#handleFilterChanged" styleClass="patient-filter" />
+                    <ComboBox fx:id="measureSortCombo" promptText="Sort measures" onAction="#handleFilterChanged" styleClass="patient-filter" />
+                    <Button text="Reset" onAction="#handleResetFilters" styleClass="btn-filter-reset" />
                     <Button onAction="#handleAddHabit" styleClass="btn-soft-primary" text="+ Add Habit" />
                     <Button onAction="#handleAddMesure" styleClass="btn-soft-secondary" text="+ Log Record" />
                 </HBox>

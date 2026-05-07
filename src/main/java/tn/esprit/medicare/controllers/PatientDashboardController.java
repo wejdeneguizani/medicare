@@ -1,10 +1,11 @@
 package tn.esprit.medicare.controllers;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -15,7 +16,11 @@ import tn.esprit.medicare.services.HabitudeService;
 import tn.esprit.medicare.services.MesureSanteService;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class PatientDashboardController extends BaseDashboardController {
 
@@ -25,9 +30,22 @@ public class PatientDashboardController extends BaseDashboardController {
     @FXML private VBox mesuresSection;
     @FXML private ToggleButton toggleHabits;
     @FXML private ToggleButton toggleMesures;
+    @FXML private TextField searchField;
+    @FXML private ComboBox<String> typeFilterCombo;
+    @FXML private ComboBox<String> measureSortCombo;
 
-    private HabitudeService habitudeService = new HabitudeService();
-    private MesureSanteService mesureService = new MesureSanteService();
+    private final HabitudeService habitudeService = new HabitudeService();
+    private final MesureSanteService mesureService = new MesureSanteService();
+    private List<Habitude> allHabitudes = new ArrayList<>();
+    private List<MesureSante> allMesures = new ArrayList<>();
+
+    @FXML
+    public void initialize() {
+        typeFilterCombo.getItems().setAll("All");
+        measureSortCombo.getItems().setAll("Date Desc", "Date Asc", "Steps Desc", "Steps Asc");
+        typeFilterCombo.setValue("All");
+        measureSortCombo.setValue("Date Desc");
+    }
 
     @Override
     protected void initializeData() {
@@ -36,19 +54,99 @@ public class PatientDashboardController extends BaseDashboardController {
 
     private void loadUserData() {
         try {
-            List<Habitude> habitudes = habitudeService.getByUserId(userId);
-            habitudesContainer.getChildren().clear();
-            for (Habitude h : habitudes) {
-                habitudesContainer.getChildren().add(createHabitCard(h));
-            }
-
-            List<MesureSante> mesures = mesureService.getByUserId(userId);
-            mesuresContainer.getChildren().clear();
-            for (MesureSante m : mesures) {
-                mesuresContainer.getChildren().add(createMesureCard(m));
-            }
+            allHabitudes = habitudeService.getByUserId(userId);
+            allMesures = mesureService.getByUserId(userId);
+            refreshFilters();
+            applyFilters();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void refreshFilters() {
+        String selected = typeFilterCombo.getValue();
+        List<String> types = allHabitudes.stream()
+                .map(h -> h.getType().name())
+                .distinct()
+                .sorted()
+                .toList();
+        typeFilterCombo.getItems().setAll("All");
+        typeFilterCombo.getItems().addAll(types);
+        typeFilterCombo.setValue(selected != null ? selected : "All");
+    }
+
+    @FXML
+    private void handleSearchChanged() {
+        applyFilters();
+    }
+
+    @FXML
+    private void handleFilterChanged() {
+        applyFilters();
+    }
+
+    @FXML
+    private void handleResetFilters() {
+        searchField.clear();
+        typeFilterCombo.setValue("All");
+        measureSortCombo.setValue("Date Desc");
+        applyFilters();
+    }
+
+    private void applyFilters() {
+        String query = searchField.getText() == null ? "" : searchField.getText().trim().toLowerCase(Locale.ROOT);
+        String selectedType = typeFilterCombo.getValue();
+        String sortMode = measureSortCombo.getValue();
+
+        List<Habitude> filteredHabits = allHabitudes.stream()
+                .filter(h -> "All".equals(selectedType) || h.getType().name().equalsIgnoreCase(selectedType))
+                .filter(h -> query.isBlank() || matchesHabit(h, query))
+                .collect(Collectors.toList());
+
+        List<MesureSante> filteredMesures = allMesures.stream()
+                .filter(m -> query.isBlank() || matchesMesure(m, query))
+                .collect(Collectors.toList());
+
+        sortMesures(filteredMesures, sortMode);
+        renderHabits(filteredHabits);
+        renderMesures(filteredMesures);
+    }
+
+    private boolean matchesHabit(Habitude habitude, String query) {
+        return habitude.getTitre().toLowerCase(Locale.ROOT).contains(query)
+                || habitude.getType().name().toLowerCase(Locale.ROOT).contains(query)
+                || habitude.getUnite().toLowerCase(Locale.ROOT).contains(query);
+    }
+
+    private boolean matchesMesure(MesureSante mesure, String query) {
+        return String.valueOf(mesure.getPas()).contains(query)
+                || String.valueOf(mesure.getEauLitres()).contains(query)
+                || mesure.getDateMesure().toLocalDate().toString().contains(query);
+    }
+
+    private void sortMesures(List<MesureSante> mesures, String sortMode) {
+        if ("Date Asc".equals(sortMode)) {
+            mesures.sort(Comparator.comparing(MesureSante::getDateMesure));
+        } else if ("Steps Desc".equals(sortMode)) {
+            mesures.sort(Comparator.comparing(MesureSante::getPas).reversed());
+        } else if ("Steps Asc".equals(sortMode)) {
+            mesures.sort(Comparator.comparing(MesureSante::getPas));
+        } else {
+            mesures.sort(Comparator.comparing(MesureSante::getDateMesure).reversed());
+        }
+    }
+
+    private void renderHabits(List<Habitude> habitudes) {
+        habitudesContainer.getChildren().clear();
+        for (Habitude h : habitudes) {
+            habitudesContainer.getChildren().add(createHabitCard(h));
+        }
+    }
+
+    private void renderMesures(List<MesureSante> mesures) {
+        mesuresContainer.getChildren().clear();
+        for (MesureSante m : mesures) {
+            mesuresContainer.getChildren().add(createMesureCard(m));
         }
     }
 
