@@ -13,15 +13,18 @@
 
 .sidebar-button {
     -fx-background-color: transparent;
-    -fx-text-fill: #85B7EB;
+    -fx-text-fill: #AD5E88;
 }
 
 .sidebar-button-active {
-    -fx-background-color: #185FA5;
-    -fx-text-fill: #E6F1FB;
+    -fx-background-color: #D16BA5;
+    -fx-text-fill: #FFF7FB;
 }
 
 .stat-card,
+.choice-card,
+.dashboard-card,
+.summary-panel,
 .form-panel,
 .main-table {
     -fx-background-color: white;
@@ -30,6 +33,66 @@
 
 .stat-card {
     -fx-padding: 14;
+}
+
+.dashboard-card {
+    -fx-border-color: #E0DED4;
+    -fx-border-radius: 8;
+}
+
+.side-panel {
+    -fx-background-color: #F4D4E3;
+}
+
+.summary-panel {
+    -fx-padding: 16;
+    -fx-border-color: #E0DED4;
+    -fx-border-radius: 8;
+}
+
+.history-container {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+}
+
+.history-item {
+    -fx-background-color: #F7F5EE;
+    -fx-background-radius: 8;
+    -fx-border-color: #E0DED4;
+    -fx-border-radius: 8;
+    -fx-padding: 10 12 10 12;
+    -fx-text-fill: #232323;
+}
+
+.card-symbol {
+    -fx-alignment: center;
+    -fx-background-color: #FCE8F1;
+    -fx-background-radius: 8;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-min-height: 42px;
+    -fx-min-width: 52px;
+    -fx-text-fill: #B24C84;
+}
+
+.progress-symbol {
+    -fx-background-color: #FBE2EE;
+    -fx-text-fill: #A64D79;
+}
+
+.appointment-symbol {
+    -fx-background-color: #FCE5F0;
+    -fx-text-fill: #A64D79;
+}
+
+.insurance-symbol {
+    -fx-background-color: #FCECF4;
+    -fx-text-fill: #A64D79;
+}
+
+.routine-symbol {
+    -fx-background-color: #FDECF4;
+    -fx-text-fill: #A64D79;
 }
 
 .primary-button,
@@ -42,13 +105,13 @@
 }
 
 .primary-button {
-    -fx-background-color: #185FA5;
-    -fx-text-fill: #E6F1FB;
+    -fx-background-color: #D16BA5;
+    -fx-text-fill: #FFF7FB;
 }
 
 .success-button {
-    -fx-background-color: #3B6D11;
-    -fx-text-fill: #EAF3DE;
+    -fx-background-color: #C85A96;
+    -fx-text-fill: #FFF7FB;
 }
 
 .secondary-button {
@@ -69,8 +132,8 @@
 }
 
 .small-action-button {
-    -fx-border-color: #185FA5;
-    -fx-text-fill: #185FA5;
+    -fx-border-color: #C85A96;
+    -fx-text-fill: #C85A96;
 }
 
 .danger-action-button {

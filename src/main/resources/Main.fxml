@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="680.0" prefWidth="1100.0" style="-fx-background-color:#F1EFE8;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
+<BorderPane prefHeight="680.0" prefWidth="1100.0" style="-fx-background-color:#FFF4F8;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
     <left>
-        <VBox prefWidth="220.0" spacing="8.0" style="-fx-background-color:#0C447C;">
+        <VBox prefWidth="220.0" spacing="8.0" style="-fx-background-color:#F4D4E3;">
             <padding>
                 <Insets bottom="20.0" left="12.0" right="12.0" top="20.0" />
             </padding>
             <children>
-                <Label text="Medicare+" textFill="#E6F1FB">
+                <Label text="Medicare+" textFill="#FFF7FB">
                     <font>
                         <Font name="System Bold" size="20.0" />
                     </font>
@@ -23,7 +23,7 @@
                         <Insets bottom="20.0" left="6.0" />
                     </padding>
                 </Label>
-                <Label text="GESTION" textFill="#85B7EB">
+                <Label text="GESTION" textFill="#AD5E88">
                     <font>
                         <Font size="11.0" />
                     </font>
@@ -42,7 +42,7 @@
                 <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
             </padding>
             <children>
-                <Label text="Tableau de bord - Gestion des utilisateurs" textFill="#0C447C">
+                <Label text="Tableau de bord - Gestion des utilisateurs" textFill="#A64D79">
                     <font>
                         <Font name="System Bold" size="18.0" />
                     </font>
@@ -51,8 +51,8 @@
                     <children>
                         <VBox prefWidth="170.0" spacing="4.0" styleClass="stat-card">
                             <children>
-                                <Label text="Total utilisateurs" textFill="#888780" />
-                                <Label fx:id="totalLabel" text="0" textFill="#185FA5">
+                                <Label text="Total utilisateurs" textFill="#9A7A88" />
+                                <Label fx:id="totalLabel" text="0" textFill="#C85A96">
                                     <font>
                                         <Font name="System Bold" size="24.0" />
                                     </font>
@@ -61,8 +61,8 @@
                         </VBox>
                         <VBox prefWidth="170.0" spacing="4.0" styleClass="stat-card">
                             <children>
-                                <Label text="Actifs" textFill="#888780" />
-                                <Label fx:id="activeLabel" text="0" textFill="#3B6D11">
+                                <Label text="Actifs" textFill="#9A7A88" />
+                                <Label fx:id="activeLabel" text="0" textFill="#B24C84">
                                     <font>
                                         <Font name="System Bold" size="24.0" />
                                     </font>
@@ -71,8 +71,8 @@
                         </VBox>
                         <VBox prefWidth="170.0" spacing="4.0" styleClass="stat-card">
                             <children>
-                                <Label text="En attente" textFill="#888780" />
-                                <Label fx:id="waitingLabel" text="0" textFill="#854F0B">
+                                <Label text="En attente" textFill="#9A7A88" />
+                                <Label fx:id="waitingLabel" text="0" textFill="#A64D79">
                                     <font>
                                         <Font name="System Bold" size="24.0" />
                                     </font>
@@ -81,7 +81,7 @@
                         </VBox>
                         <VBox prefWidth="170.0" spacing="4.0" styleClass="stat-card">
                             <children>
-                                <Label text="Bloques" textFill="#888780" />
+                                <Label text="Bloques" textFill="#9A7A88" />
                                 <Label fx:id="blockedLabel" text="0" textFill="#A32D2D">
                                     <font>
                                         <Font name="System Bold" size="24.0" />

@@ -7,7 +7,11 @@ import utils.DatabaseConnection;
 
 import java.io.IOException;
 
-public class App extends Application {
+public class MainFx extends Application {
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) throws IOException {

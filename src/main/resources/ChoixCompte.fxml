@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="680.0" prefWidth="1100.0" style="-fx-background-color:#FFF4F8;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ChoixCompteController">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="12.0">
+            <padding>
+                <Insets bottom="18.0" left="30.0" right="30.0" top="24.0" />
+            </padding>
+            <children>
+                <Label text="Medicare+" textFill="#A64D79">
+                    <font>
+                        <Font name="System Bold" size="22.0" />
+                    </font>
+                </Label>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button mnemonicParsing="false" onAction="#retourAccueil" styleClass="secondary-button" text="Retour" />
+            </children>
+        </HBox>
+    </top>
+    <center>
+        <VBox alignment="CENTER" maxWidth="720.0" spacing="22.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Creer un compte" textFill="#A64D79">
+                    <font>
+                        <Font name="System Bold" size="32.0" />
+                    </font>
+                </Label>
+                <Label text="Choisissez le type de compte que vous voulez creer." textFill="#8C6A78" wrapText="true">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <HBox alignment="CENTER" spacing="18.0">
+                    <children>
+                        <VBox prefHeight="180.0" prefWidth="260.0" spacing="14.0" styleClass="choice-card">
+                            <children>
+                                <Label text="Patient" textFill="#A64D79">
+                                    <font>
+                                        <Font name="System Bold" size="22.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Creer un compte pour prendre rendez-vous et suivre votre dossier." textFill="#8C6A78" wrapText="true" />
+                                <Region VBox.vgrow="ALWAYS" />
+                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#choisirPatient" styleClass="primary-button" text="Continuer comme patient" />
+                            </children>
+                            <padding>
+                                <Insets bottom="18.0" left="18.0" right="18.0" top="18.0" />
+                            </padding>
+                        </VBox>
+                        <VBox prefHeight="180.0" prefWidth="260.0" spacing="14.0" styleClass="choice-card">
+                            <children>
+                                <Label text="Medecin" textFill="#A64D79">
+                                    <font>
+                                        <Font name="System Bold" size="22.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Creer un compte professionnel pour gerer les consultations." textFill="#8C6A78" wrapText="true" />
+                                <Region VBox.vgrow="ALWAYS" />
+                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#choisirMedecin" styleClass="success-button" text="Continuer comme medecin" />
+                            </children>
+                            <padding>
+                                <Insets bottom="18.0" left="18.0" right="18.0" top="18.0" />
+                            </padding>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
