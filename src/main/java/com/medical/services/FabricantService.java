@@ -14,25 +14,25 @@ public class FabricantService implements IService<Fabricant> {
     @Override
     public boolean ajouter(Fabricant f) {
         if (f.getNom() == null || f.getNom().trim().isEmpty()) {
-            System.out.println("⚠️ Le nom du fabricant est obligatoire !");
+            System.out.println("️ Le nom du fabricant est obligatoire !");
             return false;
         }
         if (f.getNom().trim().length() < 2) {
-            System.out.println("⚠️ Le nom doit avoir au moins 2 caractères !");
+            System.out.println("️ Le nom doit avoir au moins 2 caractères !");
             return false;
         }
         if (f.getPays() == null || f.getPays().trim().isEmpty()) {
-            System.out.println("⚠️ Le pays est obligatoire !");
+            System.out.println(" Le pays est obligatoire !");
             return false;
         }
         for (Fabricant existing : getTous()) {
             if (existing.getNom().equalsIgnoreCase(f.getNom())) {
-                System.out.println("⚠️ Ce fabricant existe déjà !");
+                System.out.println("️ Ce fabricant existe déjà !");
                 return false;
             }
         }
         if (f.getContact() != null && f.getContact().contains("@") && !f.getContact().contains(".")) {
-            System.out.println("⚠️ L'email du contact est invalide !");
+            System.out.println("️ L'email du contact est invalide !");
             return false;
         }
         String sql = "INSERT INTO fabricant (nom, pays, contact) VALUES (?, ?, ?)";
@@ -43,7 +43,7 @@ public class FabricantService implements IService<Fabricant> {
             ps.setString(3, f.getContact());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("❌ Erreur ajouter fabricant : " + e.getMessage());
+            System.out.println(" Erreur ajouter fabricant : " + e.getMessage());
             return false;
         }
     }
@@ -65,7 +65,7 @@ public class FabricantService implements IService<Fabricant> {
                 liste.add(f);
             }
         } catch (SQLException e) {
-            System.out.println("❌ Erreur getTous fabricant : " + e.getMessage());
+            System.out.println(" Erreur getTous fabricant : " + e.getMessage());
         }
         return liste;
     }
@@ -74,7 +74,7 @@ public class FabricantService implements IService<Fabricant> {
     @Override
     public Fabricant getParId(int id) {
         if (id <= 0) {
-            System.out.println("⚠️ L'ID doit être positif !");
+            System.out.println("️ L'ID doit être positif !");
             return null;
         }
         String sql = "SELECT * FROM fabricant WHERE id_fabricant = ?";
@@ -91,7 +91,7 @@ public class FabricantService implements IService<Fabricant> {
                 return f;
             }
         } catch (SQLException e) {
-            System.out.println("❌ Erreur getParId fabricant : " + e.getMessage());
+            System.out.println(" Erreur getParId fabricant : " + e.getMessage());
         }
         return null;
     }
@@ -100,19 +100,19 @@ public class FabricantService implements IService<Fabricant> {
     @Override
     public boolean modifier(Fabricant f) {
         if (f.getIdFabricant() <= 0) {
-            System.out.println("⚠️ ID invalide !");
+            System.out.println("️ ID invalide !");
             return false;
         }
         if (f.getNom() == null || f.getNom().trim().isEmpty()) {
-            System.out.println("⚠️ Le nom est obligatoire !");
+            System.out.println("️ Le nom est obligatoire !");
             return false;
         }
         if (f.getPays() == null || f.getPays().trim().isEmpty()) {
-            System.out.println("⚠️ Le pays est obligatoire !");
+            System.out.println("️ Le pays est obligatoire !");
             return false;
         }
         if (getParId(f.getIdFabricant()) == null) {
-            System.out.println("⚠️ Ce fabricant n'existe pas !");
+            System.out.println("️ Ce fabricant n'existe pas !");
             return false;
         }
         String sql = "UPDATE fabricant SET nom=?, pays=?, contact=? WHERE id_fabricant=?";
@@ -124,7 +124,7 @@ public class FabricantService implements IService<Fabricant> {
             ps.setInt(4, f.getIdFabricant());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("❌ Erreur modifier fabricant : " + e.getMessage());
+            System.out.println(" Erreur modifier fabricant : " + e.getMessage());
             return false;
         }
     }
@@ -133,11 +133,11 @@ public class FabricantService implements IService<Fabricant> {
     @Override
     public boolean supprimer(int id) {
         if (id <= 0) {
-            System.out.println("⚠️ L'ID doit être positif !");
+            System.out.println("️ L'ID doit être positif !");
             return false;
         }
         if (getParId(id) == null) {
-            System.out.println("⚠️ Ce fabricant n'existe pas !");
+            System.out.println("️ Ce fabricant n'existe pas !");
             return false;
         }
         String sql = "DELETE FROM fabricant WHERE id_fabricant = ?";
@@ -146,7 +146,7 @@ public class FabricantService implements IService<Fabricant> {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("❌ Erreur supprimer fabricant : " + e.getMessage());
+            System.out.println(" Erreur supprimer fabricant : " + e.getMessage());
             return false;
         }
     }

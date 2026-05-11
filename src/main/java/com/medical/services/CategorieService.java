@@ -36,7 +36,7 @@ public class CategorieService {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.out.println("❌ Erreur ajout catégorie : " + e.getMessage());
+            System.out.println(" Erreur ajout catégorie : " + e.getMessage());
             return false;
         }
     }
@@ -52,7 +52,7 @@ public class CategorieService {
                 liste.add(mapRow(rs));
             }
         } catch (SQLException e) {
-            System.out.println("❌ Erreur liste catégories : " + e.getMessage());
+            System.out.println(" Erreur liste catégories : " + e.getMessage());
         }
         return liste;
     }
@@ -60,7 +60,7 @@ public class CategorieService {
     // ───────────────────────── CHERCHER PAR ID ─────────────────────────
     public Categorie getParId(int id) {
         if (id <= 0) {
-            System.out.println("⚠️ L'ID doit être positif !");
+            System.out.println("️ L'ID doit être positif !");
             return null;
         }
         String sql = "SELECT * FROM categorie_medicament WHERE id_categorie = ?";
@@ -70,7 +70,7 @@ public class CategorieService {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) return mapRow(rs);
         } catch (SQLException e) {
-            System.out.println("❌ Erreur recherche catégorie : " + e.getMessage());
+            System.out.println(" Erreur recherche catégorie : " + e.getMessage());
         }
         return null;
     }
@@ -78,15 +78,15 @@ public class CategorieService {
     // ───────────────────────── MODIFIER ─────────────────────────
     public boolean modifier(Categorie c) {
         if (c.getIdCategorie() <= 0) {
-            System.out.println("⚠️ ID invalide !");
+            System.out.println("️ ID invalide !");
             return false;
         }
         if (c.getLibelle() == null || c.getLibelle().trim().isEmpty()) {
-            System.out.println("⚠️ Le libellé est obligatoire !");
+            System.out.println("️ Le libellé est obligatoire !");
             return false;
         }
         if (getParId(c.getIdCategorie()) == null) {
-            System.out.println("⚠️ Cette catégorie n'existe pas !");
+            System.out.println("️ Cette catégorie n'existe pas !");
             return false;
         }
         String sql = "UPDATE categorie_medicament SET libelle=?, code_atc=?, description=? WHERE id_categorie=?";
@@ -99,7 +99,7 @@ public class CategorieService {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.out.println("❌ Erreur modification catégorie : " + e.getMessage());
+            System.out.println(" Erreur modification catégorie : " + e.getMessage());
             return false;
         }
     }
@@ -107,11 +107,11 @@ public class CategorieService {
     // ───────────────────────── SUPPRIMER ─────────────────────────
     public boolean supprimer(int id) {
         if (id <= 0) {
-            System.out.println("⚠️ L'ID doit être positif !");
+            System.out.println("️ L'ID doit être positif !");
             return false;
         }
         if (getParId(id) == null) {
-            System.out.println("⚠️ Cette catégorie n'existe pas !");
+            System.out.println("️ Cette catégorie n'existe pas !");
             return false;
         }
         String sql = "DELETE FROM categorie_medicament WHERE id_categorie = ?";
@@ -121,7 +121,7 @@ public class CategorieService {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.out.println("❌ Erreur suppression catégorie : " + e.getMessage());
+            System.out.println(" Erreur suppression catégorie : " + e.getMessage());
             return false;
         }
     }

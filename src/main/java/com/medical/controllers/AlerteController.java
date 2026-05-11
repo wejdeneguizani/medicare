@@ -1,6 +1,7 @@
 package com.medical.controllers;
 
 import com.medical.model.RappelMedicament;
+import com.medical.services.AlerteService;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -34,8 +35,7 @@ public class AlerteController {
     @FXML private Label lbNotif;
     @FXML private HBox  bannerNotif;
 
-    private ObservableList<RappelMedicament> rappels = FXCollections.observableArrayList();
-    private int idCounter = 1;
+    private AlerteService service = new AlerteService();
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("HH:mm");
 
     @FXML
@@ -46,7 +46,6 @@ public class AlerteController {
         colFrequence.setCellValueFactory(new PropertyValueFactory<>("frequence"));
         colNote.setCellValueFactory(new PropertyValueFactory<>("note"));
         colStatut.setCellValueFactory(new PropertyValueFactory<>("statut"));
-        tableView.setItems(rappels);
 
         cbFrequence.setItems(FXCollections.observableArrayList(
                 "Une fois par jour",
@@ -57,48 +56,69 @@ public class AlerteController {
                 "Une fois par semaine"
         ));
 
-        // Timer qui vérifie chaque minute si une alerte doit se déclencher
+        chargerTable();
+
         Timeline timer = new Timeline(new KeyFrame(Duration.seconds(30), e -> verifierAlertes()));
         timer.setCycleCount(Timeline.INDEFINITE);
         timer.play();
     }
 
+    private void chargerTable() {
+        try {
+            ObservableList<RappelMedicament> liste =
+                    FXCollections.observableArrayList(service.getTous());
+            tableView.setItems(liste);
+        } catch (Exception ex) {
+            lbMessage.setText("⚠️ Erreur chargement alertes.");
+            lbMessage.setStyle("-fx-text-fill: #e65100; -fx-font-weight: bold;");
+        }
+    }
+
     @FXML
     public void ajouterAlerte(ActionEvent e) {
-        String med  = tfMedicament.getText().trim();
+        String med   = tfMedicament.getText().trim();
         String heure = tfHeure.getText().trim();
         String freq  = cbFrequence.getValue();
 
         if (med.isEmpty() || heure.isEmpty() || freq == null) {
-            lbMessage.setText("⚠️ Remplissez tous les champs obligatoires !");
+            lbMessage.setText("Remplissez tous les champs obligatoires !");
             lbMessage.setStyle("-fx-text-fill: #e65100; -fx-font-weight: bold;");
             return;
         }
-
         if (!heure.matches("\\d{2}:\\d{2}")) {
-            lbMessage.setText("⚠️ Format heure invalide ! Utilisez HH:mm (ex: 08:30)");
+            lbMessage.setText(" Format heure invalide ! Utilisez HH:mm (ex: 08:30)");
             lbMessage.setStyle("-fx-text-fill: #e65100; -fx-font-weight: bold;");
             return;
         }
 
         RappelMedicament r = new RappelMedicament(med, heure, freq, tfNote.getText().trim());
-        r.setId(idCounter++);
-        rappels.add(r);
-
-        lbMessage.setText("✅ Rappel ajouté pour " + med + " à " + heure);
-        lbMessage.setStyle("-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
-        tfMedicament.clear(); tfHeure.clear(); tfNote.clear(); cbFrequence.setValue(null);
+        boolean ok = service.ajouter(r);
+        if (ok) {
+            lbMessage.setText(" Rappel sauvegardé pour " + med + " à " + heure);
+            lbMessage.setStyle("-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
+            tfMedicament.clear(); tfHeure.clear(); tfNote.clear(); cbFrequence.setValue(null);
+            chargerTable();
+        } else {
+            lbMessage.setText(" Erreur lors de la sauvegarde !");
+            lbMessage.setStyle("-fx-text-fill: #c62828; -fx-font-weight: bold;");
+        }
     }
 
     @FXML
     public void supprimerAlerte(ActionEvent e) {
         RappelMedicament sel = tableView.getSelectionModel().getSelectedItem();
         if (sel != null) {
-            rappels.remove(sel);
-            lbMessage.setText("✅ Rappel supprimé !");
-            lbMessage.setStyle("-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
+            boolean ok = service.supprimer(sel.getId());
+            if (ok) {
+                lbMessage.setText(" Rappel supprimé !");
+                lbMessage.setStyle("-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
+                chargerTable();
+            } else {
+                lbMessage.setText(" Erreur suppression !");
+                lbMessage.setStyle("-fx-text-fill: #c62828; -fx-font-weight: bold;");
+            }
         } else {
-            lbMessage.setText("⚠️ Sélectionnez un rappel !");
+            lbMessage.setText("Sélectionnez un rappel !");
             lbMessage.setStyle("-fx-text-fill: #e65100; -fx-font-weight: bold;");
         }
     }
@@ -107,24 +127,25 @@ public class AlerteController {
     public void marquerPris(ActionEvent e) {
         RappelMedicament sel = tableView.getSelectionModel().getSelectedItem();
         if (sel != null) {
-            sel.setStatut("✅ Pris");
-            tableView.refresh();
+            service.mettreAJourStatut(sel.getId(), " Pris");
             lbMessage.setText("✅ " + sel.getMedicament() + " marqué comme pris !");
             lbMessage.setStyle("-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
+            chargerTable();
         } else {
-            lbMessage.setText("⚠️ Sélectionnez un rappel !");
+            lbMessage.setText(" Sélectionnez un rappel !");
             lbMessage.setStyle("-fx-text-fill: #e65100; -fx-font-weight: bold;");
         }
     }
 
     private void verifierAlertes() {
         String maintenant = LocalTime.now().format(FMT);
-        for (RappelMedicament r : rappels) {
+        for (RappelMedicament r : tableView.getItems()) {
             if (r.getHeure().equals(maintenant) && r.getStatut().equals("En attente")) {
-                afficherNotification("⏰ Il est " + maintenant + " — Prenez votre médicament : " + r.getMedicament()
-                        + (r.getNote().isEmpty() ? "" : " (" + r.getNote() + ")"));
-                r.setStatut("🔔 Rappelé");
-                tableView.refresh();
+                afficherNotification("⏰ Il est " + maintenant + " — Prenez : "
+                        + r.getMedicament()
+                        + (r.getNote() != null && !r.getNote().isEmpty() ? " (" + r.getNote() + ")" : ""));
+                service.mettreAJourStatut(r.getId(), " Rappelé");
+                chargerTable();
             }
         }
     }
@@ -133,7 +154,6 @@ public class AlerteController {
         lbNotif.setText(message);
         bannerNotif.setVisible(true);
         bannerNotif.setManaged(true);
-        // Cache la bannière après 10 secondes
         Timeline hide = new Timeline(new KeyFrame(Duration.seconds(10), e -> {
             bannerNotif.setVisible(false);
             bannerNotif.setManaged(false);
@@ -153,6 +173,8 @@ public class AlerteController {
         try {
             Parent root = FXMLLoader.load(getClass().getResource(fxml));
             tableView.getScene().setRoot(root);
-        } catch (IOException ex) { System.out.println(ex.getMessage()); }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

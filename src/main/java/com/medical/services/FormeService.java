@@ -14,20 +14,20 @@ public class FormeService implements IService<Forme> {
     @Override
     public boolean ajouter(Forme f) {
         if (f.getLibelle() == null || f.getLibelle().trim().isEmpty()) {
-            System.out.println("⚠️ Le libellé est obligatoire !");
+            System.out.println("️ Le libellé est obligatoire !");
             return false;
         }
         if (f.getLibelle().trim().length() < 3) {
-            System.out.println("⚠️ Le libellé doit avoir au moins 3 caractères !");
+            System.out.println("️ Le libellé doit avoir au moins 3 caractères !");
             return false;
         }
         if (f.getVoieAdministration() == null || f.getVoieAdministration().trim().isEmpty()) {
-            System.out.println("⚠️ La voie d'administration est obligatoire !");
+            System.out.println("️ La voie d'administration est obligatoire !");
             return false;
         }
         for (Forme existing : getTous()) {
             if (existing.getLibelle().equalsIgnoreCase(f.getLibelle())) {
-                System.out.println("⚠️ Cette forme pharmaceutique existe déjà !");
+                System.out.println("️ Cette forme pharmaceutique existe déjà !");
                 return false;
             }
         }
@@ -38,7 +38,7 @@ public class FormeService implements IService<Forme> {
             ps.setString(2, f.getVoieAdministration());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("❌ Erreur ajouter forme : " + e.getMessage());
+            System.out.println(" Erreur ajouter forme : " + e.getMessage());
             return false;
         }
     }
@@ -59,7 +59,7 @@ public class FormeService implements IService<Forme> {
                 liste.add(f);
             }
         } catch (SQLException e) {
-            System.out.println("❌ Erreur getTous forme : " + e.getMessage());
+            System.out.println(" Erreur getTous forme : " + e.getMessage());
         }
         return liste;
     }
@@ -68,7 +68,7 @@ public class FormeService implements IService<Forme> {
     @Override
     public Forme getParId(int id) {
         if (id <= 0) {
-            System.out.println("⚠️ L'ID doit être positif !");
+            System.out.println("️ L'ID doit être positif !");
             return null;
         }
         String sql = "SELECT * FROM forme WHERE id_forme = ?";
@@ -84,7 +84,7 @@ public class FormeService implements IService<Forme> {
                 return f;
             }
         } catch (SQLException e) {
-            System.out.println("❌ Erreur getParId forme : " + e.getMessage());
+            System.out.println(" Erreur getParId forme : " + e.getMessage());
         }
         return null;
     }
@@ -93,19 +93,19 @@ public class FormeService implements IService<Forme> {
     @Override
     public boolean modifier(Forme f) {
         if (f.getIdForme() <= 0) {
-            System.out.println("⚠️ ID invalide !");
+            System.out.println("️ ID invalide !");
             return false;
         }
         if (f.getLibelle() == null || f.getLibelle().trim().isEmpty()) {
-            System.out.println("⚠️ Le libellé est obligatoire !");
+            System.out.println("️ Le libellé est obligatoire !");
             return false;
         }
         if (f.getVoieAdministration() == null || f.getVoieAdministration().trim().isEmpty()) {
-            System.out.println("⚠️ La voie d'administration est obligatoire !");
+            System.out.println("️ La voie d'administration est obligatoire !");
             return false;
         }
         if (getParId(f.getIdForme()) == null) {
-            System.out.println("⚠️ Cette forme n'existe pas !");
+            System.out.println("️ Cette forme n'existe pas !");
             return false;
         }
         String sql = "UPDATE forme SET libelle=?, voie_administration=? WHERE id_forme=?";
@@ -116,7 +116,7 @@ public class FormeService implements IService<Forme> {
             ps.setInt(3, f.getIdForme());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("❌ Erreur modifier forme : " + e.getMessage());
+            System.out.println(" Erreur modifier forme : " + e.getMessage());
             return false;
         }
     }
@@ -125,11 +125,11 @@ public class FormeService implements IService<Forme> {
     @Override
     public boolean supprimer(int id) {
         if (id <= 0) {
-            System.out.println("⚠️ L'ID doit être positif !");
+            System.out.println("️ L'ID doit être positif !");
             return false;
         }
         if (getParId(id) == null) {
-            System.out.println("⚠️ Cette forme n'existe pas !");
+            System.out.println("️ Cette forme n'existe pas !");
             return false;
         }
         String sql = "DELETE FROM forme WHERE id_forme = ?";
@@ -138,7 +138,7 @@ public class FormeService implements IService<Forme> {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("❌ Erreur supprimer forme : " + e.getMessage());
+            System.out.println(" Erreur supprimer forme : " + e.getMessage());
             return false;
         }
     }

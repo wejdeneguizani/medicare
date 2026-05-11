@@ -15,31 +15,31 @@ public class StockService implements IService<Stock> {
     @Override
     public boolean ajouter(Stock s) {
         if (s.getIdMedicament() <= 0) {
-            System.out.println("⚠️ L'ID du médicament est invalide !");
+            System.out.println("️ L'ID du médicament est invalide !");
             return false;
         }
         if (s.getNumeroLot() == null || s.getNumeroLot().trim().isEmpty()) {
-            System.out.println("⚠️ Le numéro de lot est obligatoire !");
+            System.out.println("️ Le numéro de lot est obligatoire !");
             return false;
         }
         if (s.getQuantite() < 0) {
-            System.out.println("⚠️ La quantité ne peut pas être négative !");
+            System.out.println("️ La quantité ne peut pas être négative !");
             return false;
         }
         if (s.getPrixUnitaire() <= 0) {
-            System.out.println("⚠️ Le prix unitaire doit être positif !");
+            System.out.println("️ Le prix unitaire doit être positif !");
             return false;
         }
         if (s.getDateExpiration() == null) {
-            System.out.println("⚠️ La date d'expiration est obligatoire !");
+            System.out.println("️ La date d'expiration est obligatoire !");
             return false;
         }
         if (s.getDateExpiration().before(new Date())) {
-            System.out.println("⚠️ La date d'expiration est déjà passée !");
+            System.out.println("️ La date d'expiration est déjà passée !");
             return false;
         }
         if (s.getSeuilAlerte() < 0) {
-            System.out.println("⚠️ Le seuil d'alerte ne peut pas être négatif !");
+            System.out.println("️ Le seuil d'alerte ne peut pas être négatif !");
             return false;
         }
         String sql = "INSERT INTO stock (id_medicament, numero_lot, quantite, prix_unitaire, " +
@@ -54,7 +54,7 @@ public class StockService implements IService<Stock> {
             ps.setInt(6, s.getSeuilAlerte());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("❌ Erreur ajouter stock : " + e.getMessage());
+            System.out.println(" Erreur ajouter stock : " + e.getMessage());
             return false;
         }
     }
@@ -71,7 +71,7 @@ public class StockService implements IService<Stock> {
                 liste.add(mapRow(rs));
             }
         } catch (SQLException e) {
-            System.out.println("❌ Erreur getTous stock : " + e.getMessage());
+            System.out.println(" Erreur getTous stock : " + e.getMessage());
         }
         return liste;
     }
@@ -80,7 +80,7 @@ public class StockService implements IService<Stock> {
     @Override
     public Stock getParId(int id) {
         if (id <= 0) {
-            System.out.println("⚠️ L'ID doit être positif !");
+            System.out.println("️ L'ID doit être positif !");
             return null;
         }
         String sql = "SELECT * FROM stock WHERE id_stock = ?";
@@ -90,7 +90,7 @@ public class StockService implements IService<Stock> {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) return mapRow(rs);
         } catch (SQLException e) {
-            System.out.println("❌ Erreur getParId stock : " + e.getMessage());
+            System.out.println(" Erreur getParId stock : " + e.getMessage());
         }
         return null;
     }
@@ -104,12 +104,12 @@ public class StockService implements IService<Stock> {
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) liste.add(mapRow(rs));
         } catch (SQLException e) {
-            System.out.println("❌ Erreur getStockFaible : " + e.getMessage());
+            System.out.println(" Erreur getStockFaible : " + e.getMessage());
         }
         if (liste.isEmpty()) {
-            System.out.println("✅ Aucun stock en alerte !");
+            System.out.println(" Aucun stock en alerte !");
         } else {
-            System.out.println("⚠️ " + liste.size() + " stock(s) en alerte !");
+            System.out.println("️ " + liste.size() + " stock(s) en alerte !");
         }
         return liste;
     }
@@ -118,19 +118,19 @@ public class StockService implements IService<Stock> {
     @Override
     public boolean modifier(Stock s) {
         if (s.getIdStock() <= 0) {
-            System.out.println("⚠️ ID invalide !");
+            System.out.println("️ ID invalide !");
             return false;
         }
         if (s.getQuantite() < 0) {
-            System.out.println("⚠️ La quantité ne peut pas être négative !");
+            System.out.println("️ La quantité ne peut pas être négative !");
             return false;
         }
         if (s.getPrixUnitaire() <= 0) {
-            System.out.println("⚠️ Le prix unitaire doit être positif !");
+            System.out.println("️ Le prix unitaire doit être positif !");
             return false;
         }
         if (s.getSeuilAlerte() < 0) {
-            System.out.println("⚠️ Le seuil d'alerte ne peut pas être négatif !");
+            System.out.println("️ Le seuil d'alerte ne peut pas être négatif !");
             return false;
         }
         String sql = "UPDATE stock SET id_medicament=?, numero_lot=?, quantite=?, prix_unitaire=?, " +
@@ -147,7 +147,7 @@ public class StockService implements IService<Stock> {
             ps.setInt(7, s.getIdStock());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("❌ Erreur modifier stock : " + e.getMessage());
+            System.out.println(" Erreur modifier stock : " + e.getMessage());
             return false;
         }
     }
@@ -156,11 +156,11 @@ public class StockService implements IService<Stock> {
     @Override
     public boolean supprimer(int id) {
         if (id <= 0) {
-            System.out.println("⚠️ L'ID doit être positif !");
+            System.out.println("️ L'ID doit être positif !");
             return false;
         }
         if (getParId(id) == null) {
-            System.out.println("⚠️ Ce stock n'existe pas !");
+            System.out.println("️ Ce stock n'existe pas !");
             return false;
         }
         String sql = "DELETE FROM stock WHERE id_stock = ?";

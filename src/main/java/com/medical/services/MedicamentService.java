@@ -14,30 +14,30 @@ public class MedicamentService implements IService<Medicament> {
     @Override
     public boolean ajouter(Medicament m) {
         if (m.getNomCommercial() == null || m.getNomCommercial().trim().isEmpty()) {
-            System.out.println("⚠️ Le nom commercial est obligatoire !");
+            System.out.println("️ Le nom commercial est obligatoire !");
             return false;
         }
         if (m.getNomDci() == null || m.getNomDci().trim().isEmpty()) {
-            System.out.println("⚠️ Le nom DCI est obligatoire !");
+            System.out.println("️ Le nom DCI est obligatoire !");
             return false;
         }
         if (m.getDosage() == null || m.getDosage().trim().isEmpty()) {
-            System.out.println("⚠️ Le dosage est obligatoire !");
+            System.out.println("️ Le dosage est obligatoire !");
             return false;
         }
         for (Medicament existing : getTous()) {
             if (existing.getCodeBarre() != null &&
                     existing.getCodeBarre().equals(m.getCodeBarre())) {
-                System.out.println("⚠️ Ce code barre existe déjà !");
+                System.out.println("️ Ce code barre existe déjà !");
                 return false;
             }
         }
         if (m.getIdCategorie() <= 0) {
-            System.out.println("⚠️ La catégorie est obligatoire !");
+            System.out.println("️ La catégorie est obligatoire !");
             return false;
         }
         if (m.getIdForme() <= 0) {
-            System.out.println("⚠️ La forme pharmaceutique est obligatoire !");
+            System.out.println(" La forme pharmaceutique est obligatoire !");
             return false;
         }
         String sql = "INSERT INTO medicament (nom_commercial, nom_dci, dosage, code_barre, " +
@@ -54,7 +54,7 @@ public class MedicamentService implements IService<Medicament> {
             ps.setBoolean(8, m.isEstActif());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("❌ Erreur ajouter médicament : " + e.getMessage());
+            System.out.println("Erreur ajouter médicament : " + e.getMessage());
             return false;
         }
     }
@@ -81,7 +81,7 @@ public class MedicamentService implements IService<Medicament> {
                 liste.add(m);
             }
         } catch (SQLException e) {
-            System.out.println("❌ Erreur getTous médicament : " + e.getMessage());
+            System.out.println(" Erreur getTous médicament : " + e.getMessage());
         }
         return liste;
     }
@@ -90,7 +90,7 @@ public class MedicamentService implements IService<Medicament> {
     @Override
     public Medicament getParId(int id) {
         if (id <= 0) {
-            System.out.println("⚠️ L'ID doit être positif !");
+            System.out.println("️ L'ID doit être positif !");
             return null;
         }
         String sql = "SELECT * FROM medicament WHERE id_medicament = ?";
@@ -112,7 +112,7 @@ public class MedicamentService implements IService<Medicament> {
                 return m;
             }
         } catch (SQLException e) {
-            System.out.println("❌ Erreur getParId médicament : " + e.getMessage());
+            System.out.println(" Erreur getParId médicament : " + e.getMessage());
         }
         return null;
     }
@@ -121,15 +121,15 @@ public class MedicamentService implements IService<Medicament> {
     @Override
     public boolean modifier(Medicament m) {
         if (m.getIdMedicament() <= 0) {
-            System.out.println("⚠️ ID invalide !");
+            System.out.println("️ ID invalide !");
             return false;
         }
         if (m.getNomCommercial() == null || m.getNomCommercial().trim().isEmpty()) {
-            System.out.println("⚠️ Le nom commercial est obligatoire !");
+            System.out.println("️ Le nom commercial est obligatoire !");
             return false;
         }
         if (getParId(m.getIdMedicament()) == null) {
-            System.out.println("⚠️ Ce médicament n'existe pas !");
+            System.out.println("️ Ce médicament n'existe pas !");
             return false;
         }
         String sql = "UPDATE medicament SET nom_commercial=?, nom_dci=?, dosage=?, code_barre=?, " +
@@ -147,7 +147,7 @@ public class MedicamentService implements IService<Medicament> {
             ps.setInt(9, m.getIdMedicament());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("❌ Erreur modifier médicament : " + e.getMessage());
+            System.out.println(" Erreur modifier médicament : " + e.getMessage());
             return false;
         }
     }
@@ -156,16 +156,16 @@ public class MedicamentService implements IService<Medicament> {
     @Override
     public boolean supprimer(int id) {
         if (id <= 0) {
-            System.out.println("⚠️ L'ID doit être positif !");
+            System.out.println("️ L'ID doit être positif !");
             return false;
         }
         Medicament m = getParId(id);
         if (m == null) {
-            System.out.println("⚠️ Ce médicament n'existe pas !");
+            System.out.println("️ Ce médicament n'existe pas !");
             return false;
         }
         if (m.isEstActif()) {
-            System.out.println("⚠️ Impossible de supprimer un médicament actif !");
+            System.out.println("️ Impossible de supprimer un médicament actif !");
             return false;
         }
         String sql = "DELETE FROM medicament WHERE id_medicament = ?";
@@ -174,7 +174,7 @@ public class MedicamentService implements IService<Medicament> {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("❌ Erreur supprimer médicament : " + e.getMessage());
+            System.out.println(" Erreur supprimer médicament : " + e.getMessage());
             return false;
         }
     }

@@ -78,19 +78,19 @@ public class StockController {
 
             boolean ok = service.ajouter(s);
             if (ok) {
-                lbMessage.setText("✅ Stock ajouté avec succès !");
+                lbMessage.setText(" Stock ajouté avec succès !");
                 lbMessage.setStyle("-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
                 viderFormulaire();
             } else {
-                lbMessage.setText("❌ Erreur lors de l'ajout !");
+                lbMessage.setText(" Erreur lors de l'ajout !");
                 lbMessage.setStyle("-fx-text-fill: #c62828; -fx-font-weight: bold;");
             }
             chargerTable();
         } catch (NumberFormatException ex) {
-            lbMessage.setText("⚠️ Vérifiez les champs numériques !");
+            lbMessage.setText("️ Vérifiez les champs numériques !");
             lbMessage.setStyle("-fx-text-fill: #e65100; -fx-font-weight: bold;");
         } catch (ParseException ex) {
-            lbMessage.setText("⚠️ Format de date invalide (yyyy-MM-dd) !");
+            lbMessage.setText("️ Format de date invalide (yyyy-MM-dd) !");
             lbMessage.setStyle("-fx-text-fill: #e65100; -fx-font-weight: bold;");
         }
     }
@@ -101,15 +101,15 @@ public class StockController {
         if (selectionne != null) {
             boolean ok = service.supprimer(selectionne.getIdStock());
             if (ok) {
-                lbMessage.setText("✅ Stock supprimé !");
+                lbMessage.setText(" Stock supprimé !");
                 lbMessage.setStyle("-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
             } else {
-                lbMessage.setText("❌ Erreur lors de la suppression !");
+                lbMessage.setText(" Erreur lors de la suppression !");
                 lbMessage.setStyle("-fx-text-fill: #c62828; -fx-font-weight: bold;");
             }
             chargerTable();
         } else {
-            lbMessage.setText("⚠️ Sélectionnez un stock !");
+            lbMessage.setText("️ Sélectionnez un stock !");
             lbMessage.setStyle("-fx-text-fill: #e65100; -fx-font-weight: bold;");
         }
     }
@@ -119,14 +119,14 @@ public class StockController {
         ObservableList<Stock> liste =
                 FXCollections.observableArrayList(service.getStockFaible());
         tableView.setItems(liste);
-        lbMessage.setText("⚠️ Affichage des stocks faibles (" + liste.size() + " article(s))");
+        lbMessage.setText(" Affichage des stocks faibles (" + liste.size() + " article(s))");
         lbMessage.setStyle("-fx-text-fill: #e65100; -fx-font-weight: bold;");
     }
 
     @FXML
     public void afficherTout(ActionEvent e) {
         chargerTable();
-        lbMessage.setText("🔄 Tous les stocks affichés.");
+        lbMessage.setText(" Tous les stocks affichés.");
         lbMessage.setStyle("-fx-text-fill: #1565c0; -fx-font-weight: bold;");
     }
 

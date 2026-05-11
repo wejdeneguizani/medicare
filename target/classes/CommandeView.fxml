@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1060.0"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.medical.controllers.CommandeController"
+            stylesheets="@style.css">
+    <children>
+        <VBox spacing="11" layoutX="18" layoutY="12" prefWidth="1024">
+
+            <!-- ══ HEADER ═══════════════════════════════════════════════════════════ -->
+            <HBox spacing="14" alignment="CENTER_LEFT"
+                  style="-fx-background-color:#fce4ec;-fx-padding:12;-fx-background-radius:12;">
+                <ImageView fitWidth="68" fitHeight="68" preserveRatio="true">
+                    <image><Image url="@logo.png"/></image>
+                </ImageView>
+                <VBox spacing="3">
+                    <Label text="Medicare+"
+                           style="-fx-font-size:26px;-fx-font-weight:bold;-fx-text-fill:#e91e8c;"/>
+                    <Label text="Votre santé, notre priorité"
+                           style="-fx-font-size:11px;-fx-text-fill:#f48fb1;-fx-font-style:italic;"/>
+                </VBox>
+            </HBox>
+
+            <!-- ══ NAV ═══════════════════════════════════════════════════════════════ -->
+            <HBox spacing="6" alignment="CENTER"
+                  style="-fx-background-color:#f9c4d8;-fx-padding:8;-fx-background-radius:10;">
+                <Button text="Médicaments" onAction="#allerMedicaments" styleClass="nav-btn"/>
+                <Button text="Catégories"  onAction="#allerCategories"  styleClass="nav-btn"/>
+                <Button text="Fabricants"  onAction="#allerFabricants"  styleClass="nav-btn"/>
+                <Button text="Formes"      onAction="#allerFormes"      styleClass="nav-btn"/>
+                <Button text="Stock"       onAction="#allerStock"       styleClass="nav-btn"/>
+                <Button text="Alertes"     onAction="#allerAlertes"     styleClass="nav-btn"/>
+                <Button text="Chatbot"     onAction="#allerChatbot"     styleClass="nav-btn"/>
+                <Button text="🛒 Commande" onAction="#allerCommande"
+                        style="-fx-background-color:#f48fb1;-fx-text-fill:white;-fx-font-weight:bold;-fx-background-radius:8;-fx-padding:7 14;"/>
+                <Button text="💳 Paiement" onAction="#allerPaiement"   styleClass="nav-btn"/>
+            </HBox>
+
+            <!-- ══ TITRE ══════════════════════════════════════════════════════════════ -->
+            <Label text="🛒 Nouvelle Commande" styleClass="titre"/>
+
+            <!-- ══ BLOC 1 : TYPE DE COMMANDE ══════════════════════════════════════════ -->
+            <VBox spacing="8"
+                  style="-fx-background-color:#fff8fd;-fx-padding:14;-fx-background-radius:10;-fx-border-color:#f9c4d8;-fx-border-radius:10;">
+                <Label text="Étape 1 — Type de commande"
+                       style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:#e91e8c;"/>
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <ToggleButton fx:id="tgClient" text="🛒 Vente client"
+                                  onAction="#basculerVersClient" selected="true"
+                                  style="-fx-background-color:#1565c0;-fx-text-fill:white;-fx-font-weight:bold;-fx-background-radius:8;-fx-padding:8 18;"/>
+                    <ToggleButton fx:id="tgReappro" text="📦 Réapprovisionnement"
+                                  onAction="#basculerVersReappro"
+                                  style="-fx-background-color:#e0e0e0;-fx-text-fill:#333;-fx-font-weight:bold;-fx-background-radius:8;-fx-padding:8 18;"/>
+                    <Label fx:id="lbTypeInfo"
+                           text="🛒 Vente au client — le stock sera diminué"
+                           style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1565c0;"/>
+                </HBox>
+            </VBox>
+
+            <!-- ══ BLOC 2 : RECHERCHE MÉDICAMENT ══════════════════════════════════════ -->
+            <VBox spacing="9"
+                  style="-fx-background-color:#fff8fd;-fx-padding:14;-fx-background-radius:10;-fx-border-color:#f9c4d8;-fx-border-radius:10;">
+                <Label text="Étape 2 — Rechercher un médicament"
+                       style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:#e91e8c;"/>
+
+                <!-- Recherche texte -->
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <Label text="🔎 Texte :" style="-fx-pref-width:75;-fx-font-weight:bold;"/>
+                    <TextField fx:id="tfRecherche" promptText="Tapez le nom du médicament..."
+                               prefWidth="340" onAction="#rechercherParTexte"
+                               style="-fx-font-size:13px;-fx-padding:7;"/>
+                    <Button text="Rechercher" onAction="#rechercherParTexte"
+                            style="-fx-background-color:#e91e8c;-fx-text-fill:white;-fx-font-weight:bold;-fx-background-radius:8;-fx-padding:7 16;"/>
+                    <Button text="Tout afficher" onAction="#afficherTousStocks"
+                            style="-fx-background-color:#9c27b0;-fx-text-fill:white;-fx-font-weight:bold;-fx-background-radius:8;-fx-padding:7 14;"/>
+                </HBox>
+
+                <!-- Liste déroulante -->
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <Label text="📋 Liste :" style="-fx-pref-width:75;-fx-font-weight:bold;"/>
+                    <ComboBox fx:id="cbListeMedicaments" promptText="— Sélectionner dans la liste —"
+                              prefWidth="480" style="-fx-font-size:12px;"/>
+                </HBox>
+
+                <!-- Table résultats -->
+                <TableView fx:id="tableStock" prefHeight="155" prefWidth="1020">
+                    <columns>
+                        <TableColumn fx:id="colStockId"   text="ID"          prefWidth="55"/>
+                        <TableColumn fx:id="colStockNom"  text="Médicament"  prefWidth="280"/>
+                        <TableColumn fx:id="colStockQte"  text="Dispo"       prefWidth="80"/>
+                        <TableColumn fx:id="colStockPrix" text="Prix (DT)"   prefWidth="100"/>
+                        <TableColumn fx:id="colStockLot"  text="N° Lot"      prefWidth="120"/>
+                    </columns>
+                    <placeholder><Label text="Recherchez ou sélectionnez un médicament"/></placeholder>
+                </TableView>
+            </VBox>
+
+            <!-- ══ BLOC 3 : FORMULAIRE (caché au départ) ══════════════════════════════ -->
+            <VBox fx:id="panneauFormulaire" spacing="10"
+                  style="-fx-background-color:#fff8fd;-fx-padding:14;-fx-background-radius:10;-fx-border-color:#f9c4d8;-fx-border-radius:10;">
+                <Label text="Étape 3 — Informations de la commande"
+                       style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:#e91e8c;"/>
+
+                <!-- Récapitulatif médicament sélectionné -->
+                <HBox spacing="22" alignment="CENTER_LEFT"
+                      style="-fx-background-color:#fce4ec;-fx-padding:9;-fx-background-radius:8;">
+                    <Label fx:id="lbMedicamentChoisi"
+                           style="-fx-font-size:14px;-fx-font-weight:bold;-fx-text-fill:#880e4f;"/>
+                    <Label fx:id="lbStockDispo"
+                           style="-fx-font-size:12px;-fx-font-weight:bold;"/>
+                    <Label fx:id="lbPrixInfo"
+                           style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1565c0;"/>
+                </HBox>
+
+                <!-- Formulaire -->
+                <HBox spacing="30">
+                    <VBox spacing="9">
+                        <HBox spacing="10" alignment="CENTER_LEFT" fx:id="rowNom">
+                            <Label fx:id="lbNomLabel" text="Nom du client :"
+                                   style="-fx-pref-width:155;-fx-font-weight:bold;"/>
+                            <TextField fx:id="tfNom" promptText="Nom complet" prefWidth="220"/>
+                        </HBox>
+                        <HBox fx:id="rowEmail" spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Email :"
+                                   style="-fx-pref-width:155;-fx-font-weight:bold;"/>
+                            <TextField fx:id="tfEmail" promptText="exemple@gmail.com" prefWidth="220"/>
+                        </HBox>
+                        <HBox fx:id="rowTel" spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Téléphone :"
+                                   style="-fx-pref-width:155;-fx-font-weight:bold;"/>
+                            <TextField fx:id="tfTelephone" promptText="(facultatif)" prefWidth="220"/>
+                        </HBox>
+                    </VBox>
+                    <VBox spacing="9">
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Quantité :"
+                                   style="-fx-pref-width:160;-fx-font-weight:bold;"/>
+                            <TextField fx:id="tfQuantite" promptText="ex: 3" prefWidth="120"/>
+                        </HBox>
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label fx:id="lbModeLabel" text="Mode de paiement :"
+                                   style="-fx-pref-width:160;-fx-font-weight:bold;"/>
+                            <ComboBox fx:id="cbMode" prefWidth="190"/>
+                        </HBox>
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Montant total :"
+                                   style="-fx-pref-width:160;-fx-font-weight:bold;"/>
+                            <Label fx:id="lbMontant" text="—"
+                                   style="-fx-font-size:17px;-fx-font-weight:bold;-fx-text-fill:#e91e8c;"/>
+                        </HBox>
+                    </VBox>
+                </HBox>
+
+                <!-- Bouton confirmer -->
+                <Button text="✅ Confirmer la commande" onAction="#confirmerCommande"
+                        style="-fx-background-color:#e91e8c;-fx-text-fill:white;-fx-font-weight:bold;
+                       -fx-font-size:14px;-fx-background-radius:10;-fx-padding:10 28;"/>
+            </VBox>
+
+            <!-- ══ MESSAGE ════════════════════════════════════════════════════════════ -->
+            <Label fx:id="lbMessage" style="-fx-font-size:13px;"/>
+
+        </VBox>
+    </children>
+</AnchorPane>

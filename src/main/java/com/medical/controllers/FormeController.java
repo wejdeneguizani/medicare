@@ -45,12 +45,12 @@ public class FormeController {
         f.setVoieAdministration(tfVoieAdministration.getText());
         boolean ok = service.ajouter(f);
         if (ok) {
-            lbMessage.setText("✅ Forme pharmaceutique ajoutée avec succès !");
+            lbMessage.setText(" Forme pharmaceutique ajoutée avec succès !");
             lbMessage.setStyle("-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
             tfLibelle.clear();
             tfVoieAdministration.clear();
         } else {
-            lbMessage.setText("❌ Erreur lors de l'ajout !");
+            lbMessage.setText(" Erreur lors de l'ajout !");
             lbMessage.setStyle("-fx-text-fill: #c62828; -fx-font-weight: bold;");
         }
         chargerTable();
@@ -62,15 +62,15 @@ public class FormeController {
         if (selectionne != null) {
             boolean ok = service.supprimer(selectionne.getIdForme());
             if (ok) {
-                lbMessage.setText("✅ Forme supprimée !");
+                lbMessage.setText(" Forme supprimée !");
                 lbMessage.setStyle("-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
             } else {
-                lbMessage.setText("❌ Erreur lors de la suppression !");
+                lbMessage.setText(" Erreur lors de la suppression !");
                 lbMessage.setStyle("-fx-text-fill: #c62828; -fx-font-weight: bold;");
             }
             chargerTable();
         } else {
-            lbMessage.setText("⚠️ Sélectionnez une forme !");
+            lbMessage.setText("️ Sélectionnez une forme !");
             lbMessage.setStyle("-fx-text-fill: #e65100; -fx-font-weight: bold;");
         }
     }

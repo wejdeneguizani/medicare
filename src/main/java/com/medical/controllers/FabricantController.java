@@ -53,11 +53,11 @@ public class FabricantController {
         f.setSiteWeb(tfSiteWeb.getText());
         boolean ok = service.ajouter(f);
         if (ok) {
-            lbMessage.setText("✅ Fabricant ajouté avec succès !");
+            lbMessage.setText(" Fabricant ajouté avec succès !");
             lbMessage.setStyle("-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
             tfNom.clear(); tfPays.clear(); tfContact.clear(); tfSiteWeb.clear();
         } else {
-            lbMessage.setText("❌ Erreur lors de l'ajout !");
+            lbMessage.setText(" Erreur lors de l'ajout !");
             lbMessage.setStyle("-fx-text-fill: #c62828; -fx-font-weight: bold;");
         }
         chargerTable();
@@ -69,15 +69,15 @@ public class FabricantController {
         if (selectionne != null) {
             boolean ok = service.supprimer(selectionne.getIdFabricant());
             if (ok) {
-                lbMessage.setText("✅ Fabricant supprimé !");
+                lbMessage.setText(" Fabricant supprimé !");
                 lbMessage.setStyle("-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
             } else {
-                lbMessage.setText("❌ Erreur lors de la suppression !");
+                lbMessage.setText(" Erreur lors de la suppression !");
                 lbMessage.setStyle("-fx-text-fill: #c62828; -fx-font-weight: bold;");
             }
             chargerTable();
         } else {
-            lbMessage.setText("⚠️ Sélectionnez un fabricant !");
+            lbMessage.setText("️ Sélectionnez un fabricant !");
             lbMessage.setStyle("-fx-text-fill: #e65100; -fx-font-weight: bold;");
         }
     }

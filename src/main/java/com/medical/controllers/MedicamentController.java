@@ -56,7 +56,7 @@ public class MedicamentController {
             m.setIdFabricant(Integer.parseInt(tfIdFabricant.getText()));
             m.setEstActif(true);
             boolean ok = service.ajouter(m);
-            lbMessage.setText(ok ? "✅ Ajouté !" : "❌ Erreur !");
+            lbMessage.setText(ok ? " Ajouté !" : " Erreur !");
             if (ok) {
                 tfNom.clear();
                 tfDci.clear();
@@ -67,7 +67,7 @@ public class MedicamentController {
             }
             chargerTable();
         } catch (NumberFormatException ex) {
-            lbMessage.setText("⚠️ Les IDs doivent être des nombres !");
+            lbMessage.setText("️ Les IDs doivent être des nombres !");
         }
     }
 
@@ -78,7 +78,7 @@ public class MedicamentController {
             service.supprimer(selectionne.getIdMedicament());
             chargerTable();
         } else {
-            lbMessage.setText("⚠️ Sélectionnez un médicament !");
+            lbMessage.setText("️ Sélectionnez un médicament !");
         }
     }
     @FXML public void allerMedicaments(ActionEvent e) { /* déjà sur cette vue */ }

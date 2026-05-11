@@ -53,14 +53,14 @@ public class CategorieController {
         c.setDescription(tfDescription.getText());
         boolean ok = service.ajouter(c);
         if (ok) {
-            lbMessage.setText("✅ Catégorie ajoutée avec succès !");
+            lbMessage.setText(" Catégorie ajoutée avec succès !");
             lbMessage.setStyle(
                     "-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
             tfLibelle.clear();
             tfCodeAtc.clear();
             tfDescription.clear();
         } else {
-            lbMessage.setText("❌ Erreur lors de l'ajout !");
+            lbMessage.setText(" Erreur lors de l'ajout !");
             lbMessage.setStyle(
                     "-fx-text-fill: #c62828; -fx-font-weight: bold;");
         }
@@ -74,17 +74,17 @@ public class CategorieController {
         if (selectionne != null) {
             boolean ok = service.supprimer(selectionne.getIdCategorie());
             if (ok) {
-                lbMessage.setText("✅ Catégorie supprimée !");
+                lbMessage.setText(" Catégorie supprimée !");
                 lbMessage.setStyle(
                         "-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
             } else {
-                lbMessage.setText("❌ Erreur lors de la suppression !");
+                lbMessage.setText(" Erreur lors de la suppression !");
                 lbMessage.setStyle(
                         "-fx-text-fill: #c62828; -fx-font-weight: bold;");
             }
             chargerTable();
         } else {
-            lbMessage.setText("⚠️ Sélectionnez une catégorie !");
+            lbMessage.setText(" Sélectionnez une catégorie !");
             lbMessage.setStyle(
                     "-fx-text-fill: #e65100; -fx-font-weight: bold;");
         }
