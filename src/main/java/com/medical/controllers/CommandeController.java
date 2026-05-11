@@ -60,6 +60,13 @@ public class CommandeController {
 
     @FXML private Label lbMessage;
 
+    // ─── CHAMPS CARTE BANCAIRE ────────────────────────────────────────────────
+    @FXML private VBox         panneauCarte;
+    @FXML private TextField    tfNumeroCarte;
+    @FXML private TextField    tfTitulaire;
+    @FXML private TextField    tfExpiration;
+    @FXML private PasswordField tfCvv;
+
     private final CommandeService service = new CommandeService();
     private List<Stock> tousLesStocks;
     private Stock       stockSelectionne;
@@ -107,6 +114,10 @@ public class CommandeController {
         // Panneau formulaire caché au départ
         panneauFormulaire.setVisible(false);
         panneauFormulaire.setManaged(false);
+
+        // Panneau carte caché au départ
+        panneauCarte.setVisible(false);
+        panneauCarte.setManaged(false);
 
         // Mode client par défaut
         basculerVersClient();
@@ -198,6 +209,14 @@ public class CommandeController {
         }
     }
 
+    // ─── AFFICHER/MASQUER CHAMPS CARTE ────────────────────────────────────────
+    @FXML
+    public void onModeChanged(ActionEvent e) {
+        boolean isCarte = "Carte bancaire".equals(cbMode.getValue());
+        panneauCarte.setVisible(isCarte);
+        panneauCarte.setManaged(isCarte);
+    }
+
     // ─── CONFIRMER ────────────────────────────────────────────────────────────
     @FXML
     public void confirmerCommande(ActionEvent e) {
@@ -220,6 +239,15 @@ public class CommandeController {
 
         if (modeClient && (tfEmail.getText().trim().isEmpty() || !tfEmail.getText().contains("@"))) {
             msg("⚠️ Email client invalide !", "#e65100"); return;
+        }
+
+        // Validation carte bancaire
+        if ("Carte bancaire".equals(cbMode.getValue())) {
+            String num = tfNumeroCarte.getText().replaceAll("\\s", "");
+            if (num.length() != 16) { msg("⚠️ Numéro de carte invalide (16 chiffres requis) !", "#e65100"); return; }
+            if (tfTitulaire.getText().trim().isEmpty()) { msg("⚠️ Nom du titulaire requis !", "#e65100"); return; }
+            if (!tfExpiration.getText().matches("\\d{2}/\\d{2}")) { msg("⚠️ Date d'expiration invalide (MM/AA) !", "#e65100"); return; }
+            if (tfCvv.getText().length() != 3) { msg("⚠️ CVV invalide (3 chiffres requis) !", "#e65100"); return; }
         }
 
         // Construire la commande

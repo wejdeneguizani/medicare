@@ -89,6 +89,8 @@ public class FabricantController {
     @FXML public void allerStock(ActionEvent e)       { naviguer("/StockView.fxml"); }
     @FXML public void allerAlertes(ActionEvent e)     { naviguer("/AlerteView.fxml"); }
     @FXML public void allerChatbot(ActionEvent e)     { naviguer("/ChatbotView.fxml"); }
+    @FXML public void allerCommande(ActionEvent e)    { naviguer("/CommandeView.fxml"); }
+    @FXML public void allerPaiement(ActionEvent e)    { naviguer("/PaiementView.fxml"); }
 
     private void naviguer(String fxml) {
         try {

@@ -50,6 +50,14 @@
                         style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
                 <Button text=" Chatbot" onAction="#allerChatbot"
                         style="-fx-background-color: #f48fb1; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 20px;"/>
+                <Button text="🛒 Commande" onAction="#allerCommande"
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 15px;"/>
+                <Button text="💳 Paiement" onAction="#allerPaiement"
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 15px;"/>
+                <Button text="🛒 Commande" onAction="#allerCommande"
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 15px;"/>
+                <Button text="💳 Paiement" onAction="#allerPaiement"
+                        style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 15px;"/>
             </HBox>
 
             <!-- TITRE -->

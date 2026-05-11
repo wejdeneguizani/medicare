@@ -2,7 +2,11 @@ package com.medical.services;
 
 import com.medical.model.Commande;
 
-import javax.mail.*;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -105,22 +109,14 @@ public class EmailService {
         String typeLabel  = estClient ? "Client" : "Fournisseur";
         String qtLabel    = estClient ? "Quantité vendue" : "Quantité commandée";
 
-        return "<!DOCTYPE html><html><body style='font-family:Arial,sans-serif;background:#f5f5f5;padding:20px'>" +
-                "<div style='max-width:600px;margin:auto;background:white;border-radius:12px;overflow:hidden;" +
-                "box-shadow:0 4px 15px rgba(0,0,0,.1)'>" +
-
-                // Header
-                "<div style='background:linear-gradient(135deg,#e91e8c,#f48fb1);padding:28px;text-align:center'>" +
+        String header = "<div style='background:linear-gradient(135deg,#e91e8c,#f48fb1);padding:28px;text-align:center'>" +
                 "<h1 style='color:white;margin:0;font-size:30px'>Medicare+</h1>" +
                 "<p style='color:#fce4ec;margin:6px 0 0;font-style:italic'>Votre santé, notre priorité</p>" +
-                "</div>" +
+                "</div>";
 
-                // Corps
-                "<div style='padding:28px'>" +
+        String corps = "<div style='padding:28px'>" +
                 "<h2 style='color:#333'>" + destinataire + "</h2>" +
                 "<p style='color:#555'>Ci-dessous le récapitulatif de votre " + titre.toLowerCase() + " :</p>" +
-
-                // Tableau
                 "<table style='width:100%;border-collapse:collapse;margin:18px 0'>" +
                 tr("#fce4ec", "Numéro", "#" + String.format("%05d", c.getIdCommande())) +
                 tr("#fff",    "Type",   titre) +
@@ -133,15 +129,19 @@ public class EmailService {
                         "<span style='color:white;font-weight:bold;font-size:18px'>" +
                                 String.format("%.2f DT", c.getMontantTotal()) + "</span>") +
                 "</table>" +
-
                 "<p style='color:#888;font-size:12px'>Date : " + SDF.format(new Date()) + "</p>" +
                 (pdfPath() ? "<p style='color:#1565c0'>📎 Le reçu PDF est en pièce jointe.</p>" : "") +
-                "</div>" +
+                "</div>";
 
-                // Footer
-                "<div style='background:#fce4ec;padding:14px;text-align:center'>" +
+        String footer = "<div style='background:#fce4ec;padding:14px;text-align:center'>" +
                 "<p style='color:#e91e8c;margin:0'>Merci de votre confiance — Medicare+</p>" +
-                "</div></div></body></html>";
+                "</div>";
+
+        return "<!DOCTYPE html><html><body style='font-family:Arial,sans-serif;background:#f5f5f5;padding:20px'>" +
+                "<div style='max-width:600px;margin:auto;background:white;border-radius:12px;overflow:hidden;" +
+                "box-shadow:0 4px 15px rgba(0,0,0,.1)'>" +
+                header + corps + footer +
+                "</div></body></html>";
     }
 
     private String tr(String bg, String label, String val) {

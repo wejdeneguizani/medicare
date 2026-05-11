@@ -27,6 +27,7 @@ import java.util.Date;
 public class PaiementController {
 
     // ─── Labels récapitulatif ─────────────────────────────────────────────────
+    @FXML private Label lbTitreRecu;
     @FXML private Label lbNumero;
     @FXML private Label lbType;
     @FXML private Label lbNom;
@@ -58,7 +59,8 @@ public class PaiementController {
         this.commandeEnCours = c;
         boolean estClient = "CLIENT".equals(c.getTypeCommande());
 
-        lbNumero.setText("N° " + String.format("%05d", c.getIdCommande()));
+        lbTitreRecu.setText(estClient ? "REÇU DE PAIEMENT" : "BON DE RÉAPPROVISIONNEMENT");
+        lbNumero.setText("N° " + String.format("%05d", c.getIdCommande()) + "   —   " + SDF.format(new Date()));
         lbType.setText(estClient ? "🛒 Vente client" : "📦 Réapprovisionnement");
         lbType.setStyle(estClient
                 ? "-fx-text-fill:#1565c0;-fx-font-weight:bold;"
