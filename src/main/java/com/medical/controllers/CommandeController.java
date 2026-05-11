@@ -296,6 +296,18 @@ public class CommandeController {
         lbMessage.setStyle("-fx-text-fill:" + c + ";-fx-font-weight:bold;");
     }
 
+    // ─── PRÉSÉLECTION DEPUIS LE SHOP ──────────────────────────────────────────
+    public void preselectionnerStock(Stock stock) {
+        // Afficher tous les stocks dans la table
+        tableStock.setItems(javafx.collections.FXCollections.observableArrayList(tousLesStocks));
+        // Sélectionner le bon
+        selectionnerStock(stock);
+        tableStock.getSelectionModel().select(stock);
+        // Scroll vers le formulaire
+        panneauFormulaire.setVisible(true);
+        panneauFormulaire.setManaged(true);
+    }
+
     // ─── NAVIGATION ───────────────────────────────────────────────────────────
     @FXML public void allerMedicaments(ActionEvent e) { naviguer("/MainView.fxml"); }
     @FXML public void allerCategories(ActionEvent e)  { naviguer("/CategorieView.fxml"); }
@@ -306,6 +318,7 @@ public class CommandeController {
     @FXML public void allerChatbot(ActionEvent e)     { naviguer("/ChatbotView.fxml"); }
     @FXML public void allerCommande(ActionEvent e)    { /* déjà ici */ }
     @FXML public void allerPaiement(ActionEvent e)    { naviguer("/PaiementView.fxml"); }
+    @FXML public void allerShop(ActionEvent e)        { naviguer("/ShopView.fxml"); }
 
     private void naviguer(String fxml) {
         try {

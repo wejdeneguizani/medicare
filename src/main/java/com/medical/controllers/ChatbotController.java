@@ -205,6 +205,7 @@ public class ChatbotController {
     @FXML public void allerChatbot(ActionEvent e)     { /* déjà ici */ }
     @FXML public void allerCommande(ActionEvent e)    { naviguer("/CommandeView.fxml"); }
     @FXML public void allerPaiement(ActionEvent e)    { naviguer("/PaiementView.fxml"); }
+    @FXML public void allerShop(ActionEvent e)        { naviguer("/ShopView.fxml"); }
 
     private void naviguer(String fxml) {
         try {

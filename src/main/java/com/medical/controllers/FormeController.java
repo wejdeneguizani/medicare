@@ -84,6 +84,7 @@ public class FormeController {
     @FXML public void allerChatbot(ActionEvent e)     { naviguer("/ChatbotView.fxml"); }
     @FXML public void allerCommande(ActionEvent e)    { naviguer("/CommandeView.fxml"); }
     @FXML public void allerPaiement(ActionEvent e)    { naviguer("/PaiementView.fxml"); }
+    @FXML public void allerShop(ActionEvent e)        { naviguer("/ShopView.fxml"); }
 
     private void naviguer(String fxml) {
         try {

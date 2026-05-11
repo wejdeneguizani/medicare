@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+
+<AnchorPane prefHeight="750.0" prefWidth="1060.0"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.medical.controllers.ShopController"
+            stylesheets="@style.css">
+    <children>
+        <ScrollPane fitToWidth="true"
+                    AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+                    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+                    style="-fx-background-color:transparent;-fx-background:transparent;">
+            <content>
+                <VBox spacing="14" style="-fx-padding:18;">
+
+                    <!-- HEADER -->
+                    <HBox spacing="14" alignment="CENTER_LEFT"
+                          style="-fx-background-color:#fce4ec;-fx-padding:12;-fx-background-radius:12;">
+                        <ImageView fitWidth="68" fitHeight="68" preserveRatio="true">
+                            <image><Image url="@logo.png"/></image>
+                        </ImageView>
+                        <VBox spacing="3">
+                            <Label text="Medicare+" style="-fx-font-size:26px;-fx-font-weight:bold;-fx-text-fill:#e91e8c;"/>
+                            <Label text="Votre santé, notre priorité" style="-fx-font-size:11px;-fx-text-fill:#f48fb1;-fx-font-style:italic;"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- NAV -->
+                    <HBox spacing="6" alignment="CENTER"
+                          style="-fx-background-color:#f9c4d8;-fx-padding:8;-fx-background-radius:10;">
+                        <Button text="Médicaments" onAction="#allerMedicaments" styleClass="nav-btn"/>
+                        <Button text="Catégories"  onAction="#allerCategories"  styleClass="nav-btn"/>
+                        <Button text="Fabricants"  onAction="#allerFabricants"  styleClass="nav-btn"/>
+                        <Button text="Formes"      onAction="#allerFormes"      styleClass="nav-btn"/>
+                        <Button text="Stock"       onAction="#allerStock"       styleClass="nav-btn"/>
+                        <Button text="Alertes"     onAction="#allerAlertes"     styleClass="nav-btn"/>
+                        <Button text="Chatbot"     onAction="#allerChatbot"     styleClass="nav-btn"/>
+                        <Button text="🛒 Commande" onAction="#allerCommande"    styleClass="nav-btn"/>
+                        <Button text="💳 Paiement" onAction="#allerPaiement"    styleClass="nav-btn"/>
+                        <Button text="🏪 Shop"     onAction="#allerShop"
+                                style="-fx-background-color:#e91e8c;-fx-text-fill:white;-fx-font-weight:bold;-fx-background-radius:8;-fx-padding:7 14;"/>
+                    </HBox>
+
+                    <!-- TITRE + RECHERCHE -->
+                    <HBox spacing="14" alignment="CENTER_LEFT">
+                        <Label text="🏪 Pharmacie en ligne"
+                               style="-fx-font-size:22px;-fx-font-weight:bold;-fx-text-fill:#e91e8c;"/>
+                        <TextField fx:id="tfSearch" promptText="🔎 Rechercher un médicament..."
+                                   prefWidth="300" onKeyReleased="#filtrerShop"
+                                   style="-fx-font-size:13px;-fx-padding:7;-fx-background-radius:20;"/>
+                        <ComboBox fx:id="cbFiltreStock" prefWidth="180" onAction="#filtrerShop"/>
+                    </HBox>
+
+                    <!-- GRILLE DES PRODUITS -->
+                    <FlowPane fx:id="grilleProduits" hgap="16" vgap="16"
+                              prefWrapLength="1020"
+                              style="-fx-padding:8;"/>
+
+                    <!-- MESSAGE si vide -->
+                    <Label fx:id="lbMessage" style="-fx-font-size:13px;-fx-font-weight:bold;"/>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>
