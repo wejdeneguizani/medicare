@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+
+<AnchorPane prefHeight="750.0" prefWidth="1060.0"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.medical.controllers.ParametresController"
+            stylesheets="@style.css">
+    <children>
+        <ScrollPane fitToWidth="true"
+                    AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+                    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+                    style="-fx-background-color:transparent;-fx-background:transparent;">
+            <content>
+                <VBox spacing="14" style="-fx-padding:18;">
+
+                    <!-- HEADER -->
+                    <HBox spacing="14" alignment="CENTER_LEFT"
+                          style="-fx-background-color:#fce4ec;-fx-padding:12;-fx-background-radius:12;">
+                        <ImageView fitWidth="68" fitHeight="68" preserveRatio="true">
+                            <image><Image url="@logo.png"/></image>
+                        </ImageView>
+                        <VBox spacing="3">
+                            <Label text="Medicare+" style="-fx-font-size:26px;-fx-font-weight:bold;-fx-text-fill:#e91e8c;"/>
+                            <Label text="Votre santé, notre priorité" style="-fx-font-size:11px;-fx-text-fill:#f48fb1;-fx-font-style:italic;"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- NAV -->
+                    <HBox spacing="6" alignment="CENTER"
+                          style="-fx-background-color:#f9c4d8;-fx-padding:8;-fx-background-radius:10;">
+                        <Button text="Médicaments" onAction="#allerMedicaments" styleClass="nav-btn"/>
+                        <Button text="Catégories"  onAction="#allerCategories"  styleClass="nav-btn"/>
+                        <Button text="Fabricants"  onAction="#allerFabricants"  styleClass="nav-btn"/>
+                        <Button text="Formes"      onAction="#allerFormes"      styleClass="nav-btn"/>
+                        <Button text="Stock"       onAction="#allerStock"       styleClass="nav-btn"/>
+                        <Button text="Alertes"     onAction="#allerAlertes"     styleClass="nav-btn"/>
+                        <Button text="Chatbot"     onAction="#allerChatbot"     styleClass="nav-btn"/>
+                        <Button text="🛒 Commande" onAction="#allerCommande"    styleClass="nav-btn"/>
+                        <Button text="💳 Paiement" onAction="#allerPaiement"    styleClass="nav-btn"/>
+                        <Button text="⚙️ Paramètres" onAction="#allerParametres"
+                                style="-fx-background-color:#e91e8c;-fx-text-fill:white;-fx-font-weight:bold;-fx-background-radius:8;-fx-padding:7 14;"/>
+                    </HBox>
+
+                    <!-- TITRE -->
+                    <Label text="⚙️ Paramètres Email" styleClass="titre"/>
+
+                    <!-- CONFIG EMAIL -->
+                    <VBox spacing="14"
+                          style="-fx-background-color:#fff8fd;-fx-padding:24;-fx-background-radius:12;-fx-border-color:#f9c4d8;-fx-border-radius:12;">
+
+                        <Label text="📧 Configuration de l'envoi d'emails"
+                               style="-fx-font-size:15px;-fx-font-weight:bold;-fx-text-fill:#e91e8c;"/>
+
+                        <Label text="Ces informations sont utilisées pour envoyer les reçus de paiement aux clients."
+                               style="-fx-font-size:12px;-fx-text-fill:#666;"/>
+
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label text="Email Gmail :" style="-fx-pref-width:180;-fx-font-weight:bold;-fx-font-size:13px;"/>
+                            <TextField fx:id="tfEmailExp" promptText="votre.email@gmail.com"
+                                       prefWidth="320" style="-fx-font-size:13px;-fx-padding:8;"/>
+                        </HBox>
+
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label text="Mot de passe app :" style="-fx-pref-width:180;-fx-font-weight:bold;-fx-font-size:13px;"/>
+                            <PasswordField fx:id="pfMotDePasse" promptText="xxxx xxxx xxxx xxxx"
+                                           prefWidth="220" style="-fx-font-size:13px;-fx-padding:8;"/>
+                            <CheckBox fx:id="cbAfficher" text="Afficher" onAction="#toggleAfficher"/>
+                        </HBox>
+
+                        <!-- Champ texte visible quand on coche Afficher -->
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label text="" style="-fx-pref-width:180;"/>
+                            <TextField fx:id="tfMotDePasseVisible" promptText="xxxx xxxx xxxx xxxx"
+                                       prefWidth="220" style="-fx-font-size:13px;-fx-padding:8;"
+                                       visible="false" managed="false"/>
+                        </HBox>
+
+                        <!-- Instructions -->
+                        <VBox spacing="6"
+                              style="-fx-background-color:#e3f2fd;-fx-padding:14;-fx-background-radius:10;-fx-border-color:#1565c0;-fx-border-radius:10;">
+                            <Label text="💡 Comment créer un mot de passe d'application Gmail ?"
+                                   style="-fx-font-weight:bold;-fx-text-fill:#1565c0;-fx-font-size:13px;"/>
+                            <Label text="1. Va sur https://myaccount.google.com/security"
+                                   style="-fx-font-size:12px;-fx-text-fill:#333;"/>
+                            <Label text="2. Active la validation en deux étapes"
+                                   style="-fx-font-size:12px;-fx-text-fill:#333;"/>
+                            <Label text="3. Va sur https://myaccount.google.com/apppasswords"
+                                   style="-fx-font-size:12px;-fx-text-fill:#333;"/>
+                            <Label text="4. Crée un mot de passe pour l'application 'Medicare'"
+                                   style="-fx-font-size:12px;-fx-text-fill:#333;"/>
+                            <Label text="5. Copie les 16 caractères et colle-les ci-dessus"
+                                   style="-fx-font-size:12px;-fx-text-fill:#333;"/>
+                        </VBox>
+
+                        <HBox spacing="12">
+                            <Button text="💾 Sauvegarder" onAction="#sauvegarder"
+                                    style="-fx-background-color:#e91e8c;-fx-text-fill:white;-fx-font-weight:bold;
+                                           -fx-font-size:13px;-fx-background-radius:10;-fx-padding:10 24;"/>
+                            <Button text="🧪 Tester l'envoi" onAction="#testerEmail"
+                                    style="-fx-background-color:#1565c0;-fx-text-fill:white;-fx-font-weight:bold;
+                                           -fx-font-size:13px;-fx-background-radius:10;-fx-padding:10 24;"/>
+                        </HBox>
+
+                        <Label fx:id="lbMessage" style="-fx-font-size:13px;-fx-font-weight:bold;"/>
+                    </VBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>
