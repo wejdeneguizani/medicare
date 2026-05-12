@@ -320,6 +320,7 @@ public class CommandeController {
     @FXML public void allerCommande(ActionEvent e)    { /* déjà ici */ }
     @FXML public void allerPaiement(ActionEvent e)    { naviguer("/PaiementView.fxml"); }
     @FXML public void allerShop(ActionEvent e)        { naviguer("/ShopView.fxml"); }
+    @FXML public void allerParametres(ActionEvent e)  { naviguer("/ParametresView.fxml"); }
 
     private void naviguer(String fxml) {
         try {
