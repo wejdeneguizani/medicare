@@ -3,6 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
 
 <AnchorPane prefHeight="750.0" prefWidth="1060.0"
             xmlns="http://javafx.com/javafx"
@@ -10,122 +11,165 @@
             fx:controller="com.medical.controllers.PaiementController"
             stylesheets="@style.css">
     <children>
-        <VBox spacing="12" layoutX="18" layoutY="12" prefWidth="1024">
+        <ScrollPane fitToWidth="true"
+                    AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+                    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+                    style="-fx-background-color:transparent;-fx-background:transparent;">
+            <content>
+                <VBox spacing="11" style="-fx-padding:18;">
 
-            <!-- HEADER -->
-            <HBox spacing="14" alignment="CENTER_LEFT"
-                  style="-fx-background-color:#fce4ec;-fx-padding:12;-fx-background-radius:12;">
-                <ImageView fitWidth="68" fitHeight="68" preserveRatio="true">
-                    <image><Image url="@logo.png"/></image>
-                </ImageView>
-                <VBox spacing="3">
-                    <Label text="Medicare+"
-                           style="-fx-font-size:26px;-fx-font-weight:bold;-fx-text-fill:#e91e8c;"/>
-                    <Label text="Votre santé, notre priorité"
-                           style="-fx-font-size:11px;-fx-text-fill:#f48fb1;-fx-font-style:italic;"/>
-                </VBox>
-            </HBox>
+                    <!-- HEADER -->
+                    <HBox spacing="14" alignment="CENTER_LEFT"
+                          style="-fx-background-color:#fce4ec;-fx-padding:12;-fx-background-radius:12;">
+                        <ImageView fitWidth="68" fitHeight="68" preserveRatio="true">
+                            <image><Image url="@logo.png"/></image>
+                        </ImageView>
+                        <VBox spacing="3">
+                            <Label text="Medicare+" style="-fx-font-size:26px;-fx-font-weight:bold;-fx-text-fill:#e91e8c;"/>
+                            <Label text="Votre santé, notre priorité" style="-fx-font-size:11px;-fx-text-fill:#f48fb1;-fx-font-style:italic;"/>
+                        </VBox>
+                    </HBox>
 
-            <!-- NAV -->
-            <HBox spacing="6" alignment="CENTER"
-                  style="-fx-background-color:#f9c4d8;-fx-padding:8;-fx-background-radius:10;">
-                <Button text="Médicaments" onAction="#allerMedicaments" styleClass="nav-btn"/>
-                <Button text="Catégories"  onAction="#allerCategories"  styleClass="nav-btn"/>
-                <Button text="Fabricants"  onAction="#allerFabricants"  styleClass="nav-btn"/>
-                <Button text="Formes"      onAction="#allerFormes"      styleClass="nav-btn"/>
-                <Button text="Stock"       onAction="#allerStock"       styleClass="nav-btn"/>
-                <Button text="Alertes"     onAction="#allerAlertes"     styleClass="nav-btn"/>
-                <Button text="Chatbot"     onAction="#allerChatbot"     styleClass="nav-btn"/>
-                <Button text="🛒 Commande" onAction="#allerCommande"    styleClass="nav-btn"/>
-                <Button text="💳 Paiement" onAction="#allerPaiement"
-                        style="-fx-background-color:#e91e8c;-fx-text-fill:white;-fx-font-weight:bold;-fx-background-radius:8;-fx-padding:7 14;"/>
-            </HBox>
+                    <!-- NAV -->
+                    <HBox spacing="6" alignment="CENTER"
+                          style="-fx-background-color:#f9c4d8;-fx-padding:8;-fx-background-radius:10;">
+                        <Button text="Médicaments" onAction="#allerMedicaments" styleClass="nav-btn"/>
+                        <Button text="Catégories"  onAction="#allerCategories"  styleClass="nav-btn"/>
+                        <Button text="Fabricants"  onAction="#allerFabricants"  styleClass="nav-btn"/>
+                        <Button text="Formes"      onAction="#allerFormes"      styleClass="nav-btn"/>
+                        <Button text="Stock"       onAction="#allerStock"       styleClass="nav-btn"/>
+                        <Button text="Alertes"     onAction="#allerAlertes"     styleClass="nav-btn"/>
+                        <Button text="Chatbot"     onAction="#allerChatbot"     styleClass="nav-btn"/>
+                        <Button text="🛒 Commande" onAction="#allerCommande"    styleClass="nav-btn"/>
+                        <Button text="💳 Paiement" onAction="#allerPaiement"
+                                style="-fx-background-color:#e91e8c;-fx-text-fill:white;-fx-font-weight:bold;-fx-background-radius:8;-fx-padding:7 14;"/>
+                    </HBox>
 
-            <!-- TITRE -->
-            <Label text="💳 Paiement &amp; Reçu" styleClass="titre"/>
+                    <!-- TITRE -->
+                    <Label text="💳 Reçu de Paiement" styleClass="titre"/>
 
-            <!-- RÉCAPITULATIF COMMANDE -->
-            <VBox spacing="10"
-                  style="-fx-background-color:#fff8fd;-fx-padding:18;-fx-background-radius:12;-fx-border-color:#f9c4d8;-fx-border-radius:12;">
-                <Label text="Récapitulatif de la commande"
-                       style="-fx-font-size:14px;-fx-font-weight:bold;-fx-text-fill:#e91e8c;"/>
+                    <!-- ══ RECU VISUEL ══ -->
+                    <VBox fx:id="panneauRecu" spacing="0"
+                          style="-fx-background-color:white;-fx-border-color:#e0e0e0;-fx-border-width:1;-fx-border-radius:14;-fx-background-radius:14;-fx-effect:dropshadow(gaussian,rgba(0,0,0,0.12),14,0,0,4);">
 
-                <HBox spacing="30">
-                    <VBox spacing="10">
-                        <HBox spacing="10" alignment="CENTER_LEFT">
-                            <Label text="N° Commande :"
-                                   style="-fx-pref-width:160;-fx-font-weight:bold;"/>
+                        <!-- En-tête reçu rose -->
+                        <VBox alignment="CENTER" spacing="4"
+                              style="-fx-background-color:linear-gradient(to right,#e91e8c,#f48fb1);-fx-padding:24;-fx-background-radius:14 14 0 0;">
+                            <Label text="Medicare+" style="-fx-font-size:28px;-fx-font-weight:bold;-fx-text-fill:white;"/>
+                            <Label text="Votre santé, notre priorité" style="-fx-font-size:11px;-fx-text-fill:#fce4ec;-fx-font-style:italic;"/>
+                            <Label fx:id="lbTitreRecu" text="REÇU DE PAIEMENT"
+                                   style="-fx-font-size:16px;-fx-font-weight:bold;-fx-text-fill:white;-fx-padding:8 0 0 0;"/>
                             <Label fx:id="lbNumero"
-                                   style="-fx-font-size:14px;-fx-font-weight:bold;-fx-text-fill:#1565c0;"/>
-                        </HBox>
-                        <HBox spacing="10" alignment="CENTER_LEFT">
-                            <Label text="Type :"
-                                   style="-fx-pref-width:160;-fx-font-weight:bold;"/>
-                            <Label fx:id="lbType"/>
-                        </HBox>
-                        <HBox spacing="10" alignment="CENTER_LEFT">
-                            <Label text="Client / Fournisseur :"
-                                   style="-fx-pref-width:160;-fx-font-weight:bold;"/>
-                            <Label fx:id="lbNom"/>
-                        </HBox>
-                        <HBox spacing="10" alignment="CENTER_LEFT">
-                            <Label text="Email :"
-                                   style="-fx-pref-width:160;-fx-font-weight:bold;"/>
-                            <Label fx:id="lbEmail"/>
-                        </HBox>
+                                   style="-fx-font-size:13px;-fx-text-fill:#fce4ec;"/>
+                        </VBox>
+
+                        <!-- Corps reçu -->
+                        <VBox spacing="0" style="-fx-padding:0 30 20 30;">
+
+                            <!-- Ligne état -->
+                            <HBox alignment="CENTER" style="-fx-padding:14 0 14 0;">
+                                <Label text="✅ COMMANDE CONFIRMÉE"
+                                       style="-fx-font-size:15px;-fx-font-weight:bold;-fx-text-fill:#2e7d32;
+                                              -fx-background-color:#e8f5e9;-fx-padding:8 20;-fx-background-radius:20;"/>
+                            </HBox>
+
+                            <!-- Séparateur -->
+                            <Separator style="-fx-background-color:#f9c4d8;"/>
+
+                            <!-- Tableau infos -->
+                            <GridPane hgap="0" vgap="0" style="-fx-padding:16 0 16 0;">
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="40"/>
+                                    <ColumnConstraints percentWidth="60"/>
+                                </columnConstraints>
+
+                                <!-- Type -->
+                                <Label text="Type" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                                       style="-fx-font-weight:bold;-fx-text-fill:#666;-fx-padding:8 0;"/>
+                                <Label fx:id="lbType" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                                       style="-fx-padding:8 0;-fx-font-weight:bold;"/>
+
+                                <!-- Nom -->
+                                <Label text="Client / Fournisseur" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                                       style="-fx-font-weight:bold;-fx-text-fill:#666;-fx-padding:8 0;-fx-background-color:#fafafa;"/>
+                                <Label fx:id="lbNom" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                                       style="-fx-padding:8 0;-fx-background-color:#fafafa;"/>
+
+                                <!-- Email -->
+                                <Label text="Email" GridPane.rowIndex="2" GridPane.columnIndex="0"
+                                       style="-fx-font-weight:bold;-fx-text-fill:#666;-fx-padding:8 0;"/>
+                                <Label fx:id="lbEmail" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                                       style="-fx-padding:8 0;"/>
+
+                                <!-- Médicament -->
+                                <Label text="Médicament" GridPane.rowIndex="3" GridPane.columnIndex="0"
+                                       style="-fx-font-weight:bold;-fx-text-fill:#666;-fx-padding:8 0;-fx-background-color:#fafafa;"/>
+                                <Label fx:id="lbMedicament" GridPane.rowIndex="3" GridPane.columnIndex="1"
+                                       style="-fx-padding:8 0;-fx-background-color:#fafafa;"/>
+
+                                <!-- Quantité -->
+                                <Label text="Quantité" GridPane.rowIndex="4" GridPane.columnIndex="0"
+                                       style="-fx-font-weight:bold;-fx-text-fill:#666;-fx-padding:8 0;"/>
+                                <Label fx:id="lbQuantite" GridPane.rowIndex="4" GridPane.columnIndex="1"
+                                       style="-fx-padding:8 0;"/>
+
+                                <!-- Prix unitaire -->
+                                <Label text="Prix unitaire" GridPane.rowIndex="5" GridPane.columnIndex="0"
+                                       style="-fx-font-weight:bold;-fx-text-fill:#666;-fx-padding:8 0;-fx-background-color:#fafafa;"/>
+                                <Label fx:id="lbPrix" GridPane.rowIndex="5" GridPane.columnIndex="1"
+                                       style="-fx-padding:8 0;-fx-background-color:#fafafa;"/>
+
+                                <!-- Mode paiement -->
+                                <Label text="Mode de paiement" GridPane.rowIndex="6" GridPane.columnIndex="0"
+                                       style="-fx-font-weight:bold;-fx-text-fill:#666;-fx-padding:8 0;"/>
+                                <Label fx:id="lbMode" GridPane.rowIndex="6" GridPane.columnIndex="1"
+                                       style="-fx-padding:8 0;"/>
+                            </GridPane>
+
+                            <Separator style="-fx-background-color:#e91e8c;"/>
+
+                            <!-- Montant total -->
+                            <HBox alignment="CENTER_RIGHT" spacing="16" style="-fx-padding:16 0 8 0;">
+                                <Label text="MONTANT TOTAL"
+                                       style="-fx-font-size:16px;-fx-font-weight:bold;-fx-text-fill:#333;"/>
+                                <Label fx:id="lbMontantTotal"
+                                       style="-fx-font-size:26px;-fx-font-weight:bold;-fx-text-fill:#e91e8c;"/>
+                            </HBox>
+
+                            <Separator style="-fx-background-color:#f9c4d8;"/>
+
+                            <!-- Footer reçu -->
+                            <Label text="Merci de votre confiance — Medicare+"
+                                   style="-fx-font-size:12px;-fx-font-style:italic;-fx-text-fill:#aaa;-fx-padding:12 0 0 0;"/>
+                        </VBox>
                     </VBox>
-                    <VBox spacing="10">
-                        <HBox spacing="10" alignment="CENTER_LEFT">
-                            <Label text="Médicament :"
-                                   style="-fx-pref-width:160;-fx-font-weight:bold;"/>
-                            <Label fx:id="lbMedicament"/>
+
+                    <!-- ACTIONS -->
+                    <VBox spacing="12"
+                          style="-fx-background-color:#fff8fd;-fx-padding:18;-fx-background-radius:12;-fx-border-color:#f9c4d8;-fx-border-radius:12;">
+                        <Label text="Que voulez-vous faire avec ce reçu ?"
+                               style="-fx-font-size:14px;-fx-font-weight:bold;-fx-text-fill:#e91e8c;"/>
+                        <HBox spacing="16" alignment="CENTER_LEFT">
+                            <Button text="📄 Générer PDF" onAction="#genererPdf"
+                                    style="-fx-background-color:#1565c0;-fx-text-fill:white;-fx-font-weight:bold;
+                                           -fx-font-size:13px;-fx-background-radius:10;-fx-padding:10 24;"/>
+                            <Button fx:id="btnImprimer" text="🖨 Imprimer" onAction="#imprimerRecu"
+                                    style="-fx-background-color:#9c27b0;-fx-text-fill:white;-fx-font-weight:bold;
+                                           -fx-font-size:13px;-fx-background-radius:10;-fx-padding:10 24;"
+                                    disable="true"/>
+                            <Button fx:id="btnEmail" text="📧 Envoyer par Email" onAction="#envoyerEmail"
+                                    style="-fx-background-color:#e91e8c;-fx-text-fill:white;-fx-font-weight:bold;
+                                           -fx-font-size:13px;-fx-background-radius:10;-fx-padding:10 24;"
+                                    disable="true"/>
+                            <Button text="🛒 Nouvelle commande" onAction="#allerCommande"
+                                    style="-fx-background-color:#2e7d32;-fx-text-fill:white;-fx-font-weight:bold;
+                                           -fx-font-size:13px;-fx-background-radius:10;-fx-padding:10 24;"/>
                         </HBox>
-                        <HBox spacing="10" alignment="CENTER_LEFT">
-                            <Label text="Quantité :"
-                                   style="-fx-pref-width:160;-fx-font-weight:bold;"/>
-                            <Label fx:id="lbQuantite"/>
-                        </HBox>
-                        <HBox spacing="10" alignment="CENTER_LEFT">
-                            <Label text="Prix unitaire :"
-                                   style="-fx-pref-width:160;-fx-font-weight:bold;"/>
-                            <Label fx:id="lbPrix"/>
-                        </HBox>
-                        <HBox spacing="10" alignment="CENTER_LEFT">
-                            <Label text="Mode de paiement :"
-                                   style="-fx-pref-width:160;-fx-font-weight:bold;"/>
-                            <Label fx:id="lbMode"/>
-                        </HBox>
+                        <Label fx:id="lbMessage" style="-fx-font-size:13px;-fx-font-weight:bold;"/>
                     </VBox>
-                </HBox>
 
-                <!-- MONTANT TOTAL -->
-                <HBox alignment="CENTER_RIGHT" style="-fx-padding:10 0 0 0;">
-                    <Label text="MONTANT TOTAL : "
-                           style="-fx-font-size:18px;-fx-font-weight:bold;-fx-text-fill:#333;"/>
-                    <Label fx:id="lbMontantTotal"
-                           style="-fx-font-size:22px;-fx-font-weight:bold;-fx-text-fill:#e91e8c;"/>
-                </HBox>
-            </VBox>
-
-            <!-- ACTIONS -->
-            <VBox spacing="12"
-                  style="-fx-background-color:#fff8fd;-fx-padding:18;-fx-background-radius:12;-fx-border-color:#f9c4d8;-fx-border-radius:12;">
-                <Label text="Actions"
-                       style="-fx-font-size:14px;-fx-font-weight:bold;-fx-text-fill:#e91e8c;"/>
-                <HBox spacing="16" alignment="CENTER_LEFT">
-                    <Button text="📄 Générer PDF" onAction="#genererPdf"
-                            style="-fx-background-color:#1565c0;-fx-text-fill:white;-fx-font-weight:bold;-fx-font-size:13px;-fx-background-radius:10;-fx-padding:10 24;"/>
-                    <Button fx:id="btnImprimer" text="🖨 Imprimer" onAction="#imprimerRecu"
-                            style="-fx-background-color:#9c27b0;-fx-text-fill:white;-fx-font-weight:bold;-fx-font-size:13px;-fx-background-radius:10;-fx-padding:10 24;"
-                            disable="true"/>
-                    <Button fx:id="btnEmail" text="📧 Envoyer par Email" onAction="#envoyerEmail"
-                            style="-fx-background-color:#e91e8c;-fx-text-fill:white;-fx-font-weight:bold;-fx-font-size:13px;-fx-background-radius:10;-fx-padding:10 24;"
-                            disable="true"/>
-                </HBox>
-                <Label fx:id="lbMessage"
-                       style="-fx-font-size:13px;-fx-font-weight:bold;"/>
-            </VBox>
-
-        </VBox>
+                </VBox>
+            </content>
+        </ScrollPane>
     </children>
 </AnchorPane>

@@ -59,19 +59,27 @@ public class PaiementController {
         this.commandeEnCours = c;
         boolean estClient = "CLIENT".equals(c.getTypeCommande());
 
-        lbTitreRecu.setText(estClient ? "REÇU DE PAIEMENT" : "BON DE RÉAPPROVISIONNEMENT");
-        lbNumero.setText("N° " + String.format("%05d", c.getIdCommande()) + "   —   " + SDF.format(new Date()));
-        lbType.setText(estClient ? "🛒 Vente client" : "📦 Réapprovisionnement");
-        lbType.setStyle(estClient
-                ? "-fx-text-fill:#1565c0;-fx-font-weight:bold;"
-                : "-fx-text-fill:#e65100;-fx-font-weight:bold;");
-        lbNom.setText((estClient ? "Client : " : "Fournisseur : ") + c.getNomClient());
-        lbEmail.setText(estClient ? "Email : " + c.getEmailClient() : "");
-        lbMedicament.setText("Médicament : " + nvl(c.getNomMedicament()));
-        lbQuantite.setText("Quantité : " + c.getQuantite() + " unité(s)");
-        lbPrix.setText("Prix unitaire : " + String.format("%.2f DT", c.getPrixUnitaire()));
-        lbMode.setText("Mode : " + nvl(c.getModePaiement()));
-        lbMontantTotal.setText(String.format("%.2f DT", c.getMontantTotal()));
+        if (lbTitreRecu != null)
+            lbTitreRecu.setText(estClient ? "REÇU DE PAIEMENT" : "BON DE RÉAPPROVISIONNEMENT");
+        if (lbNumero != null)
+            lbNumero.setText("N° " + String.format("%05d", c.getIdCommande()) + "   —   " + SDF.format(new Date()));
+        if (lbType != null) {
+            lbType.setText(estClient ? "🛒 Vente client" : "📦 Réapprovisionnement");
+            lbType.setStyle(estClient
+                    ? "-fx-text-fill:#1565c0;-fx-font-weight:bold;"
+                    : "-fx-text-fill:#e65100;-fx-font-weight:bold;");
+        }
+        if (lbNom != null)         lbNom.setText((estClient ? "Client : " : "Fournisseur : ") + c.getNomClient());
+        if (lbEmail != null)       lbEmail.setText(estClient ? "Email : " + c.getEmailClient() : "");
+        if (lbMedicament != null)  lbMedicament.setText("Médicament : " + nvl(c.getNomMedicament()));
+        if (lbQuantite != null)    lbQuantite.setText("Quantité : " + c.getQuantite() + " unité(s)");
+        if (lbPrix != null)        lbPrix.setText("Prix unitaire : " + String.format("%.2f DT", c.getPrixUnitaire()));
+        if (lbMode != null)        lbMode.setText("Mode : " + nvl(c.getModePaiement()));
+        if (lbMontantTotal != null) lbMontantTotal.setText(String.format("%.2f DT", c.getMontantTotal()));
+
+        // Activer les boutons
+        if (btnEmail != null)    btnEmail.setDisable(!estClient);
+        if (btnImprimer != null) btnImprimer.setDisable(false);
     }
 
     // ─── GÉNÉRER PDF ──────────────────────────────────────────────────────────

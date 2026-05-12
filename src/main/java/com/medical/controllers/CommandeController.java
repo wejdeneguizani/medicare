@@ -265,15 +265,15 @@ public class CommandeController {
         c.setNomMedicament(stockSelectionne.getFournisseur());
         c.setNumeroLot(stockSelectionne.getNumeroLot());
 
-        if (!service.ajouter(c)) { msg("❌ Erreur d'enregistrement !", "#c62828"); return; }
+        boolean enregistre = service.ajouter(c);
+        System.out.println("➡️ BDD enregistré=" + enregistre + " ID=" + c.getIdCommande());
 
-        // Mettre à jour le stock
-        if (modeClient) service.diminuerStock(stockSelectionne.getIdStock(), qte);
-        else            service.augmenterStock(stockSelectionne.getIdStock(), qte);
+        if (enregistre) {
+            if (modeClient) service.diminuerStock(stockSelectionne.getIdStock(), qte);
+            else            service.augmenterStock(stockSelectionne.getIdStock(), qte);
+        }
 
-        msg("✅ Commande #" + String.format("%05d", c.getIdCommande()) + " confirmée !", "#2e7d32");
-
-        // Passer à PaiementView
+        // Toujours naviguer vers le reçu
         naviguerVersPaiement(c);
     }
 
@@ -285,8 +285,9 @@ public class CommandeController {
             PaiementController ctrl = loader.getController();
             ctrl.recevoirCommande(commande);
             tableStock.getScene().setRoot(root);
-        } catch (IOException ex) {
-            System.out.println("❌ Navigation paiement : " + ex.getMessage());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            msg("❌ Erreur navigation : " + ex.getMessage(), "#c62828");
         }
     }
 

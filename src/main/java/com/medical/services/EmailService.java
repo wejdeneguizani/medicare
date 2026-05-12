@@ -31,9 +31,37 @@ import java.util.Properties;
  */
 public class EmailService {
 
-    // ⬇️ MODIFIE CES DEUX LIGNES avec ton Gmail et ton mot de passe d'application
-    private static final String GMAIL_USER = "ton.email@gmail.com";
-    private static final String GMAIL_PASS = "abcd efgh ijkl mnop";
+    // Credentials modifiables depuis l'interface Paramètres
+    private static String GMAIL_USER = "mayssazaghrate2@gmail.com";
+    private static String GMAIL_PASS = "fhuo zvne wcen onyu";
+
+    // ─── GETTERS / SETTERS ────────────────────────────────────────────────────
+    public static String getGmailUser() { return GMAIL_USER; }
+    public static String getGmailPass() { return GMAIL_PASS; }
+    public static void setCredentials(String user, String pass) {
+        GMAIL_USER = user;
+        GMAIL_PASS = pass;
+        System.out.println("✅ Credentials mis à jour : " + user);
+    }
+
+    // ─── TEST DE CONNEXION ────────────────────────────────────────────────────
+    public static boolean testerConnexion(String email) {
+        try {
+            Properties props = getSmtpProps();
+            Session session = Session.getInstance(props, new Authenticator() {
+                @Override protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(GMAIL_USER, GMAIL_PASS);
+                }
+            });
+            Transport t = session.getTransport("smtp");
+            t.connect("smtp.gmail.com", GMAIL_USER, GMAIL_PASS);
+            t.close();
+            return true;
+        } catch (Exception e) {
+            System.out.println("❌ Test connexion : " + e.getMessage());
+            return false;
+        }
+    }
 
     private static final SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
@@ -43,18 +71,26 @@ public class EmailService {
      * @param pdfPath   Chemin du PDF généré (null si pas encore généré)
      * @return true si succès
      */
+    private static Properties getSmtpProps() {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth",                   "true");
+        props.put("mail.smtp.starttls.enable",        "true");
+        props.put("mail.smtp.starttls.required",      "true");
+        props.put("mail.smtp.host",                   "smtp.gmail.com");
+        props.put("mail.smtp.port",                   "587");
+        props.put("mail.smtp.ssl.trust",              "smtp.gmail.com");
+        props.put("mail.smtp.ssl.protocols",          "TLSv1.2");
+        props.put("mail.smtp.socketFactory.fallback", "true");
+        return props;
+    }
+
     public boolean envoyerRecu(Commande commande, String pdfPath) {
         if (commande.getEmailClient() == null || !commande.getEmailClient().contains("@")) {
             System.out.println("⚠️ Email invalide : " + commande.getEmailClient());
             return false;
         }
 
-        Properties props = new Properties();
-        props.put("mail.smtp.auth",            "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host",            "smtp.gmail.com");
-        props.put("mail.smtp.port",            "587");
-        props.put("mail.smtp.ssl.trust",       "smtp.gmail.com");
+        Properties props = getSmtpProps();
 
         Session session = Session.getInstance(props, new Authenticator() {
             @Override
