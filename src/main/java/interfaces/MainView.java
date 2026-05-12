@@ -19,7 +19,6 @@ public class MainView {
     }
 
     public void show() {
-        // ── Sidebar ───────────────────────────────────────────
         VBox sidebar = new VBox(8);
         sidebar.setPrefWidth(210);
         sidebar.setPadding(new Insets(20, 12, 20, 12));
@@ -36,15 +35,12 @@ public class MainView {
         sectionLabel.setPadding(new Insets(10, 0, 4, 6));
 
         Button btnUtilisateurs = sidebarBtn("👤  Utilisateurs", true);
-        Button btnRoles        = sidebarBtn("🔐  Rôles & Permissions", false);
         Button btnActivite     = sidebarBtn("📋  Journal d'activité", false);
 
         btnUtilisateurs.setOnAction(e -> new UtilisateurListeView(stage).show());
-        btnRoles.setOnAction(e -> new RolesView(stage).show());
 
-        sidebar.getChildren().addAll(logo, sectionLabel, btnUtilisateurs, btnRoles, btnActivite);
+        sidebar.getChildren().addAll(logo, sectionLabel, btnUtilisateurs, btnActivite);
 
-        // ── Contenu principal ─────────────────────────────────
         VBox content = new VBox(20);
         content.setPadding(new Insets(30));
         content.setAlignment(Pos.TOP_LEFT);
@@ -53,7 +49,6 @@ public class MainView {
         titre.setFont(Font.font("System Bold", 18));
         titre.setTextFill(Color.web("#0C447C"));
 
-        // Stats rapides
         HBox stats = new HBox(12);
         stats.getChildren().addAll(
                 statCard("Total utilisateurs", "248",  "#185FA5"),
@@ -68,7 +63,6 @@ public class MainView {
 
         content.getChildren().addAll(titre, stats, btnVoirListe);
 
-        // ── Layout principal ──────────────────────────────────
         BorderPane root = new BorderPane();
         root.setLeft(sidebar);
         root.setCenter(content);

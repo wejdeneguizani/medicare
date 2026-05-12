@@ -13,18 +13,26 @@ public class PasswordUtils {
 
     /** Vérifie un mot de passe en clair contre un hash stocké. */
     public static boolean verifier(String plainText, String hash) {
-        return BCrypt.checkpw(plainText, hash);
+        if (plainText == null || hash == null || hash.isBlank()) {
+            return false;
+        }
+
+        try {
+            return BCrypt.checkpw(plainText, hash);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 
     /** Génère un matricule unique selon le rôle. */
-    public static String genererMatricule(String roleNom) {
+    public static String genererMatricule(String role) {
         int annee = java.time.Year.now().getValue();
         int rand  = (int)(Math.random() * 9000) + 1000;
-        return switch (roleNom) {
-            case "Médecin"   -> "MAT-" + annee + "-" + rand;
-            case "Infirmier" -> "INF-" + annee + "-" + rand;
-            case "Patient"   -> "PAT-" + annee + "-" + rand;
-            default          -> "ADM-" + annee + "-" + rand;
+        return switch (role) {
+            case "Administrateur" -> "ADM-" + annee + "-" + rand;
+            case "Medecin"        -> "MAT-" + annee + "-" + rand;
+            case "Patient"        -> "PAT-" + annee + "-" + rand;
+            default               -> "USR-" + annee + "-" + rand;
         };
     }
 }

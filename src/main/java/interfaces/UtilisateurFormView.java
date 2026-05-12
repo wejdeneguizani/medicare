@@ -8,14 +8,11 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import models.Role;
 import models.Utilisateur;
-import services.RoleService;
 import services.UtilisateurService;
 import utils.PasswordUtils;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class UtilisateurFormView {
 
@@ -24,11 +21,10 @@ public class UtilisateurFormView {
     private final UtilisateurListeView parent;
 
     private final UtilisateurService userService = new UtilisateurService();
-    private final RoleService        roleService = new RoleService();
 
     private TextField      tfNom, tfPrenom, tfEmail, tfTelephone, tfAdresse;
     private PasswordField  pfMotDePasse;
-    private ComboBox<Role>   cbRole;
+    private ComboBox<String> cbRole;
     private ComboBox<String> cbSexe, cbStatut;
     private DatePicker     dpNaissance;
     private CheckBox       chkDeuxFacteurs;
@@ -82,18 +78,8 @@ public class UtilisateurFormView {
 
         grid.add(label("Role *"), 0, 4);
         cbRole = new ComboBox<>();
-        try {
-            List<Role> roles = roleService.getAll();
-            cbRole.getItems().addAll(roles);
-            if (isEdit) {
-                roles.stream()
-                        .filter(r -> r.getId() == utilisateur.getRoleId())
-                        .findFirst()
-                        .ifPresent(cbRole::setValue);
-            }
-        } catch (SQLException e) {
-            error("Impossible de charger les roles : " + e.getMessage());
-        }
+        cbRole.getItems().addAll("Administrateur", "Medecin", "Patient");
+        if (isEdit) cbRole.setValue(utilisateur.getRole());
         cbRole.setDisable(readOnly);
         cbRole.setMaxWidth(Double.MAX_VALUE);
         grid.add(cbRole, 1, 4);
@@ -175,7 +161,7 @@ public class UtilisateurFormView {
             utilisateur.setEmail(tfEmail.getText().trim());
             utilisateur.setTelephone(tfTelephone.getText().trim());
             utilisateur.setAdresse(tfAdresse.getText().trim());
-            utilisateur.setRoleId(cbRole.getValue().getId());
+            utilisateur.setRole(cbRole.getValue());
             utilisateur.setSexe(cbSexe.getValue());
             utilisateur.setDateNaissance(dpNaissance.getValue());
             utilisateur.setStatut(cbStatut.getValue());
@@ -198,12 +184,12 @@ public class UtilisateurFormView {
             u.setMotDePasse(pfMotDePasse.getText());
             u.setTelephone(tfTelephone.getText().trim());
             u.setAdresse(tfAdresse.getText().trim());
-            u.setRoleId(cbRole.getValue().getId());
+            u.setRole(cbRole.getValue());
             u.setSexe(cbSexe.getValue());
             u.setDateNaissance(dpNaissance.getValue());
             u.setStatut(cbStatut.getValue());
             u.setDeuxFacteurs(chkDeuxFacteurs.isSelected());
-            u.setMatricule(PasswordUtils.genererMatricule(cbRole.getValue().getNom()));
+            u.setMatricule(PasswordUtils.genererMatricule(cbRole.getValue()));
             try {
                 userService.ajouter(u);
                 success("Utilisateur cree avec succes.\nMatricule : " + u.getMatricule());

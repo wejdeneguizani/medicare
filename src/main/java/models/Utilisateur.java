@@ -11,8 +11,7 @@ public class Utilisateur {
     private String prenom;
     private String email;
     private String motDePasse;
-    private int roleId;
-    private String roleNom;
+    private String role;
     private String sexe;
     private LocalDate dateNaissance;
     private String telephone;
@@ -26,7 +25,7 @@ public class Utilisateur {
     public Utilisateur() {}
 
     public Utilisateur(int id, String matricule, String nom, String prenom,
-                       String email, String motDePasse, int roleId,
+                       String email, String motDePasse, String role,
                        String sexe, LocalDate dateNaissance, String telephone,
                        String adresse, String statut) {
         this.id            = id;
@@ -35,7 +34,7 @@ public class Utilisateur {
         this.prenom        = prenom;
         this.email         = email;
         this.motDePasse    = motDePasse;
-        this.roleId        = roleId;
+        this.role          = role;
         this.sexe          = sexe;
         this.dateNaissance = dateNaissance;
         this.telephone     = telephone;
@@ -63,11 +62,8 @@ public class Utilisateur {
     public String getMotDePasse()                { return motDePasse; }
     public void setMotDePasse(String motDePasse) { this.motDePasse = motDePasse; }
 
-    public int getRoleId()                       { return roleId; }
-    public void setRoleId(int roleId)            { this.roleId = roleId; }
-
-    public String getRoleNom()                   { return roleNom; }
-    public void setRoleNom(String roleNom)       { this.roleNom = roleNom; }
+    public String getRole()                      { return role; }
+    public void setRole(String role)             { this.role = role; }
 
     public String getSexe()                      { return sexe; }
     public void setSexe(String sexe)             { this.sexe = sexe; }

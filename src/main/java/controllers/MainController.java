@@ -33,6 +33,11 @@ public class MainController {
         changerVue(event, "/GestionUtilisateurs.fxml");
     }
 
+    @FXML
+    private void deconnecter(ActionEvent event) {
+        changerVue(event, "/Home.fxml");
+    }
+
     private void refreshStats() {
         try {
             totalLabel.setText(String.valueOf(service.countTotal()));

@@ -4,6 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Sets javafx.platform via OS profiles so ${javafx.platform} resolves when pulling OpenJFX modules -->
+    <parent>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx</artifactId>
+        <version>17.0.6</version>
+        <relativePath/>
+    </parent>
+
     <groupId>org.example</groupId>
     <artifactId>utilisateur</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -12,33 +20,39 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javafx.version>17.0.6</javafx.version>
+        <!-- javafx.version defined by org.openjfx:javafx parent -->
     </properties>
 
+    <profiles>
+        <!--
+          OpenJFX parent only maps windows+amd64 to win. Some Windows JDKs report os.arch=x86_64,
+          which would leave javafx.platform unset and break dependency resolution (no JavaFX on classpath).
+        -->
+        <profile>
+            <id>javafx-windows-x86_64</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                    <arch>x86_64</arch>
+                </os>
+            </activation>
+            <properties>
+                <javafx.platform>win</javafx.platform>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
+        <!-- Classifier chosen via javafx.platform (parent POM + profile above) -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>${javafx.version}</version>
-            <classifier>win</classifier>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
-            <classifier>win</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-base</artifactId>
-            <version>${javafx.version}</version>
-            <classifier>win</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-graphics</artifactId>
-            <version>${javafx.version}</version>
-            <classifier>win</classifier>
         </dependency>
 
         <dependency>
@@ -51,6 +65,18 @@
             <groupId>org.mindrot</groupId>
             <artifactId>jbcrypt</artifactId>
             <version>0.4</version>
+        </dependency>
+
+        <!-- Google Sign-In (OAuth 2.0 desktop / loopback redirect) -->
+        <dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
+            <version>2.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.oauth-client</groupId>
+            <artifactId>google-oauth-client-jetty</artifactId>
+            <version>1.37.0</version>
         </dependency>
     </dependencies>
 
@@ -71,7 +97,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>Main</mainClass>
+                    <mainClass>MainFx</mainClass>
                 </configuration>
             </plugin>
         </plugins>

@@ -22,7 +22,7 @@
                     </font>
                 </Label>
                 <Region HBox.hgrow="ALWAYS" />
-                <Button mnemonicParsing="false" onAction="#ouvrirAdmin" styleClass="secondary-button" text="Espace admin" />
+                <Button mnemonicParsing="false" onAction="#ouvrirAdmin" styleClass="secondary-button" text="Admin Login" />
             </children>
         </HBox>
     </top>

@@ -25,8 +25,7 @@ public class UtilisateurService {
         u.setPrenom(rs.getString("prenom"));
         u.setEmail(rs.getString("email"));
         u.setMotDePasse(rs.getString("mot_de_passe"));
-        u.setRoleId(rs.getInt("role_id"));
-        u.setRoleNom(rs.getString("role_nom"));
+        u.setRole(rs.getString("role"));
         u.setSexe(rs.getString("sexe"));
         Date dn = rs.getDate("date_naissance");
         if (dn != null) u.setDateNaissance(dn.toLocalDate());
@@ -45,10 +44,9 @@ public class UtilisateurService {
     // ── SELECT ALL ─────────────────────────────────────────────
     public List<Utilisateur> getAll() throws SQLException {
         String sql = """
-            SELECT u.*, r.nom AS role_nom
-            FROM utilisateurs u
-            JOIN roles r ON r.id = u.role_id
-            ORDER BY u.created_at DESC
+            SELECT *
+            FROM utilisateurs
+            ORDER BY created_at DESC
             """;
         List<Utilisateur> liste = new ArrayList<>();
         try (PreparedStatement ps = conn().prepareStatement(sql);
@@ -61,10 +59,9 @@ public class UtilisateurService {
     // ── SELECT par ID ──────────────────────────────────────────
     public Utilisateur getById(int id) throws SQLException {
         String sql = """
-            SELECT u.*, r.nom AS role_nom
-            FROM utilisateurs u
-            JOIN roles r ON r.id = u.role_id
-            WHERE u.id = ?
+            SELECT *
+            FROM utilisateurs
+            WHERE id = ?
             """;
         try (PreparedStatement ps = conn().prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -75,30 +72,59 @@ public class UtilisateurService {
         return null;
     }
 
+    public Utilisateur getByEmail(String email) throws SQLException {
+        String sql = """
+            SELECT *
+            FROM utilisateurs
+            WHERE email = ?
+            """;
+        try (PreparedStatement ps = conn().prepareStatement(sql)) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return mapper(rs);
+            }
+        }
+        return null;
+    }
+
+    public Utilisateur getByEmailIgnoreCase(String email) throws SQLException {
+        String sql = """
+            SELECT *
+            FROM utilisateurs
+            WHERE LOWER(email) = LOWER(?)
+            """;
+        try (PreparedStatement ps = conn().prepareStatement(sql)) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return mapper(rs);
+            }
+        }
+        return null;
+    }
+
     // ── RECHERCHE (nom / email / matricule) ────────────────────
-    public List<Utilisateur> rechercher(String terme, String roleNom, String statut) throws SQLException {
+    public List<Utilisateur> rechercher(String terme, String role, String statut) throws SQLException {
         StringBuilder sql = new StringBuilder("""
-            SELECT u.*, r.nom AS role_nom
-            FROM utilisateurs u
-            JOIN roles r ON r.id = u.role_id
+            SELECT *
+            FROM utilisateurs
             WHERE 1=1
             """);
         List<Object> params = new ArrayList<>();
 
         if (terme != null && !terme.isBlank()) {
-            sql.append(" AND (u.nom LIKE ? OR u.prenom LIKE ? OR u.email LIKE ? OR u.matricule LIKE ?)");
+            sql.append(" AND (nom LIKE ? OR prenom LIKE ? OR email LIKE ? OR matricule LIKE ?)");
             String like = "%" + terme + "%";
             params.add(like); params.add(like); params.add(like); params.add(like);
         }
-        if (roleNom != null && !roleNom.isBlank()) {
-            sql.append(" AND r.nom = ?");
-            params.add(roleNom);
+        if (role != null && !role.isBlank()) {
+            sql.append(" AND `role` = ?");
+            params.add(role);
         }
         if (statut != null && !statut.isBlank()) {
-            sql.append(" AND u.statut = ?");
+            sql.append(" AND statut = ?");
             params.add(statut);
         }
-        sql.append(" ORDER BY u.created_at DESC");
+        sql.append(" ORDER BY created_at DESC");
 
         List<Utilisateur> liste = new ArrayList<>();
         try (PreparedStatement ps = conn().prepareStatement(sql.toString())) {
@@ -114,7 +140,7 @@ public class UtilisateurService {
     public boolean ajouter(Utilisateur u) throws SQLException {
         String sql = """
             INSERT INTO utilisateurs
-              (matricule, nom, prenom, email, mot_de_passe, role_id,
+              (matricule, nom, prenom, email, mot_de_passe, `role`,
                sexe, date_naissance, telephone, adresse, statut, deux_facteurs)
             VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
             """;
@@ -124,7 +150,7 @@ public class UtilisateurService {
             ps.setString(3, u.getPrenom());
             ps.setString(4, u.getEmail());
             ps.setString(5, PasswordUtils.hash(u.getMotDePasse()));
-            ps.setInt(6, u.getRoleId());
+            ps.setString(6, u.getRole());
             ps.setString(7, u.getSexe());
             ps.setObject(8, u.getDateNaissance());
             ps.setString(9, u.getTelephone());
@@ -145,7 +171,7 @@ public class UtilisateurService {
     public boolean modifier(Utilisateur u) throws SQLException {
         String sql = """
             UPDATE utilisateurs SET
-              nom=?, prenom=?, email=?, role_id=?,
+              nom=?, prenom=?, email=?, `role`=?,
               sexe=?, date_naissance=?, telephone=?, adresse=?,
               statut=?, deux_facteurs=?
             WHERE id=?
@@ -154,7 +180,7 @@ public class UtilisateurService {
             ps.setString(1, u.getNom());
             ps.setString(2, u.getPrenom());
             ps.setString(3, u.getEmail());
-            ps.setInt(4, u.getRoleId());
+            ps.setString(4, u.getRole());
             ps.setString(5, u.getSexe());
             ps.setObject(6, u.getDateNaissance());
             ps.setString(7, u.getTelephone());
@@ -205,16 +231,18 @@ public class UtilisateurService {
     // ── CONNEXION (auth) ───────────────────────────────────────
     public Utilisateur connecter(String email, String motDePasse) throws SQLException {
         String sql = """
-            SELECT u.*, r.nom AS role_nom
-            FROM utilisateurs u
-            JOIN roles r ON r.id = u.role_id
-            WHERE u.email = ? AND u.statut = 'Actif'
+            SELECT *
+            FROM utilisateurs
+            WHERE email = ?
             """;
         try (PreparedStatement ps = conn().prepareStatement(sql)) {
             ps.setString(1, email);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     Utilisateur u = mapper(rs);
+                    if (estBloque(u.getStatut())) {
+                        return null;
+                    }
                     if (PasswordUtils.verifier(motDePasse, u.getMotDePasse())) {
                         // Mise à jour dernière connexion
                         String upd = "UPDATE utilisateurs SET derniere_connexion=NOW(), tentatives_echec=0 WHERE id=?";
@@ -230,6 +258,40 @@ public class UtilisateurService {
                             ps3.setString(1, email); ps3.executeUpdate();
                         }
                     }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Connexion sans mot de passe apres verification OAuth Google (email deja valide cote Google).
+     */
+    public Utilisateur connecterParOAuth(String email) throws SQLException {
+        if (email == null || email.isBlank()) {
+            return null;
+        }
+        String normalise = email.trim();
+        String sql = """
+            SELECT *
+            FROM utilisateurs
+            WHERE LOWER(email) = LOWER(?)
+            """;
+        try (PreparedStatement ps = conn().prepareStatement(sql)) {
+            ps.setString(1, normalise);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Utilisateur u = mapper(rs);
+                    if (estBloque(u.getStatut())) {
+                        return null;
+                    }
+                    String upd = "UPDATE utilisateurs SET derniere_connexion=NOW(), tentatives_echec=0 WHERE id=?";
+                    try (PreparedStatement ps2 = conn().prepareStatement(upd)) {
+                        ps2.setInt(1, u.getId());
+                        ps2.executeUpdate();
+                    }
+                    journaliser(u.getId(), "Connexion", "Connexion Google reussie");
+                    return u;
                 }
             }
         }
@@ -252,6 +314,10 @@ public class UtilisateurService {
              ResultSet rs = ps.executeQuery()) {
             return rs.next() ? rs.getInt(1) : 0;
         }
+    }
+
+    private boolean estBloque(String statut) {
+        return "Bloque".equalsIgnoreCase(statut) || "Bloqué".equalsIgnoreCase(statut);
     }
 
     // ── JOURNAL ────────────────────────────────────────────────

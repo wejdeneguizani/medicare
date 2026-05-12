@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="680.0" prefWidth="1100.0" style="-fx-background-color:#FFF4F8;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
+<BorderPane prefHeight="680.0" prefWidth="1100.0" style="-fx-background-color:#FFF4F8;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminLoginController">
     <top>
         <HBox alignment="CENTER_LEFT" spacing="12.0">
             <padding>
@@ -32,12 +32,12 @@
     <center>
         <VBox alignment="CENTER" maxWidth="460.0" spacing="18.0" BorderPane.alignment="CENTER">
             <children>
-                <Label text="Se connecter" textFill="#A64D79">
+                <Label text="Admin Login" textFill="#A64D79">
                     <font>
                         <Font name="System Bold" size="32.0" />
                     </font>
                 </Label>
-                <Label text="Entrez vos informations pour acceder a votre espace." textFill="#8C6A78" wrapText="true">
+                <Label text="Entrez les identifiants administrateur pour acceder au dashboard." textFill="#8C6A78" wrapText="true">
                     <font>
                         <Font size="15.0" />
                     </font>
@@ -47,10 +47,10 @@
                         <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
                     </padding>
                     <children>
-                        <Label text="Email *" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <TextField fx:id="emailField" promptText="exemple@email.com" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                        <Label text="Mot de passe *" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                        <PasswordField fx:id="motDePasseField" promptText="Votre mot de passe" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <Label text="Email admin *" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <TextField fx:id="emailField" promptText="hayder@gmail.com" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <Label text="Mot de passe admin *" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <PasswordField fx:id="motDePasseField" promptText="123456" GridPane.columnIndex="0" GridPane.rowIndex="3" />
                     </children>
                 </GridPane>
                 <Label text="ou" textFill="#8C6A78">
@@ -61,8 +61,7 @@
                 <Button maxWidth="460.0" mnemonicParsing="false" onAction="#seConnecterAvecGoogle" styleClass="secondary-button" text="Continuer avec Google" />
                 <HBox alignment="CENTER_RIGHT" spacing="10.0">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#creerCompte" styleClass="secondary-button" text="Creer un compte" />
-                        <Button mnemonicParsing="false" onAction="#seConnecter" styleClass="primary-button" text="Se connecter" />
+                        <Button mnemonicParsing="false" onAction="#seConnecterAdmin" styleClass="primary-button" text="Se connecter" />
                     </children>
                 </HBox>
             </children>

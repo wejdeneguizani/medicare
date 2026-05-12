@@ -33,6 +33,7 @@
                 </Label>
                 <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ouvrirUtilisateurs" styleClass="sidebar-button-active" text="Utilisateurs" />
                 <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="Journal d'activite" />
+                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deconnecter" styleClass="sidebar-button" text="Deconnecter" />
             </children>
         </VBox>
     </left>

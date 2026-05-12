@@ -1,18 +1,23 @@
 package controllers;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import models.GoogleUserProfile;
 import models.Utilisateur;
+import services.GoogleOAuthService;
 import services.UtilisateurService;
 import utils.SessionContext;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.sql.SQLException;
 
 public class LoginController {
@@ -41,21 +46,43 @@ public class LoginController {
                 return;
             }
 
-            SessionContext.setUtilisateurConnecte(utilisateur);
-
-            if ("Admin".equalsIgnoreCase(utilisateur.getRole())
-                    || "Administrateur".equalsIgnoreCase(utilisateur.getRole())) {
-                changerVue(event, "/Main.fxml");
-            } else if ("Patient".equalsIgnoreCase(utilisateur.getRole())) {
-                changerVue(event, "/PatientDashboard.fxml");
-            } else if ("Medecin".equalsIgnoreCase(utilisateur.getRole())) {
-                changerVue(event, "/MedecinDashboard.fxml");
-            } else {
-                showInfo("Bienvenue " + utilisateur.getNomComplet() + ".");
-            }
+            apresConnexionReussie(utilisateur, event);
         } catch (SQLException e) {
             showError(e.getMessage());
         }
+    }
+
+    @FXML
+    private void seConnecterAvecGoogle(ActionEvent event) {
+        Node source = (Node) event.getSource();
+        Task<GoogleUserProfile> task = new Task<>() {
+            @Override
+            protected GoogleUserProfile call() throws IOException, GeneralSecurityException {
+                return new GoogleOAuthService().authorizeAndFetchProfile();
+            }
+        };
+        task.setOnSucceeded(e -> {
+            try {
+                GoogleUserProfile profile = task.getValue();
+                if (profile == null || profile.email() == null) {
+                    showError("Connexion Google incomplete.");
+                    return;
+                }
+                Utilisateur utilisateur = service.connecterParOAuth(profile.email());
+                if (utilisateur == null) {
+                    afficherEchecOAuthGoogle(profile.email());
+                    return;
+                }
+                apresConnexionReussie(utilisateur, source);
+            } catch (SQLException ex) {
+                showError(ex.getMessage());
+            }
+        });
+        task.setOnFailed(e -> {
+            Throwable t = task.getException();
+            showError(t != null ? t.getMessage() : "Echec de la connexion Google.");
+        });
+        new Thread(task, "google-oauth-login").start();
     }
 
     @FXML
@@ -96,10 +123,44 @@ public class LoginController {
         }
     }
 
+    private void afficherEchecOAuthGoogle(String emailGoogle) throws SQLException {
+        Utilisateur utilisateur = service.getByEmailIgnoreCase(emailGoogle);
+        if (utilisateur == null) {
+            showError("Aucun compte ne correspond a ce compte Google. Creez un compte ou connectez-vous avec email et mot de passe.");
+        } else if ("Bloque".equalsIgnoreCase(utilisateur.getStatut())
+                || "Bloqué".equalsIgnoreCase(utilisateur.getStatut())) {
+            showError("Ce compte est bloque. Contactez l'administrateur.");
+        } else {
+            showError("Connexion Google impossible pour le moment.");
+        }
+    }
+
+    private void apresConnexionReussie(Utilisateur utilisateur, ActionEvent event) {
+        apresConnexionReussie(utilisateur, (Node) event.getSource());
+    }
+
+    private void apresConnexionReussie(Utilisateur utilisateur, Node source) {
+        SessionContext.setUtilisateurConnecte(utilisateur);
+        if ("Admin".equalsIgnoreCase(utilisateur.getRole())
+                || "Administrateur".equalsIgnoreCase(utilisateur.getRole())) {
+            changerVueNoeud(source, "/Main.fxml");
+        } else if ("Patient".equalsIgnoreCase(utilisateur.getRole())) {
+            changerVueNoeud(source, "/PatientDashboard.fxml");
+        } else if ("Medecin".equalsIgnoreCase(utilisateur.getRole())) {
+            changerVueNoeud(source, "/MedecinDashboard.fxml");
+        } else {
+            showInfo("Bienvenue " + utilisateur.getNomComplet() + ".");
+        }
+    }
+
     private void changerVue(ActionEvent event, String fxml) {
+        changerVueNoeud((Node) event.getSource(), fxml);
+    }
+
+    private void changerVueNoeud(Node source, String fxml) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource(fxml));
-            ((javafx.scene.Node) event.getSource()).getScene().setRoot(root);
+            source.getScene().setRoot(root);
         } catch (IOException e) {
             showError(e.getMessage());
         }

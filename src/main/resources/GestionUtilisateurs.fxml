@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="680.0" prefWidth="1100.0" spacing="12.0" style="-fx-background-color:#F1EFE8;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GestionUtilisateursController">
+<VBox prefHeight="680.0" prefWidth="1100.0" spacing="12.0" style="-fx-background-color:#FFF4F8;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GestionUtilisateursController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -36,6 +36,6 @@
                 <TableColumn fx:id="colActions" prefWidth="210.0" text="Actions" />
             </columns>
         </TableView>
-        <Label fx:id="countLabel" text="0 utilisateur(s) affiche(s)" textFill="#5F5E5A" />
+        <Label fx:id="countLabel" text="0 utilisateur(s) affiche(s)" textFill="#8C6A78" />
     </children>
 </VBox>

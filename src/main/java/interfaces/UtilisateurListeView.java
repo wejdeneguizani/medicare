@@ -37,8 +37,8 @@ public class UtilisateurListeView {
         searchField.setPrefWidth(260);
 
         ComboBox<String> roleFilter = new ComboBox<>();
-        roleFilter.getItems().addAll("Tous les rôles", "Administrateur", "Médecin", "Infirmier", "Patient");
-        roleFilter.setValue("Tous les rôles");
+        roleFilter.getItems().addAll("Tous les roles", "Administrateur", "Medecin", "Patient");
+        roleFilter.setValue("Tous les roles");
 
         ComboBox<String> statutFilter = new ComboBox<>();
         statutFilter.getItems().addAll("Tous les statuts", "Actif", "Inactif", "En attente", "Bloqué");
@@ -51,7 +51,7 @@ public class UtilisateurListeView {
         btnRetour.setOnAction(e -> new MainView(stage).show());
         btnAjouter.setOnAction(e -> new UtilisateurFormView(stage, null, this).show());
         btnRechercher.setOnAction(e -> rechercher(searchField.getText(),
-                roleFilter.getValue().equals("Tous les rôles") ? "" : roleFilter.getValue(),
+                roleFilter.getValue().equals("Tous les roles") ? "" : roleFilter.getValue(),
                 statutFilter.getValue().equals("Tous les statuts") ? "" : statutFilter.getValue()));
         searchField.setOnAction(e -> btnRechercher.fire());
 
@@ -80,8 +80,8 @@ public class UtilisateurListeView {
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colEmail.setPrefWidth(200);
 
-        TableColumn<Utilisateur, String> colRole = new TableColumn<>("Rôle");
-        colRole.setCellValueFactory(new PropertyValueFactory<>("roleNom"));
+        TableColumn<Utilisateur, String> colRole = new TableColumn<>("Role");
+        colRole.setCellValueFactory(new PropertyValueFactory<>("role"));
         colRole.setPrefWidth(110);
         colRole.setCellFactory(col -> new TableCell<>() {
             @Override protected void updateItem(String role, boolean empty) {
@@ -215,8 +215,7 @@ public class UtilisateurListeView {
     private String badgeStyle(String role) {
         return switch (role) {
             case "Administrateur" -> "-fx-background-color:#E6F1FB;-fx-text-fill:#0C447C;-fx-background-radius:20;";
-            case "Médecin"        -> "-fx-background-color:#EAF3DE;-fx-text-fill:#27500A;-fx-background-radius:20;";
-            case "Infirmier"      -> "-fx-background-color:#FAEEDA;-fx-text-fill:#633806;-fx-background-radius:20;";
+            case "Medecin"        -> "-fx-background-color:#EAF3DE;-fx-text-fill:#27500A;-fx-background-radius:20;";
             default               -> "-fx-background-color:#EEEDFE;-fx-text-fill:#3C3489;-fx-background-radius:20;";
         };
     }

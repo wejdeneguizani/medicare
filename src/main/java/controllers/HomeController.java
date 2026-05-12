@@ -23,7 +23,7 @@ public class HomeController {
 
     @FXML
     private void ouvrirAdmin(ActionEvent event) {
-        changerVue(event, "/Main.fxml");
+        changerVue(event, "/AdminLogin.fxml");
     }
 
     private void changerVue(ActionEvent event, String fxml) {

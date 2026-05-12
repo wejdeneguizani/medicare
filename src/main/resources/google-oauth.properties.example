@@ -1,0 +1,6 @@
+# Google Cloud Console: https://console.cloud.google.com/apis/credentials
+# Create OAuth 2.0 Client ID -> Application type: Desktop app.
+# Copy this file to google-oauth.properties and fill in the values.
+
+google.oauth.clientId=
+google.oauth.clientSecret=
