@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.medical.controllers.RemboursementController"
+            prefWidth="1300"
+            prefHeight="720"
+            stylesheets="@style.css"
+            style="-fx-background-color: #fff2f7;">
+
+    <VBox spacing="18"
+          AnchorPane.topAnchor="20"
+          AnchorPane.leftAnchor="30"
+          AnchorPane.rightAnchor="30"
+          AnchorPane.bottomAnchor="20">
+
+        <HBox spacing="12" alignment="CENTER_LEFT" styleClass="top-nav">
+            <Button text="Assurances" onAction="#retourAssurances" styleClass="nav-button" prefWidth="130"/>
+            <Button text="Couvertures" onAction="#ouvrirCouvertures" styleClass="nav-button" prefWidth="130"/>
+            <Button text="Remboursements" styleClass="nav-button-active" prefWidth="160"/>
+            <Button text="OCR" onAction="#ouvrirOcr" styleClass="nav-button" prefWidth="90"/>
+        </HBox>
+
+        <Label text="Demandes de Remboursement" styleClass="page-title"/>
+
+        <GridPane hgap="15" vgap="12"
+                  styleClass="form-panel">
+            <Label text="ID" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfId" editable="false" promptText="Auto" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="ID Assurance" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <TextField fx:id="tfIdAssurance" promptText="1" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+            <Label text="Type depense" GridPane.rowIndex="0" GridPane.columnIndex="4"/>
+            <ComboBox fx:id="cbTypeDepense" prefWidth="210" GridPane.rowIndex="0" GridPane.columnIndex="5"/>
+
+            <Label text="Montant depense" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfMontantDepense" promptText="120" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Montant estime" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+            <TextField fx:id="tfMontantEstime" editable="false" promptText="Auto" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+            <Label text="Montant valide" GridPane.rowIndex="1" GridPane.columnIndex="4"/>
+            <TextField fx:id="tfMontantValide" promptText="0" GridPane.rowIndex="1" GridPane.columnIndex="5"/>
+
+            <Label text="Date demande" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <DatePicker fx:id="dpDateDemande" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <Label text="Date validation" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+            <DatePicker fx:id="dpDateValidation" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+
+            <Label text="Statut" GridPane.rowIndex="2" GridPane.columnIndex="4"/>
+            <ComboBox fx:id="cbStatut" prefWidth="210" GridPane.rowIndex="2" GridPane.columnIndex="5"/>
+
+            <Label text="Commentaire" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfCommentaire" promptText="Observation" GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.columnSpan="5"/>
+        </GridPane>
+
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Button text="Calculer estimation" onAction="#calculerEstimation" prefWidth="160"
+                    style="-fx-background-color: #b0005a; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;"/>
+            <Button text="Ajouter" onAction="#ajouter" prefWidth="110"/>
+            <Button text="Modifier" onAction="#modifier" prefWidth="110"/>
+            <Button text="Supprimer" onAction="#supprimer" prefWidth="110"/>
+            <Button text="Afficher tout" onAction="#afficherTout" prefWidth="125"/>
+            <Button text="En attente" onAction="#afficherEnAttente" prefWidth="115"/>
+            <Button text="Vider" onAction="#vider" prefWidth="100"/>
+            <Label fx:id="lblTotalValide" style="-fx-font-weight: bold;"/>
+        </HBox>
+
+        <Label fx:id="lblMessage" styleClass="message-box"/>
+
+        <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="70"/>
+                <TableColumn fx:id="colIdAssurance" text="ID Assurance" prefWidth="120"/>
+                <TableColumn fx:id="colTypeDepense" text="Type" prefWidth="150"/>
+                <TableColumn fx:id="colMontantDepense" text="Depense" prefWidth="110"/>
+                <TableColumn fx:id="colMontantEstime" text="Estime" prefWidth="110"/>
+                <TableColumn fx:id="colMontantValide" text="Valide" prefWidth="110"/>
+                <TableColumn fx:id="colDateDemande" text="Date demande" prefWidth="130"/>
+                <TableColumn fx:id="colDateValidation" text="Date validation" prefWidth="130"/>
+                <TableColumn fx:id="colStatut" text="Statut" prefWidth="110"/>
+                <TableColumn fx:id="colCommentaire" text="Commentaire" prefWidth="260"/>
+            </columns>
+        </TableView>
+    </VBox>
+</AnchorPane>

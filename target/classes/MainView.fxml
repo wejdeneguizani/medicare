@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.medical.controllers.AssuranceController"
+            prefWidth="1300"
+            prefHeight="720"
+            stylesheets="@style.css"
+            style="-fx-background-color: #fff2f7;">
+
+    <VBox spacing="25"
+          AnchorPane.topAnchor="20"
+          AnchorPane.leftAnchor="30"
+          AnchorPane.rightAnchor="30"
+          AnchorPane.bottomAnchor="20">
+
+        <HBox spacing="12" alignment="CENTER_LEFT" styleClass="top-nav">
+            <Button text="Assurances" styleClass="nav-button-active" prefWidth="130"/>
+            <Button text="Couvertures" onAction="#ouvrirCouvertures" styleClass="nav-button" prefWidth="130"/>
+            <Button text="Remboursements" onAction="#ouvrirRemboursements" styleClass="nav-button" prefWidth="160"/>
+            <Button text="OCR" onAction="#ouvrirOcr" styleClass="nav-button" prefWidth="90"/>
+        </HBox>
+
+        <Label text="Gestion des Assurances" styleClass="page-title"/>
+
+        <HBox spacing="16">
+            <VBox spacing="4" prefWidth="210" styleClass="stat-card">
+                <Label text="Assurances actives" styleClass="stat-label"/>
+                <Label fx:id="lblActives" text="0" styleClass="stat-value"/>
+            </VBox>
+            <VBox spacing="4" prefWidth="210" styleClass="stat-card">
+                <Label text="Contrats expires" styleClass="stat-label"/>
+                <Label fx:id="lblExpirees" text="0" styleClass="stat-value"/>
+            </VBox>
+            <VBox spacing="4" prefWidth="210" styleClass="stat-card">
+                <Label text="Demandes en attente" styleClass="stat-label"/>
+                <Label fx:id="lblDemandesAttente" text="0" styleClass="stat-value"/>
+            </VBox>
+            <VBox spacing="4" prefWidth="210" styleClass="stat-card">
+                <Label text="Total rembourse" styleClass="stat-label"/>
+                <Label fx:id="lblTotalRembourse" text="0" styleClass="stat-value"/>
+            </VBox>
+        </HBox>
+
+        <!-- FORMULAIRE -->
+        <GridPane hgap="15" vgap="15" styleClass="form-panel">
+
+            <Label text="ID :" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfId"
+                       editable="false"
+                       promptText="Auto"
+                       GridPane.rowIndex="0"
+                       GridPane.columnIndex="1"/>
+
+            <Label text="N° contrat :" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <TextField fx:id="tfNumero"
+                       promptText="CTR-2026-001"
+                       GridPane.rowIndex="0"
+                       GridPane.columnIndex="3"/>
+
+            <Label text="Type :" GridPane.rowIndex="0" GridPane.columnIndex="4"/>
+            <ComboBox fx:id="cbType"
+                      prefWidth="220"
+                      GridPane.rowIndex="0"
+                      GridPane.columnIndex="5"/>
+
+            <Label text="Assureur :" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfAssureur"
+                       promptText="STAR Assurance"
+                       GridPane.rowIndex="1"
+                       GridPane.columnIndex="1"/>
+
+            <Label text="Date début :" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+            <DatePicker fx:id="dpDebut"
+                        prefWidth="220"
+                        GridPane.rowIndex="1"
+                        GridPane.columnIndex="3"/>
+
+            <Label text="Date fin :" GridPane.rowIndex="1" GridPane.columnIndex="4"/>
+            <DatePicker fx:id="dpFin"
+                        prefWidth="220"
+                        GridPane.rowIndex="1"
+                        GridPane.columnIndex="5"/>
+
+            <Label text="Plafond :" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfPlafond"
+                       promptText="5000"
+                       GridPane.rowIndex="2"
+                       GridPane.columnIndex="1"/>
+
+            <Label text="Taux % :" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+            <TextField fx:id="tfTaux"
+                       promptText="80"
+                       GridPane.rowIndex="2"
+                       GridPane.columnIndex="3"/>
+
+            <Label text="Statut :" GridPane.rowIndex="2" GridPane.columnIndex="4"/>
+            <ComboBox fx:id="cbStatut"
+                      prefWidth="220"
+                      GridPane.rowIndex="2"
+                      GridPane.columnIndex="5"/>
+
+            <Label text="User :" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfUser"
+                       promptText="1"
+                       GridPane.rowIndex="3"
+                       GridPane.columnIndex="1"/>
+        </GridPane>
+
+        <!-- BOUTONS -->
+        <HBox spacing="15">
+            <Button text="Ajouter"
+                    onAction="#ajouterAssurance"
+                    style="-fx-background-color: #ec7cac; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;"
+                    prefWidth="120"/>
+
+            <Button text="Modifier"
+                    onAction="#modifierAssurance"
+                    style="-fx-background-color: #ec7cac; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;"
+                    prefWidth="120"/>
+
+            <Button text="Supprimer"
+                    onAction="#supprimerAssurance"
+                    style="-fx-background-color: #f5b4cf; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;"
+                    prefWidth="120"/>
+
+            <Button text="Afficher tout"
+                    onAction="#afficherTous"
+                    style="-fx-background-color: #ec7cac; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;"
+                    prefWidth="130"/>
+
+            <Button text="Contrats expirés"
+                    onAction="#afficherExpirees"
+                    style="-fx-background-color: #ec7cac; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;"
+                    prefWidth="150"/>
+
+            <Button text="MAJ statuts"
+                    onAction="#majStatuts"
+                    style="-fx-background-color: #ec7cac; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;"
+                    prefWidth="130"/>
+
+            <Button text="Vider"
+                    onAction="#viderChamps"
+                    style="-fx-background-color: #ec7cac; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;"
+                    prefWidth="100"/>
+        </HBox>
+
+        <Label fx:id="lbMessage" styleClass="message-box"/>
+
+        <!-- TABLE -->
+        <TableView fx:id="tableView"
+                   prefHeight="360"
+                   style="-fx-border-color: #f6a6c8; -fx-border-radius: 10;">
+
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="70"/>
+                <TableColumn fx:id="colNumero" text="Contrat" prefWidth="180"/>
+                <TableColumn fx:id="colType" text="Type" prefWidth="150"/>
+                <TableColumn fx:id="colAssureur" text="Assureur" prefWidth="200"/>
+                <TableColumn fx:id="colDebut" text="Début" prefWidth="130"/>
+                <TableColumn fx:id="colFin" text="Fin" prefWidth="130"/>
+                <TableColumn fx:id="colPlafond" text="Plafond" prefWidth="130"/>
+                <TableColumn fx:id="colTaux" text="Taux" prefWidth="100"/>
+                <TableColumn fx:id="colStatut" text="Statut" prefWidth="130"/>
+            </columns>
+
+        </TableView>
+
+    </VBox>
+
+</AnchorPane>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.medical.controllers.CouvertureController"
+            prefWidth="1300"
+            prefHeight="720"
+            stylesheets="@style.css"
+            style="-fx-background-color: #fff2f7;">
+
+    <VBox spacing="18"
+          AnchorPane.topAnchor="20"
+          AnchorPane.leftAnchor="30"
+          AnchorPane.rightAnchor="30"
+          AnchorPane.bottomAnchor="20">
+
+        <HBox spacing="12" alignment="CENTER_LEFT" styleClass="top-nav">
+            <Button text="Assurances" onAction="#retourAssurances" styleClass="nav-button" prefWidth="130"/>
+            <Button text="Couvertures" styleClass="nav-button-active" prefWidth="130"/>
+            <Button text="Remboursements" onAction="#ouvrirRemboursements" styleClass="nav-button" prefWidth="160"/>
+            <Button text="OCR" onAction="#ouvrirOcr" styleClass="nav-button" prefWidth="90"/>
+        </HBox>
+
+        <Label text="Gestion des Couvertures" styleClass="page-title"/>
+
+        <GridPane hgap="15" vgap="12"
+                  styleClass="form-panel">
+            <Label text="ID" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfId" editable="false" promptText="Auto" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="ID Assurance" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <TextField fx:id="tfIdAssurance" promptText="1" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+            <Label text="Service" GridPane.rowIndex="0" GridPane.columnIndex="4"/>
+            <ComboBox fx:id="cbTypeService" prefWidth="210" GridPane.rowIndex="0" GridPane.columnIndex="5"/>
+
+            <Label text="Pourcentage %" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfPourcentage" promptText="80" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Montant max" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+            <TextField fx:id="tfMontantMax" promptText="300" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+            <Label text="Condition" GridPane.rowIndex="1" GridPane.columnIndex="4"/>
+            <TextField fx:id="tfCondition" promptText="Sur ordonnance" GridPane.rowIndex="1" GridPane.columnIndex="5"/>
+        </GridPane>
+
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Button text="Ajouter" onAction="#ajouter" prefWidth="110"/>
+            <Button text="Modifier" onAction="#modifier" prefWidth="110"/>
+            <Button text="Supprimer" onAction="#supprimer" prefWidth="110"/>
+            <Button text="Afficher tout" onAction="#afficherTout" prefWidth="125"/>
+            <Button text="Filtrer assurance" onAction="#filtrerParAssurance" prefWidth="145"/>
+            <Button text="Vider" onAction="#vider" prefWidth="100"/>
+        </HBox>
+
+        <HBox spacing="12" alignment="CENTER_LEFT"
+              style="-fx-background-color: #fff7fb; -fx-padding: 14; -fx-background-radius: 10; -fx-border-color: #f6a6c8; -fx-border-radius: 10;">
+            <Label text="Simulation"/>
+            <TextField fx:id="tfMontantDepense" promptText="Montant depense" prefWidth="160"/>
+            <Button text="Simuler remboursement" onAction="#simuler" prefWidth="190"
+                    style="-fx-background-color: #b0005a; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;"/>
+            <Label fx:id="lblSimulation" style="-fx-font-weight: bold;"/>
+        </HBox>
+
+        <Label fx:id="lblMessage" styleClass="message-box"/>
+
+        <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="70"/>
+                <TableColumn fx:id="colIdAssurance" text="ID Assurance" prefWidth="120"/>
+                <TableColumn fx:id="colTypeService" text="Service" prefWidth="180"/>
+                <TableColumn fx:id="colPourcentage" text="Pourcentage" prefWidth="140"/>
+                <TableColumn fx:id="colMontantMax" text="Montant max" prefWidth="140"/>
+                <TableColumn fx:id="colCondition" text="Condition speciale" prefWidth="460"/>
+            </columns>
+        </TableView>
+    </VBox>
+</AnchorPane>

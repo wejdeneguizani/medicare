@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1100.0"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.medical.controllers.AssuranceController"
+            stylesheets="@style.css">
+
+    <children>
+        <VBox spacing="12" layoutX="20" layoutY="20" prefWidth="1060">
+
+            <HBox spacing="15" alignment="CENTER_LEFT"
+                  style="-fx-background-color: #fce4ec; -fx-padding: 15px; -fx-background-radius: 12px;">
+                <ImageView fitWidth="80" fitHeight="80" preserveRatio="true">
+                    <image><Image url="@logo.png"/></image>
+                </ImageView>
+                <VBox spacing="4">
+                    <Label text="Medicare+" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #e91e8c;"/>
+                    <Label text="Module assurance santé" style="-fx-font-size: 12px; -fx-text-fill: #f48fb1; -fx-font-style: italic;"/>
+                </VBox>
+            </HBox>
+
+            <HBox spacing="8" alignment="CENTER" style="-fx-background-color: #f9c4d8; -fx-padding: 10px; -fx-background-radius: 10px;">
+                <Button text="Médicaments" onAction="#allerMedicaments" style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button text="Catégories" onAction="#allerCategories" style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button text="Fabricants" onAction="#allerFabricants" style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button text="Formes" onAction="#allerFormes" style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button text="Stock" onAction="#allerStock" style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button text="Alertes" onAction="#allerAlertes" style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button text="Chatbot" onAction="#allerChatbot" style="-fx-background-color: #f9c4d8; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button text="Assurances" onAction="#allerAssurances" style="-fx-background-color: #f48fb1; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            </HBox>
+
+            <Label text="Gestion des Assurances" styleClass="titre"/>
+
+            <HBox spacing="10">
+                <Label text="ID :" style="-fx-pref-width: 120"/>
+                <TextField fx:id="tfId" editable="false" promptText="Auto" prefWidth="160"/>
+                <Label text="N° contrat :" style="-fx-pref-width: 120"/>
+                <TextField fx:id="tfNumero" promptText="CTR-2026-001" prefWidth="190"/>
+                <Label text="Type :" style="-fx-pref-width: 80"/>
+                <ComboBox fx:id="cbType" prefWidth="180"/>
+            </HBox>
+
+            <HBox spacing="10">
+                <Label text="Assureur :" style="-fx-pref-width: 120"/>
+                <TextField fx:id="tfAssureur" promptText="STAR Assurance" prefWidth="160"/>
+                <Label text="Date début :" style="-fx-pref-width: 120"/>
+                <DatePicker fx:id="dpDebut" prefWidth="190"/>
+                <Label text="Date fin :" style="-fx-pref-width: 80"/>
+                <DatePicker fx:id="dpFin" prefWidth="180"/>
+            </HBox>
+
+            <HBox spacing="10">
+                <Label text="Plafond :" style="-fx-pref-width: 120"/>
+                <TextField fx:id="tfPlafond" promptText="5000" prefWidth="160"/>
+                <Label text="Taux % :" style="-fx-pref-width: 120"/>
+                <TextField fx:id="tfTaux" promptText="80" prefWidth="190"/>
+                <Label text="Statut :" style="-fx-pref-width: 80"/>
+                <ComboBox fx:id="cbStatut" prefWidth="180"/>
+                <Label text="User :"/>
+                <TextField fx:id="tfUser" promptText="1" prefWidth="80"/>
+            </HBox>
+
+            <HBox spacing="10">
+                <Button text="Ajouter" onAction="#ajouterAssurance"/>
+                <Button text="Modifier" onAction="#modifierAssurance"/>
+                <Button text="Supprimer" onAction="#supprimerAssurance" styleClass="button-supprimer"/>
+                <Button text="Afficher tout" onAction="#afficherTous"/>
+                <Button text="Contrats expirés" onAction="#afficherExpirees"/>
+                <Button text="MAJ statuts" onAction="#majStatuts"/>
+                <Button text="Vider" onAction="#viderChamps"/>
+            </HBox>
+
+            <Label fx:id="lbMessage"/>
+
+            <TableView fx:id="tableView" prefHeight="350" prefWidth="1060">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                    <TableColumn fx:id="colNumero" text="Contrat" prefWidth="130"/>
+                    <TableColumn fx:id="colType" text="Type" prefWidth="120"/>
+                    <TableColumn fx:id="colAssureur" text="Assureur" prefWidth="160"/>
+                    <TableColumn fx:id="colDebut" text="Début" prefWidth="110"/>
+                    <TableColumn fx:id="colFin" text="Fin" prefWidth="110"/>
+                    <TableColumn fx:id="colPlafond" text="Plafond" prefWidth="100"/>
+                    <TableColumn fx:id="colTaux" text="Taux" prefWidth="80"/>
+                    <TableColumn fx:id="colStatut" text="Statut" prefWidth="100"/>
+                </columns>
+            </TableView>
+
+        </VBox>
+    </children>
+</AnchorPane>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.medical.controllers.OcrController"
+            prefWidth="1300"
+            prefHeight="720"
+            stylesheets="@style.css"
+            style="-fx-background-color: #fff2f7;">
+
+    <VBox spacing="18"
+          AnchorPane.topAnchor="20"
+          AnchorPane.leftAnchor="30"
+          AnchorPane.rightAnchor="30"
+          AnchorPane.bottomAnchor="20">
+
+        <HBox spacing="12" alignment="CENTER_LEFT" styleClass="top-nav">
+            <Button text="Retour"
+                    onAction="#retourAssurances"
+                    styleClass="nav-button"
+                    prefWidth="110"/>
+            <Button text="OCR" styleClass="nav-button-active" prefWidth="90"/>
+        </HBox>
+
+        <Label text="OCR - Lecture de documents" styleClass="page-title"/>
+
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Button text="Choisir fichier"
+                    onAction="#choisirFichier"
+                    style="-fx-background-color: #ec7cac; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;"
+                    prefWidth="150"/>
+
+            <ComboBox fx:id="cbLangue" prefWidth="130"/>
+
+            <Button text="Lire OCR"
+                    onAction="#lancerOcr"
+                    style="-fx-background-color: #b0005a; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;"
+                    prefWidth="120"/>
+
+            <Button text="Vider"
+                    onAction="#vider"
+                    style="-fx-background-color: #ec7cac; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;"
+                    prefWidth="100"/>
+
+            <Button text="Creer demande"
+                    onAction="#creerDemande"
+                    style="-fx-background-color: #b0005a; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;"
+                    prefWidth="140"/>
+
+            <ProgressIndicator fx:id="progress" prefWidth="28" prefHeight="28" visible="false"/>
+        </HBox>
+
+        <Label fx:id="lblFichier" text="Aucun fichier choisi" style="-fx-text-fill: #555;"/>
+        <Label fx:id="lblStatus" style="-fx-font-weight: bold;"/>
+
+        <HBox spacing="20" VBox.vgrow="ALWAYS">
+            <ScrollPane fitToWidth="true"
+                        fitToHeight="true"
+                        prefWidth="430"
+                        style="-fx-border-color: #f6a6c8; -fx-border-radius: 10;">
+                <ImageView fx:id="imagePreview" preserveRatio="true" fitWidth="400"/>
+            </ScrollPane>
+
+            <TextArea fx:id="txtResultat"
+                      wrapText="true"
+                      promptText="Le texte OCR apparaitra ici"
+                      prefWidth="810"
+                      VBox.vgrow="ALWAYS"
+                      style="-fx-font-size: 14px;"/>
+        </HBox>
+
+    </VBox>
+</AnchorPane>
