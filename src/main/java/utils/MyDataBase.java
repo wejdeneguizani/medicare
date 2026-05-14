@@ -9,16 +9,16 @@ public class MyDataBase {
     private static MyDataBase instance;
     private Connection cnx;
 
+    private static final String URL      = "jdbc:mysql://localhost:3306/medicare";
+    private static final String USER     = "root";
+    private static final String PASSWORD = "";
+
     private MyDataBase() {
         try {
-            cnx = DriverManager.getConnection(
-                    "jdbc:mysql://127.0.0.1:3306/gestion_medicale",
-                    "root",
-                    ""
-            );
-            System.out.println("✅ Connecté à la base de données !");
+            cnx = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("Connexion à la base de données réussie ✓");
         } catch (SQLException e) {
-            System.out.println("❌ Erreur de connexion : " + e.getMessage());
+            System.out.println("Erreur de connexion : " + e.getMessage());
         }
     }
 

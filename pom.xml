@@ -10,34 +10,33 @@
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.c ompiler.target>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>8.3.0</version>
+            <version>9.7.0</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>21</version>
+            <version>21.0.2</version>
         </dependency>
-
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>21</version>
+            <version>21.0.2</version>
         </dependency>
-
         <dependency>
             <groupId>org.controlsfx</groupId>
             <artifactId>controlsfx</artifactId>
             <version>11.2.1</version>
         </dependency>
-
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -45,7 +44,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>tn.esprit.medicare.main.MainApp</mainClass>
+                    <mainClass>MainFx</mainClass>
                     <options>
                         <option>--add-modules javafx.controls,javafx.fxml</option>
                     </options>
@@ -53,22 +52,5 @@
             </plugin>
         </plugins>
     </build>
-    <dependencies>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
-        </dependency>
-    </dependencies>
-    <dependency>
-        <groupId> org.openjfx </groupId>
-        <artifactId> javafx-fxml </artifactId>
-        <version > 21.0.2 </version>
-    </dependency>
-    <dependency>
-        <groupId> org.openjfx </groupId>
-        <artifactId> javafx-controls </artifactId>
-        <version > 21.0.2 </version>
-    </dependency>
-</project>
 
+</project>

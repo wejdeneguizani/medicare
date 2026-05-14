@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="450.0" prefWidth="650.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.DetailsProgressionController"
+            style="-fx-background-color: #FDF6F9;">
+
+    <Label text="Détails de la Progression" layoutX="30" layoutY="25"
+           style="-fx-text-fill: #D4728E; -fx-font-size: 22px; -fx-font-weight: bold;" />
+
+    <VBox layoutX="30" layoutY="70" prefWidth="580" prefHeight="300" spacing="18"
+          style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 25;">
+        <HBox spacing="20">
+            <Label text="ID Objectif :"      prefWidth="150" style="-fx-text-fill: #999999;" />
+            <Label fx:id="lbIdObjectif"                      style="-fx-text-fill: #222222; -fx-font-weight: bold;" />
+        </HBox>
+        <HBox spacing="20">
+            <Label text="Date mesure :"      prefWidth="150" style="-fx-text-fill: #999999;" />
+            <Label fx:id="lbDateMesure"                      style="-fx-text-fill: #222222;" />
+        </HBox>
+        <HBox spacing="20">
+            <Label text="Valeur actuelle :"  prefWidth="150" style="-fx-text-fill: #999999;" />
+            <Label fx:id="lbValeurActuelle"                  style="-fx-text-fill: #222222;" />
+        </HBox>
+        <HBox spacing="20">
+            <Label text="Valeur cible :"     prefWidth="150" style="-fx-text-fill: #999999;" />
+            <Label fx:id="lbValeurCible"                     style="-fx-text-fill: #222222;" />
+        </HBox>
+        <HBox spacing="20">
+            <Label text="Humeur :"           prefWidth="150" style="-fx-text-fill: #999999;" />
+            <Label fx:id="lbHumeur"
+                   style="-fx-background-color: #FCE8EF; -fx-text-fill: #D4728E; -fx-background-radius: 12; -fx-padding: 2 10 2 10;" />
+        </HBox>
+        <HBox spacing="20">
+            <Label text="Notes :"            prefWidth="150" style="-fx-text-fill: #999999;" />
+            <Label fx:id="lbNotes"                           style="-fx-text-fill: #222222;" />
+        </HBox>
+    </VBox>
+
+    <Button text="← Retour à la liste" layoutX="30" layoutY="400" onAction="#retourListe"
+            style="-fx-background-color: #D4728E; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 8 20 8 20; -fx-cursor: hand;" />
+
+</AnchorPane>

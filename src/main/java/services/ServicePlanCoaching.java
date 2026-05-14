@@ -10,136 +10,86 @@ import java.util.List;
 
 public class ServicePlanCoaching implements IService<PlanCoaching> {
 
-    private Connection cnx = MyDataBase.getInstance().getCnx();
+    private final Connection cnx = MyDataBase.getInstance().getCnx();
 
-    // =============================================
-    // AJOUTER un plan de coaching
-    // =============================================
     @Override
-    public void add(PlanCoaching p) {
-        String req = "INSERT INTO plan_coaching "
-                + "(id_patient, id_medecin, titre_plan, description, "
-                + "type_coaching, frequence, date_fin, actif) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    public void add(PlanCoaching pc) {
+        String req = "INSERT INTO plan_coaching (id_medecin, id_patient, titre, " +
+                "date_debut, date_fin, statut, intensite, objectif_global) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
-            ps.setInt    (1, p.getId_patient());
-            ps.setInt    (2, p.getId_medecin());
-            ps.setString (3, p.getTitre_plan());
-            ps.setString (4, p.getDescription());
-            ps.setString (5, p.getType_coaching());
-            ps.setString (6, p.getFrequence());
-            ps.setDate   (7, new java.sql.Date(p.getDate_fin().getTime()));
-            ps.setBoolean(8, p.isActif());
-
+            ps.setInt(1, pc.getId_medecin());
+            ps.setInt(2, pc.getId_patient());
+            ps.setString(3, pc.getTitre());
+            ps.setDate(4, Date.valueOf(pc.getDate_debut()));
+            ps.setDate(5, pc.getDate_fin() != null ? Date.valueOf(pc.getDate_fin()) : null);
+            ps.setString(6, pc.getStatut());
+            ps.setString(7, pc.getIntensite());
+            ps.setString(8, pc.getObjectif_global());
             ps.executeUpdate();
-            System.out.println("✅ Plan coaching ajouté : " + p.getTitre_plan());
-
+            System.out.println("Plan coaching ajouté ✓");
         } catch (SQLException e) {
-            System.out.println("❌ Erreur ajout plan : " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
-    // =============================================
-    // AFFICHER tous les plans
-    // =============================================
     @Override
     public List<PlanCoaching> getAll() {
-        List<PlanCoaching> liste = new ArrayList<>();
+        List<PlanCoaching> list = new ArrayList<>();
         String req = "SELECT * FROM plan_coaching";
         try {
-            Statement st = cnx.createStatement();
-            ResultSet rs = st.executeQuery(req);
+            Statement stm = cnx.createStatement();
+            ResultSet rs  = stm.executeQuery(req);
             while (rs.next()) {
-                PlanCoaching p = new PlanCoaching();
-                p.setId_plan      (rs.getInt    ("id_plan"));
-                p.setId_patient   (rs.getInt    ("id_patient"));
-                p.setId_medecin   (rs.getInt    ("id_medecin"));
-                p.setTitre_plan   (rs.getString ("titre_plan"));
-                p.setDescription  (rs.getString ("description"));
-                p.setType_coaching(rs.getString ("type_coaching"));
-                p.setFrequence    (rs.getString ("frequence"));
-                p.setDate_creation(rs.getDate   ("date_creation"));
-                p.setDate_fin     (rs.getDate   ("date_fin"));
-                p.setActif        (rs.getBoolean("actif"));
-                liste.add(p);
+                PlanCoaching pc = new PlanCoaching();
+                pc.setId_plan_coaching(rs.getInt("id_plan_coaching"));
+                pc.setId_medecin(rs.getInt("id_medecin"));
+                pc.setId_patient(rs.getInt("id_patient"));
+                pc.setTitre(rs.getString("titre"));
+                pc.setDate_debut(rs.getDate("date_debut").toLocalDate());
+                Date dateFin = rs.getDate("date_fin");
+                if (dateFin != null) pc.setDate_fin(dateFin.toLocalDate());
+                pc.setStatut(rs.getString("statut"));
+                pc.setIntensite(rs.getString("intensite"));
+                pc.setObjectif_global(rs.getString("objectif_global"));
+                list.add(pc);
             }
         } catch (SQLException e) {
-            System.out.println("❌ Erreur affichage plans : " + e.getMessage());
+            System.out.println(e.getMessage());
         }
-        return liste;
+        return list;
     }
 
-    // =============================================
-    // AFFICHER les plans d'un seul patient
-    // =============================================
-    public List<PlanCoaching> getByPatient(int id_patient) {
-        List<PlanCoaching> liste = new ArrayList<>();
-        String req = "SELECT * FROM plan_coaching WHERE id_patient=?";
-        try {
-            PreparedStatement ps = cnx.prepareStatement(req);
-            ps.setInt(1, id_patient);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                PlanCoaching p = new PlanCoaching();
-                p.setId_plan      (rs.getInt    ("id_plan"));
-                p.setId_patient   (rs.getInt    ("id_patient"));
-                p.setId_medecin   (rs.getInt    ("id_medecin"));
-                p.setTitre_plan   (rs.getString ("titre_plan"));
-                p.setDescription  (rs.getString ("description"));
-                p.setType_coaching(rs.getString ("type_coaching"));
-                p.setFrequence    (rs.getString ("frequence"));
-                p.setDate_creation(rs.getDate   ("date_creation"));
-                p.setDate_fin     (rs.getDate   ("date_fin"));
-                p.setActif        (rs.getBoolean("actif"));
-                liste.add(p);
-            }
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur recherche patient : " + e.getMessage());
-        }
-        return liste;
-    }
-
-    // =============================================
-    // MODIFIER un plan
-    // =============================================
     @Override
-    public void update(PlanCoaching p) {
-        String req = "UPDATE plan_coaching SET "
-                + "titre_plan=?, type_coaching=?, "
-                + "frequence=?, date_fin=?, actif=? "
-                + "WHERE id_plan=?";
+    public void update(PlanCoaching pc) {
+        String req = "UPDATE plan_coaching SET titre=?, date_fin=?, statut=?, " +
+                "intensite=?, objectif_global=? WHERE id_plan_coaching=?";
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
-            ps.setString (1, p.getTitre_plan());
-            ps.setString (2, p.getType_coaching());
-            ps.setString (3, p.getFrequence());
-            ps.setDate   (4, new java.sql.Date(p.getDate_fin().getTime()));
-            ps.setBoolean(5, p.isActif());
-            ps.setInt    (6, p.getId_plan());
-
+            ps.setString(1, pc.getTitre());
+            ps.setDate(2, pc.getDate_fin() != null ? Date.valueOf(pc.getDate_fin()) : null);
+            ps.setString(3, pc.getStatut());
+            ps.setString(4, pc.getIntensite());
+            ps.setString(5, pc.getObjectif_global());
+            ps.setInt(6, pc.getId_plan_coaching());
             ps.executeUpdate();
-            System.out.println("✅ Plan modifié : " + p.getTitre_plan());
-
+            System.out.println("Plan coaching mis à jour ✓");
         } catch (SQLException e) {
-            System.out.println("❌ Erreur modification plan : " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
-    // =============================================
-    // SUPPRIMER un plan
-    // =============================================
     @Override
-    public void delete(PlanCoaching p) {
-        String req = "DELETE FROM plan_coaching WHERE id_plan=?";
+    public void delete(PlanCoaching pc) {
+        String req = "DELETE FROM plan_coaching WHERE id_plan_coaching=?";
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
-            ps.setInt(1, p.getId_plan());
+            ps.setInt(1, pc.getId_plan_coaching());
             ps.executeUpdate();
-            System.out.println("✅ Plan supprimé : id=" + p.getId_plan());
-
+            System.out.println("Plan coaching supprimé ✓");
         } catch (SQLException e) {
-            System.out.println("❌ Erreur suppression plan : " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 }

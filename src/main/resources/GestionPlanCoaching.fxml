@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1000.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.GestionPlanCoachingController"
+            style="-fx-background-color: #FDF6F9;">
+
+    <Label text="Gestion des Plans de Coaching" layoutX="30" layoutY="20"
+           style="-fx-text-fill: #D4728E; -fx-font-size: 22px; -fx-font-weight: bold;" />
+    <Label text="Créez et suivez vos plans de coaching par patient" layoutX="30" layoutY="50"
+           style="-fx-text-fill: #999999; -fx-font-size: 12px;" />
+
+    <Label text="Titre" layoutX="30" layoutY="90" style="-fx-text-fill: #555555;" />
+    <TextField fx:id="tfTitre" layoutX="130" layoutY="85" prefWidth="240" promptText="Titre du plan"
+               style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #222222; -fx-prompt-text-fill: #999999;" />
+
+    <Label text="Objectif" layoutX="385" layoutY="90" style="-fx-text-fill: #555555;" />
+    <TextField fx:id="tfObjectifGlobal" layoutX="460" layoutY="85" prefWidth="260" promptText="Objectif global"
+               style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #222222; -fx-prompt-text-fill: #999999;" />
+
+    <Label text="Date début" layoutX="30" layoutY="135" style="-fx-text-fill: #555555;" />
+    <DatePicker fx:id="dpDateDebut" layoutX="130" layoutY="130" prefWidth="165"
+                style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6;" />
+
+    <Label text="Date fin" layoutX="310" layoutY="135" style="-fx-text-fill: #555555;" />
+    <DatePicker fx:id="dpDateFin" layoutX="385" layoutY="130" prefWidth="165"
+                style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6;" />
+
+    <Label text="Statut" layoutX="30" layoutY="180" style="-fx-text-fill: #555555;" />
+    <ComboBox fx:id="cbStatut" layoutX="130" layoutY="175" prefWidth="165"
+              style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6;" />
+
+    <Label text="Intensité" layoutX="310" layoutY="180" style="-fx-text-fill: #555555;" />
+    <ComboBox fx:id="cbIntensite" layoutX="385" layoutY="175" prefWidth="165"
+              style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6;" />
+
+    <Label text="ID Patient" layoutX="30" layoutY="225" style="-fx-text-fill: #555555;" />
+    <TextField fx:id="tfIdPatient" layoutX="130" layoutY="220" prefWidth="110" promptText="ID patient"
+               style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #222222;" />
+
+    <Label text="ID Médecin" layoutX="255" layoutY="225" style="-fx-text-fill: #555555;" />
+    <TextField fx:id="tfIdMedecin" layoutX="360" layoutY="220" prefWidth="110" promptText="ID médecin"
+               style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #222222;" />
+
+    <Button text="+ Ajouter" layoutX="30" layoutY="265" onAction="#ajouterPlan"
+            style="-fx-background-color: #D4728E; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 7 18 7 18; -fx-cursor: hand;" />
+    <Button text="Modifier" layoutX="140" layoutY="265" onAction="#modifierPlan"
+            style="-fx-background-color: #FCE8EF; -fx-text-fill: #D4728E; -fx-border-color: #D4728E; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7 18 7 18; -fx-cursor: hand;" />
+    <Button text="Supprimer" layoutX="240" layoutY="265" onAction="#supprimerPlan"
+            style="-fx-background-color: #FCE8EF; -fx-text-fill: #D4728E; -fx-border-color: #D4728E; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7 18 7 18; -fx-cursor: hand;" />
+    <Button text="Vider" layoutX="355" layoutY="265" onAction="#viderFormulaire"
+            style="-fx-background-color: #F5F0F2; -fx-text-fill: #555555; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7 18 7 18; -fx-cursor: hand;" />
+    <Button text="Voir Détails" layoutX="430" layoutY="265" onAction="#voirDetails"
+            style="-fx-background-color: #F5F0F2; -fx-text-fill: #555555; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7 18 7 18; -fx-cursor: hand;" />
+
+    <Label fx:id="lbMessage" layoutX="30" layoutY="307" style="-fx-text-fill: #D4728E; -fx-font-style: italic;" />
+
+    <Label text="Mes plans de coaching  (cliquer pour sélectionner)" layoutX="30" layoutY="328"
+           style="-fx-text-fill: #999999; -fx-font-size: 12px;" />
+
+    <TableView fx:id="tableView" layoutX="30" layoutY="351" prefWidth="940" prefHeight="320"
+               style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 8; -fx-background-radius: 8;">
+        <columns>
+            <TableColumn fx:id="colId"        text="ID"              prefWidth="60"  />
+            <TableColumn fx:id="colTitre"     text="Titre"           prefWidth="220" />
+            <TableColumn fx:id="colStatut"    text="Statut"          prefWidth="130" />
+            <TableColumn fx:id="colIntensite" text="Intensité"       prefWidth="120" />
+            <TableColumn fx:id="colObjectif"  text="Objectif global" prefWidth="370" />
+        </columns>
+    </TableView>
+
+</AnchorPane>

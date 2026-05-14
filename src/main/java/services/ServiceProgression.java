@@ -1,132 +1,88 @@
 package services;
 
 import interfaces.IService;
-import models.ProgressionObjectif;
+import models.Progression;
 import utils.MyDataBase;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceProgression implements IService<ProgressionObjectif> {
+public class ServiceProgression implements IService<Progression> {
 
-    private Connection cnx = MyDataBase.getInstance().getCnx();
+    private final Connection cnx = MyDataBase.getInstance().getCnx();
 
-    // =============================================
-    // AJOUTER une progression
-    // Le trigger MySQL calcule le % automatiquement
-    // =============================================
     @Override
-    public void add(ProgressionObjectif p) {
-        String req = "INSERT INTO progression_objectif "
-                + "(id_objectif, id_patient, valeur_actuelle, note_patient) "
-                + "VALUES (?, ?, ?, ?)";
+    public void add(Progression p) {
+        String req = "INSERT INTO progression_objectif " +
+                "(id_objectif, date_mesure, valeur_actuelle, valeur_cible, humeur, notes) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
-            ps.setInt   (1, p.getId_objectif());
-            ps.setInt   (2, p.getId_patient());
-            ps.setDouble(3, p.getValeur_actuelle());
-            ps.setString(4, p.getNote_patient());
-
+            ps.setInt(1, p.getId_objectif());
+            ps.setDate(2, Date.valueOf(p.getDate_mesure()));
+            ps.setFloat(3, p.getValeur_actuelle());
+            ps.setFloat(4, p.getValeur_cible());
+            ps.setString(5, p.getHumeur());
+            ps.setString(6, p.getNotes());
             ps.executeUpdate();
-            System.out.println("✅ Progression enregistrée !");
-
+            System.out.println("Progression ajoutée ✓");
         } catch (SQLException e) {
-            System.out.println("❌ Erreur ajout progression : " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
-    // =============================================
-    // AFFICHER toutes les progressions
-    // =============================================
     @Override
-    public List<ProgressionObjectif> getAll() {
-        List<ProgressionObjectif> liste = new ArrayList<>();
-        String req = "SELECT * FROM progression_objectif ORDER BY date_mesure DESC";
+    public List<Progression> getAll() {
+        List<Progression> list = new ArrayList<>();
+        String req = "SELECT * FROM progression_objectif";
         try {
-            Statement st = cnx.createStatement();
-            ResultSet rs = st.executeQuery(req);
+            Statement stm = cnx.createStatement();
+            ResultSet rs  = stm.executeQuery(req);
             while (rs.next()) {
-                ProgressionObjectif p = new ProgressionObjectif();
-                p.setId_progression (rs.getInt   ("id_progression"));
-                p.setId_objectif    (rs.getInt   ("id_objectif"));
-                p.setId_patient     (rs.getInt   ("id_patient"));
-                p.setValeur_actuelle(rs.getDouble("valeur_actuelle"));
-                p.setPourcentage    (rs.getDouble("pourcentage"));
-                p.setDate_mesure    (rs.getDate  ("date_mesure"));
-                p.setNote_patient   (rs.getString("note_patient"));
-                liste.add(p);
+                Progression p = new Progression();
+                p.setId_progression(rs.getInt("id_progression"));
+                p.setId_objectif(rs.getInt("id_objectif"));
+                p.setDate_mesure(rs.getDate("date_mesure").toLocalDate());
+                p.setValeur_actuelle(rs.getFloat("valeur_actuelle"));
+                p.setValeur_cible(rs.getFloat("valeur_cible"));
+                p.setHumeur(rs.getString("humeur"));
+                p.setNotes(rs.getString("notes"));
+                list.add(p);
             }
         } catch (SQLException e) {
-            System.out.println("❌ Erreur affichage : " + e.getMessage());
+            System.out.println(e.getMessage());
         }
-        return liste;
+        return list;
     }
 
-    // =============================================
-    // AFFICHER les progressions d'un seul objectif
-    // =============================================
-    public List<ProgressionObjectif> getByObjectif(int id_objectif) {
-        List<ProgressionObjectif> liste = new ArrayList<>();
-        String req = "SELECT * FROM progression_objectif "
-                + "WHERE id_objectif=? ORDER BY date_mesure DESC";
-        try {
-            PreparedStatement ps = cnx.prepareStatement(req);
-            ps.setInt(1, id_objectif);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                ProgressionObjectif p = new ProgressionObjectif();
-                p.setId_progression (rs.getInt   ("id_progression"));
-                p.setId_objectif    (rs.getInt   ("id_objectif"));
-                p.setId_patient     (rs.getInt   ("id_patient"));
-                p.setValeur_actuelle(rs.getDouble("valeur_actuelle"));
-                p.setPourcentage    (rs.getDouble("pourcentage"));
-                p.setDate_mesure    (rs.getDate  ("date_mesure"));
-                p.setNote_patient   (rs.getString("note_patient"));
-                liste.add(p);
-            }
-        } catch (SQLException e) {
-            System.out.println("❌ Erreur recherche : " + e.getMessage());
-        }
-        return liste;
-    }
-
-    // =============================================
-    // MODIFIER une progression
-    // =============================================
     @Override
-    public void update(ProgressionObjectif p) {
-        String req = "UPDATE progression_objectif SET "
-                + "valeur_actuelle=?, note_patient=? "
-                + "WHERE id_progression=?";
+    public void update(Progression p) {
+        String req = "UPDATE progression_objectif SET valeur_actuelle=?, humeur=?, notes=? " +
+                "WHERE id_progression=?";
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
-            ps.setDouble(1, p.getValeur_actuelle());
-            ps.setString(2, p.getNote_patient());
-            ps.setInt   (3, p.getId_progression());
-
+            ps.setFloat(1, p.getValeur_actuelle());
+            ps.setString(2, p.getHumeur());
+            ps.setString(3, p.getNotes());
+            ps.setInt(4, p.getId_progression());
             ps.executeUpdate();
-            System.out.println("✅ Progression modifiée !");
-
+            System.out.println("Progression mise à jour ✓");
         } catch (SQLException e) {
-            System.out.println("❌ Erreur modification : " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
-    // =============================================
-    // SUPPRIMER une progression
-    // =============================================
     @Override
-    public void delete(ProgressionObjectif p) {
+    public void delete(Progression p) {
         String req = "DELETE FROM progression_objectif WHERE id_progression=?";
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
             ps.setInt(1, p.getId_progression());
             ps.executeUpdate();
-            System.out.println("✅ Progression supprimée !");
-
+            System.out.println("Progression supprimée ✓");
         } catch (SQLException e) {
-            System.out.println("❌ Erreur suppression : " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 }

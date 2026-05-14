@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.DetailsPlanCoachingController"
+            style="-fx-background-color: #FDF6F9; -fx-padding: 30;">
+
+    <Label text="Détails du Plan de Coaching" layoutX="0" layoutY="0"
+           style="-fx-text-fill: #D4728E; -fx-font-size: 22px; -fx-font-weight: bold;" />
+
+    <Button text="← Retour aux plans" layoutX="0" layoutY="40"
+            onAction="#retourListe"
+            style="-fx-background-color: #FCE8EF; -fx-text-fill: #D4728E; -fx-border-color: #D4728E; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6 16 6 16; -fx-cursor: hand;" />
+
+    <VBox layoutX="0" layoutY="90" prefWidth="700" prefHeight="340" spacing="18"
+          style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 25;">
+        <HBox spacing="20">
+            <Label text="Titre :"            prefWidth="150" style="-fx-text-fill: #999999;" />
+            <Label fx:id="lbTitre"                           style="-fx-text-fill: #222222; -fx-font-weight: bold;" />
+        </HBox>
+        <HBox spacing="20">
+            <Label text="Objectif global :"  prefWidth="150" style="-fx-text-fill: #999999;" />
+            <Label fx:id="lbObjectifGlobal"                  style="-fx-text-fill: #222222;" />
+        </HBox>
+        <HBox spacing="20">
+            <Label text="Date début :"       prefWidth="150" style="-fx-text-fill: #999999;" />
+            <Label fx:id="lbDateDebut"                       style="-fx-text-fill: #222222;" />
+        </HBox>
+        <HBox spacing="20">
+            <Label text="Date fin :"         prefWidth="150" style="-fx-text-fill: #999999;" />
+            <Label fx:id="lbDateFin"                         style="-fx-text-fill: #222222;" />
+        </HBox>
+        <HBox spacing="20">
+            <Label text="Statut :"           prefWidth="150" style="-fx-text-fill: #999999;" />
+            <Label fx:id="lbStatut"
+                   style="-fx-background-color: #FCE8EF; -fx-text-fill: #D4728E; -fx-background-radius: 12; -fx-padding: 2 10 2 10;" />
+        </HBox>
+        <HBox spacing="20">
+            <Label text="Intensité :"        prefWidth="150" style="-fx-text-fill: #999999;" />
+            <Label fx:id="lbIntensite"                       style="-fx-text-fill: #222222;" />
+        </HBox>
+        <HBox spacing="20">
+            <Label text="ID Patient :"       prefWidth="150" style="-fx-text-fill: #999999;" />
+            <Label fx:id="lbIdPatient"                       style="-fx-text-fill: #222222;" />
+            <Label text="ID Médecin :"       prefWidth="110" style="-fx-text-fill: #999999;" />
+            <Label fx:id="lbIdMedecin"                       style="-fx-text-fill: #222222;" />
+        </HBox>
+    </VBox>
+
+</AnchorPane>

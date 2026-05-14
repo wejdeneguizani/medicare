@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.GestionObjectifController"
+            style="-fx-background-color: #FDF6F9; -fx-padding: 30;">
+
+    <Label text="Gestion des Objectifs" layoutX="0" layoutY="0"
+           style="-fx-text-fill: #D4728E; -fx-font-size: 22px; -fx-font-weight: bold;" />
+    <Label text="Gérez vos objectifs médicaux par patient" layoutX="0" layoutY="32"
+           style="-fx-text-fill: #999999; -fx-font-size: 12px;" />
+
+    <Label text="Titre" layoutX="0" layoutY="75" style="-fx-text-fill: #555555;" />
+    <TextField fx:id="tfTitre" layoutX="110" layoutY="70" prefWidth="200" promptText="Titre objectif"
+               style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #222222; -fx-prompt-text-fill: #999999;" />
+
+    <Label text="Catégorie" layoutX="325" layoutY="75" style="-fx-text-fill: #555555;" />
+    <TextField fx:id="tfCategorie" layoutX="415" layoutY="70" prefWidth="190" promptText="Ex: Perte de poids"
+               style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #222222; -fx-prompt-text-fill: #999999;" />
+
+    <Label text="Valeur cible" layoutX="0" layoutY="120" style="-fx-text-fill: #555555;" />
+    <TextField fx:id="tfValeurCible" layoutX="110" layoutY="115" prefWidth="110" promptText="Ex: 70"
+               style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #222222;" />
+
+    <Label text="Unité" layoutX="235" layoutY="120" style="-fx-text-fill: #555555;" />
+    <TextField fx:id="tfUniteMesure" layoutX="278" layoutY="115" prefWidth="110" promptText="Ex: kg"
+               style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #222222;" />
+
+    <Label text="Date début" layoutX="0" layoutY="165" style="-fx-text-fill: #555555;" />
+    <DatePicker fx:id="dpDateDebut" layoutX="110" layoutY="160" prefWidth="165"
+                style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6;" />
+
+    <Label text="Date échéance" layoutX="290" layoutY="165" style="-fx-text-fill: #555555;" />
+    <DatePicker fx:id="dpDateEcheance" layoutX="400" layoutY="160" prefWidth="165"
+                style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6;" />
+
+    <Label text="Statut" layoutX="0" layoutY="210" style="-fx-text-fill: #555555;" />
+    <ComboBox fx:id="cbStatut" layoutX="110" layoutY="205" prefWidth="165"
+              style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6;" />
+
+    <Label text="Priorité (1-3)" layoutX="290" layoutY="210" style="-fx-text-fill: #555555;" />
+    <TextField fx:id="tfPriorite" layoutX="400" layoutY="205" prefWidth="80" promptText="1"
+               style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #222222;" />
+
+    <Label text="ID Patient" layoutX="0" layoutY="255" style="-fx-text-fill: #555555;" />
+    <TextField fx:id="tfIdPatient" layoutX="110" layoutY="250" prefWidth="110" promptText="ID patient"
+               style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #222222;" />
+
+    <Label text="ID Médecin" layoutX="235" layoutY="255" style="-fx-text-fill: #555555;" />
+    <TextField fx:id="tfIdMedecin" layoutX="330" layoutY="250" prefWidth="110" promptText="ID médecin"
+               style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #222222;" />
+
+    <Button text="+ Ajouter" layoutX="0" layoutY="295" onAction="#ajouterObjectif"
+            style="-fx-background-color: #D4728E; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 7 18 7 18; -fx-cursor: hand;" />
+    <Button text="Modifier" layoutX="110" layoutY="295" onAction="#modifierObjectif"
+            style="-fx-background-color: #FCE8EF; -fx-text-fill: #D4728E; -fx-border-color: #D4728E; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7 18 7 18; -fx-cursor: hand;" />
+    <Button text="Supprimer" layoutX="210" layoutY="295" onAction="#supprimerObjectif"
+            style="-fx-background-color: #FCE8EF; -fx-text-fill: #D4728E; -fx-border-color: #D4728E; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7 18 7 18; -fx-cursor: hand;" />
+    <Button text="Vider" layoutX="325" layoutY="295" onAction="#viderFormulaire"
+            style="-fx-background-color: #F5F0F2; -fx-text-fill: #555555; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7 18 7 18; -fx-cursor: hand;" />
+    <Button text="Voir Détails" layoutX="400" layoutY="295" onAction="#voirDetails"
+            style="-fx-background-color: #F5F0F2; -fx-text-fill: #555555; -fx-border-color: #E0CDD4; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7 18 7 18; -fx-cursor: hand;" />
+
+    <Label fx:id="lbMessage" layoutX="0" layoutY="337"
+           style="-fx-text-fill: #D4728E; -fx-font-style: italic;" />
+    <Label text="Mes objectifs  (cliquer pour sélectionner)" layoutX="0" layoutY="358"
+           style="-fx-text-fill: #999999; -fx-font-size: 12px;" />
+
+    <TableView fx:id="tableView" layoutX="0" layoutY="381" prefWidth="840" prefHeight="270"
+               style="-fx-background-color: #FFFFFF; -fx-border-color: #E0CDD4; -fx-border-radius: 8; -fx-background-radius: 8;">
+        <columns>
+            <TableColumn fx:id="colId"        text="ID"        prefWidth="60"  />
+            <TableColumn fx:id="colTitre"     text="Titre"     prefWidth="200" />
+            <TableColumn fx:id="colCategorie" text="Catégorie" prefWidth="170" />
+            <TableColumn fx:id="colStatut"    text="Statut"    prefWidth="140" />
+            <TableColumn fx:id="colPriorite"  text="Priorité"  prefWidth="100" />
+        </columns>
+    </TableView>
+
+</AnchorPane>
